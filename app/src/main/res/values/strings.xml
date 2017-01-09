@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Seedroid</string>
+
+    <string name="fabric_api_key">962e11f01468ce075499bae51cca7fa3fe057d61</string>
+
+    <!--string resource for network status-->
+    <string name="status_success">Sukses</string>
+    <string name="status_failed">Gagal</string>
+    <string name="status_no_connection">Tidak ada koneksi internet</string>
+
+    <!--string resource for label text-->
+    <string name="text_loading">Memuat data…</string>
+    <string name="text_reload">Coba lagi</string>
+</resources>

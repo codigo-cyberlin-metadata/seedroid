@@ -1,0 +1,19 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="id.codigo.seedroid">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:name="id.codigo.seedroid.ApplicationMain"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <!-- Fabric Module -->
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="962e11f01468ce075499bae51cca7fa3fe057d61" />
+
+    </application>
+
+</manifest>
