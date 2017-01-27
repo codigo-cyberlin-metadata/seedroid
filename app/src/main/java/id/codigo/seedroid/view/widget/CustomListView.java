@@ -21,7 +21,6 @@ import id.codigo.seedroid.view.adapter.BaseRecyclerAdapter;
 public class CustomListView<T> extends FrameLayout implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
     private boolean hasSwipe = true, hasLoadMoreBase, hasLoadMore = true, onCustomBackground = false;
     private int limit = 10, offset = 0;
-    private String lastId = "", searchId = "";
     private int colorBackground;
 
     private boolean onLoading = false, onRefresh = false;
@@ -57,36 +56,12 @@ public class CustomListView<T> extends FrameLayout implements SwipeRefreshLayout
         return hasSwipe;
     }
 
-    public String getLastId() {
-        return lastId;
-    }
-
-    public void setLastId(String lastId) {
-        this.lastId = lastId;
-    }
-
-    public String getSearchId() {
-        return searchId;
-    }
-
-    public void setSearchId(String searchId) {
-        this.searchId = searchId;
-    }
-
     public boolean isOnLoading() {
         return onLoading;
     }
 
     public SwipeRefreshLayout getRefreshLayout() {
         return refreshLayout;
-    }
-
-    public EmptyView getEmptyView() {
-        return emptyView;
-    }
-
-    public GridLayoutManager getLayoutManager() {
-        return layoutManager;
     }
 
     public ArrayList<T> getItems() {
@@ -222,9 +197,6 @@ public class CustomListView<T> extends FrameLayout implements SwipeRefreshLayout
         hasLoadMore = hasLoadMoreBase;
         offset = 0;
         onRefresh = true;
-
-        lastId = "";
-        searchId = "";
 
         viewFooter.setVisibility(View.VISIBLE);
         viewFooter.getLayoutParams().height = LayoutParams.WRAP_CONTENT;

@@ -1,10 +1,18 @@
-apply plugin: 'com.android.application'
+buildscript {
+    repositories {
+        maven { url 'https://maven.fabric.io/public' }
+    }
+    dependencies {
+        classpath 'io.fabric.tools:gradle:1.21.5'
+    }
+}
+apply plugin: 'com.android.library'
+apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
-        applicationId "id.codigo.seedroid"
         minSdkVersion 15
         targetSdkVersion 25
         versionCode 1
@@ -35,6 +43,11 @@ android {
     }
 }
 
+repositories {
+    mavenCentral()
+    maven { url 'https://maven.fabric.io/public' }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -51,4 +64,11 @@ dependencies {
     compile 'com.fasterxml.jackson.core:jackson-annotations:2.8.4'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.8.4'
     compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.facebook.android:facebook-android-sdk:4.19.0'
+    compile('com.crashlytics.sdk.android:crashlytics:2.5.5@aar') {
+        transitive = true
+    }
+    compile('com.twitter.sdk.android:twitter:1.13.0@aar') {
+        transitive = true;
+    }
 }

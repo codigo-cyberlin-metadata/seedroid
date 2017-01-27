@@ -6,22 +6,22 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.ArrayList;
 
-import id.codigo.seedroid.model.widget.PagerChildModel;
+import id.codigo.seedroid.view.fragment.BaseFragment;
 
 /**
  * Created by Lukma on 3/29/2016.
  */
 public class BasePagerAdapter extends FragmentStatePagerAdapter {
-    private ArrayList<PagerChildModel> items;
+    private ArrayList<BaseFragment> items;
 
-    public BasePagerAdapter(FragmentManager fm, ArrayList<PagerChildModel> items) {
-        super(fm);
+    public BasePagerAdapter(FragmentManager fragmentManager, ArrayList<BaseFragment> items) {
+        super(fragmentManager);
         this.items = items;
     }
 
     @Override
     public Fragment getItem(int position) {
-        return items.get(position).getFragment();
+        return items.get(position);
     }
 
     @Override

@@ -77,6 +77,7 @@ public abstract class BaseRecyclerFragment extends BaseFragment implements
     @Override
     public void setMenuVisibility(final boolean visible) {
         super.setMenuVisibility(visible);
+
         if (visible && customListView != null && customListView.getItems().size() == 0) {
             customListView.onRefreshItems();
         }

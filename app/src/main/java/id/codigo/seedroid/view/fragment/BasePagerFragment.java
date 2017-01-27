@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import id.codigo.seedroid.R;
-import id.codigo.seedroid.model.widget.PagerChildModel;
 import id.codigo.seedroid.view.adapter.BasePagerAdapter;
 
 /**
@@ -18,7 +17,7 @@ import id.codigo.seedroid.view.adapter.BasePagerAdapter;
  */
 public abstract class BasePagerFragment extends BaseFragment {
     protected Integer customContentLayout = null;
-    protected ArrayList<PagerChildModel> items = new ArrayList<>();
+    protected ArrayList<BaseFragment> items = new ArrayList<>();
 
     protected ViewPager viewPager;
     protected BasePagerAdapter pagerAdapter;

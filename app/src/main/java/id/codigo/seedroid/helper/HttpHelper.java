@@ -21,6 +21,7 @@ import java.util.UUID;
 
 import id.codigo.seedroid.ApplicationMain;
 import id.codigo.seedroid.R;
+import id.codigo.seedroid.configs.RestConfigs;
 
 /**
  * Created by Lukma on 3/29/2016.
@@ -31,24 +32,30 @@ public class HttpHelper {
     private static HttpHelper instance;
 
     private RequestQueue requestQueue;
+    private HashMap<String, String> mHttpHeader = new HashMap<>();
     private RetryPolicy retryPolicy = new RetryPolicy() {
         @Override
         public int getCurrentTimeout() {
-            return 50000;
+            return RestConfigs.requestTimeout;
         }
 
         @Override
         public int getCurrentRetryCount() {
-            return 50000;
+            return RestConfigs.requestRetryCount;
         }
 
         @Override
         public void retry(VolleyError error) throws VolleyError {
+            Log.e(TAG, error.getMessage() + "");
         }
     };
 
     private HttpHelper() {
         requestQueue = getRequestQueue();
+
+        if (RestConfigs.isUsingBasicAuth) {
+            mHttpHeader.put("Authorization", RestConfigs.basicAuth);
+        }
     }
 
     public static synchronized HttpHelper getInstance() {
@@ -83,7 +90,12 @@ public class HttpHelper {
                         }
                         Log.e(TAG, error.getMessage() + "");
                     }
-                });
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return mHttpHeader;
+            }
+        };
         request.setRetryPolicy(retryPolicy);
         addToRequestQueue(request);
     }
@@ -96,9 +108,20 @@ public class HttpHelper {
      * @param listener   Listener of the response from request
      */
     public void post(final String url, final Map<String, String> parameters, final HttpListener<String> listener) {
+        if (RestConfigs.isUsingUms) {
+            parameters.put("api_id", RestConfigs.umsAppId);
+            parameters.put("api_key", RestConfigs.umsAppKey);
+            parameters.put("api_secret", RestConfigs.umsAppSecret);
+
+            if (AuthHelper.isAuthenticated()) {
+                parameters.put("user_id", AuthHelper.getUserId());
+                parameters.put("user_access_token", AuthHelper.getUserAccessToken());
+            }
+        }
+
         String requestHttpPost = url;
         for (String key : parameters.keySet()) {
-            requestHttpPost += "[" + key + ":" + parameters.get(key) + "],";
+            requestHttpPost += "\n" + key + ":" + parameters.get(key) + ",";
         }
         Log.d(TAG, "request:" + requestHttpPost);
 
@@ -123,13 +146,7 @@ public class HttpHelper {
         ) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                String requestHttpPost = "";
-                for (String key : super.getHeaders().keySet()) {
-                    requestHttpPost += "[" + key + ":" + super.getHeaders().get(key) + "],";
-                }
-                Log.d(TAG, "header:" + requestHttpPost);
-
-                return new HashMap<>();
+                return mHttpHeader;
             }
 
             @Override
@@ -151,9 +168,30 @@ public class HttpHelper {
      * @param delegate   Listener of the response from request
      */
     public void postMultipart(String url, Map<String, String> parameters, UploadStatusDelegate delegate) {
+        if (RestConfigs.isUsingUms) {
+            parameters.put("api_id", RestConfigs.umsAppId);
+            parameters.put("api_key", RestConfigs.umsAppKey);
+            parameters.put("api_secret", RestConfigs.umsAppSecret);
+
+            if (AuthHelper.isAuthenticated()) {
+                parameters.put("user_id", AuthHelper.getUserId());
+                parameters.put("user_access_token", AuthHelper.getUserAccessToken());
+            }
+        }
+
+        String requestHttpPost = url;
+        for (String key : parameters.keySet()) {
+            requestHttpPost += "\n" + key.replace("file-", "") + ":" + parameters.get(key) + ",";
+        }
+        Log.d(TAG, "request:" + requestHttpPost);
+
         try {
             MultipartUploadRequest request = new MultipartUploadRequest(ApplicationMain.getInstance(), UUID.randomUUID().toString(), url);
-            request.addHeader("Authorization", "Basic YWRtaW46MTIzNA==");
+
+            if (RestConfigs.isUsingBasicAuth) {
+                request.addHeader("Authorization", RestConfigs.basicAuth);
+            }
+
             request.setDelegate(delegate);
 
             for (String key : parameters.keySet()) {
@@ -163,12 +201,6 @@ public class HttpHelper {
                     request.addParameter(key, parameters.get(key));
                 }
             }
-
-            String requestHttpPost = url;
-            for (String key : parameters.keySet()) {
-                requestHttpPost += "[" + key.replace("file-", "") + ":" + parameters.get(key) + "],";
-            }
-            Log.d(TAG, "request:" + requestHttpPost);
 
             request.startUpload();
         } catch (Exception e) {

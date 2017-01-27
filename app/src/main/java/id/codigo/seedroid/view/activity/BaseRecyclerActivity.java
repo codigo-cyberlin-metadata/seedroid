@@ -5,6 +5,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import id.codigo.seedroid.R;
 import id.codigo.seedroid.view.adapter.BaseRecyclerAdapter;
@@ -19,6 +20,7 @@ public abstract class BaseRecyclerActivity extends BaseActivity implements
         View.OnClickListener,
         CustomListView.CustomRecyclerListener {
     protected Integer customContentLayout = null;
+    protected boolean hasHeader = false;
     protected boolean onReverse = false;
     protected int spanCount = 1;
     protected int spaceSize = 8;
@@ -33,7 +35,11 @@ public abstract class BaseRecyclerActivity extends BaseActivity implements
         super.onCreate(savedInstanceState);
 
         if (customContentLayout == null) {
-            setContentView(R.layout.activity_base_recycler);
+            if (!hasHeader) {
+                setContentView(R.layout.activity_base_recycler);
+            } else {
+                setContentView(R.layout.activity_base_recycler_with_header);
+            }
         } else {
             setContentView(customContentLayout);
         }
@@ -70,7 +76,7 @@ public abstract class BaseRecyclerActivity extends BaseActivity implements
     protected void onResume() {
         super.onResume();
 
-        if (customListView.isHasSwipe()) {
+        if (appBarLayout != null && customListView.isHasSwipe()) {
             appBarLayout.addOnOffsetChangedListener(this);
         }
 
@@ -83,7 +89,7 @@ public abstract class BaseRecyclerActivity extends BaseActivity implements
     protected void onPause() {
         super.onPause();
 
-        if (customListView.isHasSwipe()) {
+        if (appBarLayout != null && customListView.isHasSwipe()) {
             appBarLayout.removeOnOffsetChangedListener(this);
         }
     }
@@ -102,6 +108,11 @@ public abstract class BaseRecyclerActivity extends BaseActivity implements
         if (toolbarIcon != null && view.getId() == toolbarIcon.getId()) {
             onBack();
         }
+    }
+
+    public void setHeader(View headerView) {
+        LinearLayout headerLayout = (LinearLayout) findViewById(R.id.header_layout);
+        headerLayout.addView(headerView);
     }
 
     public abstract BaseRecyclerAdapter onInitAdapter();
