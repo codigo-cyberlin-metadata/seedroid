@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-        <id.qubicle.app.view.widget.EmptyView
+        <id.codigo.seedroid.view.widget.EmptyView
             android:id="@+id/view_empty"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

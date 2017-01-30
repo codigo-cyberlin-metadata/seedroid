@@ -3,12 +3,10 @@
 
     <string name="content_description">Content Description</string>
 
-    <!--string resource for third party sdk-->
-    <string name="facebook_app_id">xxxxxxxxxxxxxxxx</string>
-
     <!--string resource for network status-->
     <string name="status_success">Success</string>
     <string name="status_failed">Failed</string>
+    <string name="status_canceled">Canceled</string>
     <string name="status_no_connection">No internet connection</string>
 
     <!--string resource for label text-->
