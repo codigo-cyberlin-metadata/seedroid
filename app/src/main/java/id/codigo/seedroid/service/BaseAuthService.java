@@ -1,6 +1,5 @@
 package id.codigo.seedroid.service;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,32 +15,33 @@ import id.codigo.seedroid.model.json.auth.BaseAuthModel;
  * Created by Gayo on 1/24/2017.
  */
 
-public class BaseAuthService extends BaseRestService {
+public class BaseAuthService extends BaseService {
     /**
      * Access API refresh token
      *
      * @param listener Callback response from API
      */
-    public static void refreshToken(final RestServiceListener<BaseAuthModel> listener) {
-        String url = RestConfigs.URL_REFRESH_TOKEN;
+    public static void refreshToken(final ServiceListener<BaseAuthModel> listener) {
+        String url = RestConfigs.refreshTokenUrl;
 
         Map<String, String> parameters = new HashMap<>();
-        parameters.put("user_id", AuthHelper.getUserId());
-        parameters.put("user_access_token", AuthHelper.getUserAccessToken());
+        parameters.put(RestConfigs.userIdUrlParameter, AuthHelper.getUserId());
+        parameters.put(RestConfigs.userAccessTokenUrlParameter, AuthHelper.getUserAccessToken());
 
-        HttpHelper.getInstance().post(url, parameters, new HttpHelper.HttpListener<String>() {
+        HttpHelper.getInstance().post(url, parameters, new ServiceListener<String>() {
             @Override
-            public void onReceive(boolean status, String message, String response) {
-                if (status) {
-                    try {
-                        listener.onReceive(true, message, (BaseAuthModel) JsonHelper.getInstance()
-                                .toObject(response, BaseAuthModel.class));
-                    } catch (IOException e) {
-                        listener.onReceive(false, ApplicationMain.getInstance().getString(R.string.status_failed), null);
-                    }
-                } else {
-                    listener.onReceive(false, message, null);
+            public void onSuccess(String response) {
+                try {
+                    listener.onSuccess((BaseAuthModel) JsonHelper.getInstance().toObject(response, BaseAuthModel.class));
+                } catch (Exception e) {
+                    onFailed(ApplicationMain.getInstance().getString(R.string.status_failed));
+                    e.printStackTrace();
                 }
+            }
+
+            @Override
+            public void onFailed(String message) {
+                listener.onFailed(message);
             }
         });
     }

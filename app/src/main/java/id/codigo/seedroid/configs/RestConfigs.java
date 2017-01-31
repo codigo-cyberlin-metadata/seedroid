@@ -22,6 +22,13 @@ public class RestConfigs {
     public static int requestRetryCount = 50000;
 
     // end point of rest api
-    public static final String URL_BASE_API = "";
-    public static final String URL_REFRESH_TOKEN = "";
+    public static String rootUrl = "";
+    public static String refreshTokenUrl = "";
+
+    // default parameter for authentication
+    public static String appIdUrlParameter = "api_id";
+    public static String appKeyUrlParameter = "api_key";
+    public static String appSecretUrlParameter = "api_secret";
+    public static String userIdUrlParameter = "user_id";
+    public static String userAccessTokenUrlParameter = "user_access_token";
 }

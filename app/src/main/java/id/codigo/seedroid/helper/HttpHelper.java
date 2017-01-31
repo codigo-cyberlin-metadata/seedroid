@@ -22,6 +22,7 @@ import java.util.UUID;
 import id.codigo.seedroid.ApplicationMain;
 import id.codigo.seedroid.R;
 import id.codigo.seedroid.configs.RestConfigs;
+import id.codigo.seedroid.service.ServiceListener;
 
 /**
  * Created by Lukma on 3/29/2016.
@@ -32,7 +33,7 @@ public class HttpHelper {
     private static HttpHelper instance;
 
     private RequestQueue requestQueue;
-    private HashMap<String, String> mHttpHeader = new HashMap<>();
+    private HashMap<String, String> httpHeader = new HashMap<>();
     private RetryPolicy retryPolicy = new RetryPolicy() {
         @Override
         public int getCurrentTimeout() {
@@ -54,7 +55,7 @@ public class HttpHelper {
         requestQueue = getRequestQueue();
 
         if (RestConfigs.isUsingBasicAuth) {
-            mHttpHeader.put("Authorization", RestConfigs.basicAuth);
+            httpHeader.put("Authorization", RestConfigs.basicAuth);
         }
     }
 
@@ -69,31 +70,44 @@ public class HttpHelper {
      * Make a GET request and return a string
      *
      * @param url      URL of the request to make
+     * @param headers  Additional http header of the request to make
      * @param listener Listener of the response from request
      */
-    public void get(String url, final HttpListener<String> listener) {
+    public void get(String url, HashMap<String, String> headers, final ServiceListener<String> listener) {
+        httpHeader.putAll(headers);
+        get(url, listener);
+
+    }
+
+    /**
+     * Make a GET request and return a string
+     *
+     * @param url      URL of the request to make
+     * @param listener Listener of the response from request
+     */
+    public void get(String url, final ServiceListener<String> listener) {
         Log.d(TAG, "request:" + url);
         StringRequest request = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        listener.onReceive(true, ApplicationMain.getInstance().getString(R.string.status_success), response);
+                        listener.onSuccess(response);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         if (error instanceof NoConnectionError) {
-                            listener.onReceive(false, ApplicationMain.getInstance().getString(R.string.status_no_connection), null);
+                            listener.onFailed(ApplicationMain.getInstance().getString(R.string.status_no_connection));
                         } else {
-                            listener.onReceive(false, ApplicationMain.getInstance().getString(R.string.status_failed), null);
+                            listener.onFailed(ApplicationMain.getInstance().getString(R.string.status_failed));
                         }
                         Log.e(TAG, error.getMessage() + "");
                     }
                 }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                return mHttpHeader;
+                return httpHeader;
             }
         };
         request.setRetryPolicy(retryPolicy);
@@ -104,18 +118,31 @@ public class HttpHelper {
      * Make a POST request and return a string
      *
      * @param url        URL of the request to make
+     * @param headers    Additional http header of the request to make
      * @param parameters Parameters of the request to make
      * @param listener   Listener of the response from request
      */
-    public void post(final String url, final Map<String, String> parameters, final HttpListener<String> listener) {
+    public void post(final String url, HashMap<String, String> headers, final Map<String, String> parameters, final ServiceListener<String> listener) {
+        httpHeader.putAll(headers);
+        post(url, headers, parameters, listener);
+    }
+
+    /**
+     * Make a POST request and return a string
+     *
+     * @param url        URL of the request to make
+     * @param parameters Parameters of the request to make
+     * @param listener   Listener of the response from request
+     */
+    public void post(final String url, final Map<String, String> parameters, final ServiceListener<String> listener) {
         if (RestConfigs.isUsingUms) {
-            parameters.put("api_id", RestConfigs.umsAppId);
-            parameters.put("api_key", RestConfigs.umsAppKey);
-            parameters.put("api_secret", RestConfigs.umsAppSecret);
+            parameters.put(RestConfigs.appIdUrlParameter, RestConfigs.umsAppId);
+            parameters.put(RestConfigs.appKeyUrlParameter, RestConfigs.umsAppKey);
+            parameters.put(RestConfigs.appSecretUrlParameter, RestConfigs.umsAppSecret);
 
             if (AuthHelper.isAuthenticated()) {
-                parameters.put("user_id", AuthHelper.getUserId());
-                parameters.put("user_access_token", AuthHelper.getUserAccessToken());
+                parameters.put(RestConfigs.userIdUrlParameter, AuthHelper.getUserId());
+                parameters.put(RestConfigs.userAccessTokenUrlParameter, AuthHelper.getUserAccessToken());
             }
         }
 
@@ -129,16 +156,16 @@ public class HttpHelper {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        listener.onReceive(true, ApplicationMain.getInstance().getString(R.string.status_success), response);
+                        listener.onSuccess(ApplicationMain.getInstance().getString(R.string.status_success));
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         if (error instanceof NoConnectionError) {
-                            listener.onReceive(false, ApplicationMain.getInstance().getString(R.string.status_no_connection), null);
+                            listener.onFailed(ApplicationMain.getInstance().getString(R.string.status_no_connection));
                         } else {
-                            listener.onReceive(false, ApplicationMain.getInstance().getString(R.string.status_failed), null);
+                            listener.onFailed(ApplicationMain.getInstance().getString(R.string.status_failed));
                         }
                         Log.e(TAG, error.getMessage() + "");
                     }
@@ -146,7 +173,7 @@ public class HttpHelper {
         ) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                return mHttpHeader;
+                return httpHeader;
             }
 
             @Override
@@ -169,13 +196,13 @@ public class HttpHelper {
      */
     public void postMultipart(String url, Map<String, String> parameters, UploadStatusDelegate delegate) {
         if (RestConfigs.isUsingUms) {
-            parameters.put("api_id", RestConfigs.umsAppId);
-            parameters.put("api_key", RestConfigs.umsAppKey);
-            parameters.put("api_secret", RestConfigs.umsAppSecret);
+            parameters.put(RestConfigs.appIdUrlParameter, RestConfigs.umsAppId);
+            parameters.put(RestConfigs.appKeyUrlParameter, RestConfigs.umsAppKey);
+            parameters.put(RestConfigs.appSecretUrlParameter, RestConfigs.umsAppSecret);
 
             if (AuthHelper.isAuthenticated()) {
-                parameters.put("user_id", AuthHelper.getUserId());
-                parameters.put("user_access_token", AuthHelper.getUserAccessToken());
+                parameters.put(RestConfigs.userIdUrlParameter, AuthHelper.getUserId());
+                parameters.put(RestConfigs.userAccessTokenUrlParameter, AuthHelper.getUserAccessToken());
             }
         }
 
@@ -217,9 +244,5 @@ public class HttpHelper {
             requestQueue = Volley.newRequestQueue(ApplicationMain.getInstance());
         }
         return requestQueue;
-    }
-
-    public interface HttpListener<T> {
-        void onReceive(boolean status, String message, T response);
     }
 }

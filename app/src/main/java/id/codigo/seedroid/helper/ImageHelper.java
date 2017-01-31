@@ -37,7 +37,7 @@ public final class ImageHelper {
     }
 
     /**
-     * Load image with circle crop after request to URL
+     * Load image with circle transformation after request to URL
      *
      * @param view     View to placed result
      * @param imageUrl URL of the image to load
@@ -59,7 +59,7 @@ public final class ImageHelper {
     }
 
     /**
-     * Load image with circle crop after request to URL
+     * Load image with rounded transformation after request to URL
      *
      * @param view     View to placed result
      * @param imageUrl URL of the image to load
