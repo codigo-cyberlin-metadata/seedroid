@@ -15,12 +15,14 @@ import com.android.volley.toolbox.Volley;
 import net.gotev.uploadservice.MultipartUploadRequest;
 import net.gotev.uploadservice.UploadStatusDelegate;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import id.codigo.seedroid.ApplicationMain;
 import id.codigo.seedroid.R;
+import id.codigo.seedroid.SeedroidApplication;
 import id.codigo.seedroid.configs.RestConfigs;
 import id.codigo.seedroid.service.ServiceListener;
 
@@ -73,10 +75,9 @@ public class HttpHelper {
      * @param headers  Additional http header of the request to make
      * @param listener Listener of the response from request
      */
-    public void get(String url, HashMap<String, String> headers, final ServiceListener<String> listener) {
+    public <T> void get(String url, HashMap<String, String> headers, final ServiceListener<T> listener) {
         httpHeader.putAll(headers);
         get(url, listener);
-
     }
 
     /**
@@ -85,22 +86,32 @@ public class HttpHelper {
      * @param url      URL of the request to make
      * @param listener Listener of the response from request
      */
-    public void get(String url, final ServiceListener<String> listener) {
+    public <T> void get(String url, final ServiceListener<T> listener) {
         Log.d(TAG, "request:" + url);
         StringRequest request = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        listener.onSuccess(response);
+                        try {
+                            Class<T> valueType = getTypeToParse(listener);
+                            if (valueType != null) {
+                                listener.onSuccess(JsonHelper.getInstance().toObject(response, valueType));
+                            } else {
+                                listener.onFailed(SeedroidApplication.getInstance().getString(R.string.status_failed));
+                            }
+                        } catch (Exception e) {
+                            listener.onFailed(SeedroidApplication.getInstance().getString(R.string.status_failed));
+                            Log.e(TAG, e.getMessage() + "");
+                        }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         if (error instanceof NoConnectionError) {
-                            listener.onFailed(ApplicationMain.getInstance().getString(R.string.status_no_connection));
+                            listener.onFailed(SeedroidApplication.getInstance().getString(R.string.status_no_connection));
                         } else {
-                            listener.onFailed(ApplicationMain.getInstance().getString(R.string.status_failed));
+                            listener.onFailed(SeedroidApplication.getInstance().getString(R.string.status_failed));
                         }
                         Log.e(TAG, error.getMessage() + "");
                     }
@@ -122,7 +133,7 @@ public class HttpHelper {
      * @param parameters Parameters of the request to make
      * @param listener   Listener of the response from request
      */
-    public void post(final String url, HashMap<String, String> headers, final Map<String, String> parameters, final ServiceListener<String> listener) {
+    public <T> void post(final String url, HashMap<String, String> headers, final Map<String, String> parameters, final ServiceListener<T> listener) {
         httpHeader.putAll(headers);
         post(url, headers, parameters, listener);
     }
@@ -134,7 +145,7 @@ public class HttpHelper {
      * @param parameters Parameters of the request to make
      * @param listener   Listener of the response from request
      */
-    public void post(final String url, final Map<String, String> parameters, final ServiceListener<String> listener) {
+    public <T> void post(final String url, final Map<String, String> parameters, final ServiceListener<T> listener) {
         if (RestConfigs.isUsingUms) {
             parameters.put(RestConfigs.appIdUrlParameter, RestConfigs.umsAppId);
             parameters.put(RestConfigs.appKeyUrlParameter, RestConfigs.umsAppKey);
@@ -156,16 +167,26 @@ public class HttpHelper {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        listener.onSuccess(ApplicationMain.getInstance().getString(R.string.status_success));
+                        try {
+                            Class<T> valueType = getTypeToParse(listener);
+                            if (valueType != null) {
+                                listener.onSuccess(JsonHelper.getInstance().toObject(response, valueType));
+                            } else {
+                                listener.onFailed(SeedroidApplication.getInstance().getString(R.string.status_failed));
+                            }
+                        } catch (Exception e) {
+                            listener.onFailed(SeedroidApplication.getInstance().getString(R.string.status_failed));
+                            Log.e(TAG, e.getMessage() + "");
+                        }
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         if (error instanceof NoConnectionError) {
-                            listener.onFailed(ApplicationMain.getInstance().getString(R.string.status_no_connection));
+                            listener.onFailed(SeedroidApplication.getInstance().getString(R.string.status_no_connection));
                         } else {
-                            listener.onFailed(ApplicationMain.getInstance().getString(R.string.status_failed));
+                            listener.onFailed(SeedroidApplication.getInstance().getString(R.string.status_failed));
                         }
                         Log.e(TAG, error.getMessage() + "");
                     }
@@ -213,7 +234,7 @@ public class HttpHelper {
         Log.d(TAG, "request:" + requestHttpPost);
 
         try {
-            MultipartUploadRequest request = new MultipartUploadRequest(ApplicationMain.getInstance(), UUID.randomUUID().toString(), url);
+            MultipartUploadRequest request = new MultipartUploadRequest(SeedroidApplication.getInstance(), UUID.randomUUID().toString(), url);
 
             if (RestConfigs.isUsingBasicAuth) {
                 request.addHeader("Authorization", RestConfigs.basicAuth);
@@ -231,7 +252,7 @@ public class HttpHelper {
 
             request.startUpload();
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e(TAG, e.getMessage() + "");
         }
     }
 
@@ -241,8 +262,21 @@ public class HttpHelper {
 
     public RequestQueue getRequestQueue() {
         if (requestQueue == null) {
-            requestQueue = Volley.newRequestQueue(ApplicationMain.getInstance());
+            requestQueue = Volley.newRequestQueue(SeedroidApplication.getInstance());
         }
         return requestQueue;
+    }
+
+    public <T> Class<T> getTypeToParse(ServiceListener<T> listener) {
+        Class<T> valueType = null;
+
+        Type[] genericInterfaces = listener.getClass().getGenericInterfaces();
+        for (Type genericInterface : genericInterfaces) {
+            if (genericInterface instanceof ParameterizedType) {
+                valueType = (Class<T>) ((ParameterizedType) genericInterface).getActualTypeArguments()[0];
+            }
+        }
+
+        return valueType;
     }
 }

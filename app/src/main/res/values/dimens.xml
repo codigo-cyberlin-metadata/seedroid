@@ -2,7 +2,9 @@
 <resources>
     <dimen name="drop_shadow_default">2dp</dimen>
 
+    <dimen name="space_extra_small">4dp</dimen>
     <dimen name="space_small">8dp</dimen>
     <dimen name="space_medium">16dp</dimen>
     <dimen name="space_large">24dp</dimen>
+    <dimen name="space_extra_large">48dp</dimen>
 </resources>

@@ -3,7 +3,7 @@ package id.codigo.seedroid.helper;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import id.codigo.seedroid.ApplicationMain;
+import id.codigo.seedroid.SeedroidApplication;
 
 /**
  * Created by Lukma on 4/29/2016.
@@ -13,7 +13,7 @@ public class PreferenceHelper {
     private SharedPreferences preferences;
 
     public PreferenceHelper() {
-        preferences = PreferenceManager.getDefaultSharedPreferences(ApplicationMain.getInstance());
+        preferences = PreferenceManager.getDefaultSharedPreferences(SeedroidApplication.getInstance());
     }
 
     public static PreferenceHelper getInstance() {

@@ -7,7 +7,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
-import id.codigo.seedroid.ApplicationMain;
+import id.codigo.seedroid.SeedroidApplication;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
 
@@ -28,7 +28,7 @@ public final class ImageHelper {
         try {
             Log.d(TAG, "imageUrl :" + imageUrl);
 
-            Glide.with(ApplicationMain.getInstance())
+            Glide.with(SeedroidApplication.getInstance())
                     .load(imageUrl)
                     .into(view);
         } catch (Exception e) {
@@ -47,7 +47,7 @@ public final class ImageHelper {
         try {
             Log.d(TAG, "imageUrl :" + imageUrl);
 
-            Context context = ApplicationMain.getInstance();
+            Context context = SeedroidApplication.getInstance();
 
             Glide.with(context)
                     .load(imageUrl)
@@ -71,7 +71,7 @@ public final class ImageHelper {
         try {
             Log.d(TAG, "imageUrl :" + imageUrl);
 
-            Context context = ApplicationMain.getInstance();
+            Context context = SeedroidApplication.getInstance();
 
             Glide.with(context)
                     .load(imageUrl)

@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import id.codigo.seedroid.ApplicationMain;
+import id.codigo.seedroid.SeedroidApplication;
 import id.codigo.seedroid.view.holder.BaseItemHolder;
 
 /**
@@ -28,7 +28,7 @@ public abstract class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseItemH
     public BaseRecyclerAdapter(ArrayList<?> items) {
         this.items = items;
 
-        context = ApplicationMain.getInstance();
+        context = SeedroidApplication.getInstance();
 
         headerView = new View(context);
         footerView = new View(context);

@@ -7,10 +7,10 @@ import android.support.multidex.MultiDexApplication;
 /**
  * Created by Lukma on 3/29/2016.
  */
-public class ApplicationMain extends MultiDexApplication {
-    private static ApplicationMain instance;
+public class SeedroidApplication extends MultiDexApplication {
+    private static SeedroidApplication instance;
 
-    public static synchronized ApplicationMain getInstance() {
+    public static synchronized SeedroidApplication getInstance() {
         return instance;
     }
 
