@@ -84,6 +84,6 @@ public class AuthHelper {
         Date currentDate = new Date();
         Date expireDate = new Date(PreferenceHelper.getInstance().getSessionLong(KEY_USER_ACCESS_TOKEN_EXPIRED));
 
-        return currentDate.before(expireDate);
+        return currentDate.after(expireDate);
     }
 }

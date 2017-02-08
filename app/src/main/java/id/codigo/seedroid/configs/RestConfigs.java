@@ -7,15 +7,7 @@ public class RestConfigs {
     // authentication mode for rest api
     public static boolean isUsingBasicAuth = false;
     public static boolean isUsingJWT = false;
-    public static boolean isUsingUms = false;
-
-    // value of authentication basic auth
-    public static String basicAuth = "";
-
-    // value of authentication ums
-    public static String umsAppId = "";
-    public static String umsAppKey = "";
-    public static String umsAppSecret = "";
+    public static boolean isUsingCodigoAuth = false;
 
     // rest api authentication config
     public static int requestTimeout = 50000;
@@ -25,10 +17,18 @@ public class RestConfigs {
     public static String rootUrl = "";
     public static String refreshTokenUrl = "";
 
-    // default parameter for authentication
-    public static String appIdUrlParameter = "api_id";
-    public static String appKeyUrlParameter = "api_key";
-    public static String appSecretUrlParameter = "api_secret";
-    public static String userIdUrlParameter = "user_id";
-    public static String userAccessTokenUrlParameter = "user_access_token";
+    // default parameter for Codigo authentication
+    public static String apiIdParameter = "api_id";
+    public static String apiKeyParameter = "api_key";
+    public static String apiSecretParameter = "api_secret";
+    public static String userIdParameter = "user_id";
+    public static String userAccessTokenParameter = "user_access_token";
+
+    // value of authentication basic auth
+    public static String basicAuthValue = "";
+
+    // value of authentication ums
+    public static String apiIdValue = "";
+    public static String apiKeyValue = "";
+    public static String apiSecretValue = "";
 }

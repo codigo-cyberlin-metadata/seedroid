@@ -24,6 +24,8 @@ import java.util.UUID;
 import id.codigo.seedroid.R;
 import id.codigo.seedroid.SeedroidApplication;
 import id.codigo.seedroid.configs.RestConfigs;
+import id.codigo.seedroid.model.json.auth.BaseAuthModel;
+import id.codigo.seedroid.service.BaseAuthService;
 import id.codigo.seedroid.service.ServiceListener;
 
 /**
@@ -57,7 +59,7 @@ public class HttpHelper {
         requestQueue = getRequestQueue();
 
         if (RestConfigs.isUsingBasicAuth) {
-            httpHeader.put("Authorization", RestConfigs.basicAuth);
+            httpHeader.put("Authorization", RestConfigs.basicAuthValue);
         }
     }
 
@@ -92,17 +94,7 @@ public class HttpHelper {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        try {
-                            Class<T> valueType = getTypeToParse(listener);
-                            if (valueType != null) {
-                                listener.onSuccess(JsonHelper.getInstance().toObject(response, valueType));
-                            } else {
-                                listener.onFailed(SeedroidApplication.getInstance().getString(R.string.status_failed));
-                            }
-                        } catch (Exception e) {
-                            listener.onFailed(SeedroidApplication.getInstance().getString(R.string.status_failed));
-                            Log.e(TAG, e.getMessage() + "");
-                        }
+                        handleResponse(response, listener);
                     }
                 },
                 new Response.ErrorListener() {
@@ -135,7 +127,7 @@ public class HttpHelper {
      */
     public <T> void post(final String url, HashMap<String, String> headers, final Map<String, String> parameters, final ServiceListener<T> listener) {
         httpHeader.putAll(headers);
-        post(url, headers, parameters, listener);
+        post(url, parameters, listener);
     }
 
     /**
@@ -146,65 +138,80 @@ public class HttpHelper {
      * @param listener   Listener of the response from request
      */
     public <T> void post(final String url, final Map<String, String> parameters, final ServiceListener<T> listener) {
-        if (RestConfigs.isUsingUms) {
-            parameters.put(RestConfigs.appIdUrlParameter, RestConfigs.umsAppId);
-            parameters.put(RestConfigs.appKeyUrlParameter, RestConfigs.umsAppKey);
-            parameters.put(RestConfigs.appSecretUrlParameter, RestConfigs.umsAppSecret);
+        if (RestConfigs.isUsingCodigoAuth) {
+            parameters.put(RestConfigs.apiIdParameter, RestConfigs.apiIdValue);
+            parameters.put(RestConfigs.apiKeyParameter, RestConfigs.apiKeyValue);
+            parameters.put(RestConfigs.apiSecretParameter, RestConfigs.apiSecretValue);
 
             if (AuthHelper.isAuthenticated()) {
-                parameters.put(RestConfigs.userIdUrlParameter, AuthHelper.getUserId());
-                parameters.put(RestConfigs.userAccessTokenUrlParameter, AuthHelper.getUserAccessToken());
+                parameters.put(RestConfigs.userIdParameter, AuthHelper.getUserId());
+                parameters.put(RestConfigs.userAccessTokenParameter, AuthHelper.getUserAccessToken());
             }
         }
 
-        String requestHttpPost = url;
-        for (String key : parameters.keySet()) {
-            requestHttpPost += "\n" + key + ":" + parameters.get(key) + ",";
-        }
-        Log.d(TAG, "request:" + requestHttpPost);
+        String requestHttpPost = "request:" + url;
+        if (parameters.keySet().size() > 0) {
+            requestHttpPost += "parameter:\n";
 
-        StringRequest request = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            Class<T> valueType = getTypeToParse(listener);
-                            if (valueType != null) {
-                                listener.onSuccess(JsonHelper.getInstance().toObject(response, valueType));
+            for (String key : parameters.keySet()) {
+                requestHttpPost += "\n- " + key + ":" + parameters.get(key) + ",";
+            }
+        }
+        Log.d(TAG, requestHttpPost);
+
+        if (!RestConfigs.isUsingCodigoAuth || (!AuthHelper.isAuthenticated() || (AuthHelper.isAuthenticated() && AuthHelper.isUserAccessTokenExpired()))) {
+            StringRequest request = new StringRequest(Request.Method.POST, url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            handleResponse(response, listener);
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            if (error instanceof NoConnectionError) {
+                                listener.onFailed(SeedroidApplication.getInstance().getString(R.string.status_no_connection));
                             } else {
                                 listener.onFailed(SeedroidApplication.getInstance().getString(R.string.status_failed));
                             }
-                        } catch (Exception e) {
-                            listener.onFailed(SeedroidApplication.getInstance().getString(R.string.status_failed));
-                            Log.e(TAG, e.getMessage() + "");
+                            Log.e(TAG, error.getMessage() + "");
                         }
                     }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        if (error instanceof NoConnectionError) {
-                            listener.onFailed(SeedroidApplication.getInstance().getString(R.string.status_no_connection));
-                        } else {
-                            listener.onFailed(SeedroidApplication.getInstance().getString(R.string.status_failed));
-                        }
-                        Log.e(TAG, error.getMessage() + "");
+            ) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    return httpHeader;
+                }
+
+                @Override
+                protected Map<String, String> getParams() {
+                    return parameters;
+                }
+            };
+            request.setRetryPolicy(retryPolicy);
+            request.setTag(url);
+            addToRequestQueue(request);
+        } else {
+            BaseAuthService.refreshToken(new ServiceListener<BaseAuthModel>() {
+                @Override
+                public void onSuccess(BaseAuthModel data) {
+                    try {
+                        AuthHelper.saveUserAccessToken(data.userAccessToken);
+                        AuthHelper.saveUserAccessTokenExpired(data.userAccessTokenExpired);
+                        post(url, parameters, listener);
+                    } catch (Exception e) {
+                        listener.onFailed(SeedroidApplication.getInstance().getString(R.string.status_failed));
+                        Log.e(TAG, e.getMessage() + "");
                     }
                 }
-        ) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                return httpHeader;
-            }
 
-            @Override
-            protected Map<String, String> getParams() {
-                return parameters;
-            }
-        };
-        request.setRetryPolicy(retryPolicy);
-        request.setTag(url);
-        addToRequestQueue(request);
+                @Override
+                public void onFailed(String message) {
+                    listener.onFailed(message);
+                }
+            });
+        }
     }
 
 
@@ -216,28 +223,32 @@ public class HttpHelper {
      * @param delegate   Listener of the response from request
      */
     public void postMultipart(String url, Map<String, String> parameters, UploadStatusDelegate delegate) {
-        if (RestConfigs.isUsingUms) {
-            parameters.put(RestConfigs.appIdUrlParameter, RestConfigs.umsAppId);
-            parameters.put(RestConfigs.appKeyUrlParameter, RestConfigs.umsAppKey);
-            parameters.put(RestConfigs.appSecretUrlParameter, RestConfigs.umsAppSecret);
+        if (RestConfigs.isUsingCodigoAuth) {
+            parameters.put(RestConfigs.apiIdParameter, RestConfigs.apiIdValue);
+            parameters.put(RestConfigs.apiKeyParameter, RestConfigs.apiKeyValue);
+            parameters.put(RestConfigs.apiSecretParameter, RestConfigs.apiSecretValue);
 
             if (AuthHelper.isAuthenticated()) {
-                parameters.put(RestConfigs.userIdUrlParameter, AuthHelper.getUserId());
-                parameters.put(RestConfigs.userAccessTokenUrlParameter, AuthHelper.getUserAccessToken());
+                parameters.put(RestConfigs.userIdParameter, AuthHelper.getUserId());
+                parameters.put(RestConfigs.userAccessTokenParameter, AuthHelper.getUserAccessToken());
             }
         }
 
-        String requestHttpPost = url;
-        for (String key : parameters.keySet()) {
-            requestHttpPost += "\n" + key.replace("file-", "") + ":" + parameters.get(key) + ",";
+        String requestHttpPost = "request:" + url;
+        if (parameters.keySet().size() > 0) {
+            requestHttpPost += "parameter:\n";
+
+            for (String key : parameters.keySet()) {
+                requestHttpPost += "\n-" + key.replace("file-", "") + ":" + parameters.get(key) + ",";
+            }
         }
-        Log.d(TAG, "request:" + requestHttpPost);
+        Log.d(TAG, requestHttpPost);
 
         try {
             MultipartUploadRequest request = new MultipartUploadRequest(SeedroidApplication.getInstance(), UUID.randomUUID().toString(), url);
 
             if (RestConfigs.isUsingBasicAuth) {
-                request.addHeader("Authorization", RestConfigs.basicAuth);
+                request.addHeader("Authorization", RestConfigs.basicAuthValue);
             }
 
             request.setDelegate(delegate);
@@ -267,16 +278,21 @@ public class HttpHelper {
         return requestQueue;
     }
 
-    public <T> Class<T> getTypeToParse(ServiceListener<T> listener) {
-        Class<T> valueType = null;
+    private <T> void handleResponse(String response, ServiceListener<T> listener) {
+        try {
+            Class<T> valueType = null;
 
-        Type[] genericInterfaces = listener.getClass().getGenericInterfaces();
-        for (Type genericInterface : genericInterfaces) {
-            if (genericInterface instanceof ParameterizedType) {
-                valueType = (Class<T>) ((ParameterizedType) genericInterface).getActualTypeArguments()[0];
+            Type[] genericInterfaces = listener.getClass().getGenericInterfaces();
+            for (Type genericInterface : genericInterfaces) {
+                if (genericInterface instanceof ParameterizedType) {
+                    valueType = (Class<T>) ((ParameterizedType) genericInterface).getActualTypeArguments()[0];
+                }
             }
-        }
 
-        return valueType;
+            listener.onSuccess(JsonHelper.getInstance().toObject(response, valueType));
+        } catch (Exception e) {
+            listener.onFailed(SeedroidApplication.getInstance().getString(R.string.status_failed));
+            Log.e(TAG, e.getMessage() + "");
+        }
     }
 }
