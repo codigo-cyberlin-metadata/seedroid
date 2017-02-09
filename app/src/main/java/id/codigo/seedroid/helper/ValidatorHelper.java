@@ -22,7 +22,6 @@ public class ValidatorHelper {
      * @param editText    EditText to validate
      */
     public static void addValidator(final TextInputLayout inputLayout, final EditText editText) {
-        inputLayout.setErrorEnabled(true);
         editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean onFocus) {
@@ -43,8 +42,10 @@ public class ValidatorHelper {
             @Override
             public void afterTextChanged(Editable editable) {
                 if (TextUtils.isEmpty(editable)) {
+                    inputLayout.setErrorEnabled(true);
                     inputLayout.setError(SeedroidApplication.getInstance().getString(R.string.text_error_empty));
                 } else {
+                    inputLayout.setErrorEnabled(false);
                     inputLayout.setError(null);
                 }
             }
@@ -58,7 +59,6 @@ public class ValidatorHelper {
      * @param editText    EditText to validate
      */
     public static void addValidatorEmail(final TextInputLayout inputLayout, final EditText editText) {
-        inputLayout.setErrorEnabled(true);
         editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean onFocus) {
@@ -79,8 +79,10 @@ public class ValidatorHelper {
             @Override
             public void afterTextChanged(Editable editable) {
                 if (TextUtils.isEmpty(editable)) {
+                    inputLayout.setErrorEnabled(true);
                     inputLayout.setError(SeedroidApplication.getInstance().getString(R.string.text_error_empty));
                 } else {
+                    inputLayout.setErrorEnabled(false);
                     inputLayout.setError(null);
                 }
             }
@@ -94,7 +96,6 @@ public class ValidatorHelper {
      * @param editText    EditText to validate
      */
     public static void addValidatorPassword(final TextInputLayout inputLayout, final EditText editText) {
-        inputLayout.setErrorEnabled(true);
         editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean onFocus) {
@@ -115,8 +116,10 @@ public class ValidatorHelper {
             @Override
             public void afterTextChanged(Editable editable) {
                 if (TextUtils.isEmpty(editable)) {
+                    inputLayout.setErrorEnabled(true);
                     inputLayout.setError(SeedroidApplication.getInstance().getString(R.string.text_error_empty));
                 } else {
+                    inputLayout.setErrorEnabled(false);
                     inputLayout.setError(null);
                 }
             }
@@ -131,7 +134,6 @@ public class ValidatorHelper {
      * @param editText2   EditText to compare
      */
     public static void addValidatorPassword(final TextInputLayout inputLayout, final EditText editText1, final EditText editText2) {
-        inputLayout.setErrorEnabled(true);
         editText1.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean onFocus) {
@@ -152,8 +154,10 @@ public class ValidatorHelper {
             @Override
             public void afterTextChanged(Editable editable) {
                 if (TextUtils.isEmpty(editable)) {
+                    inputLayout.setErrorEnabled(true);
                     inputLayout.setError(SeedroidApplication.getInstance().getString(R.string.text_error_empty));
                 } else {
+                    inputLayout.setErrorEnabled(false);
                     inputLayout.setError(null);
                 }
             }
@@ -167,7 +171,6 @@ public class ValidatorHelper {
      * @param editText    EditText to validate
      */
     public static void addValidatorPhone(final TextInputLayout inputLayout, final EditText editText) {
-        inputLayout.setErrorEnabled(true);
         editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean onFocus) {
@@ -188,8 +191,10 @@ public class ValidatorHelper {
             @Override
             public void afterTextChanged(Editable editable) {
                 if (TextUtils.isEmpty(editable)) {
+                    inputLayout.setErrorEnabled(true);
                     inputLayout.setError(SeedroidApplication.getInstance().getString(R.string.text_error_empty));
                 } else {
+                    inputLayout.setErrorEnabled(false);
                     inputLayout.setError(null);
                 }
             }
@@ -203,10 +208,11 @@ public class ValidatorHelper {
      * @param editText    EditText to validate
      */
     public static void validate(TextInputLayout inputLayout, EditText editText) {
-        inputLayout.setErrorEnabled(true);
         if (TextUtils.isEmpty(editText.getEditableText())) {
+            inputLayout.setErrorEnabled(true);
             inputLayout.setError(SeedroidApplication.getInstance().getString(R.string.text_error_empty));
         } else {
+            inputLayout.setErrorEnabled(false);
             inputLayout.setError(null);
         }
     }
@@ -231,12 +237,14 @@ public class ValidatorHelper {
      * @param editText    EditText to validate
      */
     public static void validateEmail(TextInputLayout inputLayout, EditText editText) {
-        inputLayout.setErrorEnabled(true);
         if (TextUtils.isEmpty(editText.getEditableText())) {
+            inputLayout.setErrorEnabled(true);
             inputLayout.setError(SeedroidApplication.getInstance().getString(R.string.text_error_empty));
         } else if (!Patterns.EMAIL_ADDRESS.matcher(editText.getText().toString()).matches()) {
+            inputLayout.setErrorEnabled(true);
             inputLayout.setError(SeedroidApplication.getInstance().getString(R.string.text_error_invalid_email));
         } else {
+            inputLayout.setErrorEnabled(false);
             inputLayout.setError(null);
         }
     }
@@ -263,12 +271,14 @@ public class ValidatorHelper {
      * @param editText    EditText to validate
      */
     public static void validatePassword(TextInputLayout inputLayout, EditText editText) {
-        inputLayout.setErrorEnabled(true);
         if (TextUtils.isEmpty(editText.getEditableText())) {
+            inputLayout.setErrorEnabled(true);
             inputLayout.setError(SeedroidApplication.getInstance().getString(R.string.text_error_empty));
         } else if (editText.getText().toString().length() < 6) {
+            inputLayout.setErrorEnabled(true);
             inputLayout.setError(SeedroidApplication.getInstance().getString(R.string.text_error_invalid_password_length));
         } else {
+            inputLayout.setErrorEnabled(false);
             inputLayout.setError(null);
         }
     }
@@ -296,14 +306,17 @@ public class ValidatorHelper {
      * @param editText2   EditText to compare
      */
     public static void validatePassword(TextInputLayout inputLayout, EditText editText1, EditText editText2) {
-        inputLayout.setErrorEnabled(true);
         if (TextUtils.isEmpty(editText1.getEditableText())) {
+            inputLayout.setErrorEnabled(true);
             inputLayout.setError(SeedroidApplication.getInstance().getString(R.string.text_error_empty));
         } else if (editText1.getText().toString().length() < 6) {
+            inputLayout.setErrorEnabled(true);
             inputLayout.setError(SeedroidApplication.getInstance().getString(R.string.text_error_invalid_password_length));
         } else if (!editText1.getText().toString().equals(editText2.getText().toString())) {
+            inputLayout.setErrorEnabled(true);
             inputLayout.setError(SeedroidApplication.getInstance().getString(R.string.text_error_invalid_password_confirmation));
         } else {
+            inputLayout.setErrorEnabled(false);
             inputLayout.setError(null);
         }
     }
@@ -333,12 +346,14 @@ public class ValidatorHelper {
      * @param editText    EditText to validate
      */
     public static void validatePhone(TextInputLayout inputLayout, EditText editText) {
-        inputLayout.setErrorEnabled(true);
         if (TextUtils.isEmpty(editText.getEditableText())) {
+            inputLayout.setErrorEnabled(true);
             inputLayout.setError(SeedroidApplication.getInstance().getString(R.string.text_error_empty));
         } else if (!Patterns.PHONE.matcher(editText.getText().toString()).matches()) {
+            inputLayout.setErrorEnabled(true);
             inputLayout.setError(SeedroidApplication.getInstance().getString(R.string.text_error_invalid_phone));
         } else {
+            inputLayout.setErrorEnabled(false);
             inputLayout.setError(null);
         }
     }

@@ -67,8 +67,8 @@ public class PreferenceHelper {
      *
      * @param key Key to get value
      */
-    public int getSessionLong(String key) {
-        return preferences.getInt(key, 0);
+    public long getSessionLong(String key) {
+        return preferences.getLong(key, 0);
     }
 
     /**

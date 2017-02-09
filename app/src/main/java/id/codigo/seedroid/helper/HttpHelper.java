@@ -151,7 +151,7 @@ public class HttpHelper {
 
         String requestHttpPost = "request:" + url;
         if (parameters.keySet().size() > 0) {
-            requestHttpPost += "parameter:\n";
+            requestHttpPost += "\nparameter:";
 
             for (String key : parameters.keySet()) {
                 requestHttpPost += "\n- " + key + ":" + parameters.get(key) + ",";
@@ -159,7 +159,22 @@ public class HttpHelper {
         }
         Log.d(TAG, requestHttpPost);
 
-        if (!RestConfigs.isUsingCodigoAuth || (!AuthHelper.isAuthenticated() || (AuthHelper.isAuthenticated() && AuthHelper.isUserAccessTokenExpired()))) {
+        if (RestConfigs.isUsingCodigoAuth && AuthHelper.isAuthenticated() && AuthHelper.isUserAccessTokenExpired()) {
+            BaseAuthService.refreshToken(new ServiceListener<BaseAuthModel>() {
+                @Override
+                public void onSuccess(BaseAuthModel data) {
+                    AuthHelper.saveUserAccessToken(data.userAccessToken);
+                    AuthHelper.saveUserAccessTokenExpired(data.userAccessTokenExpired);
+                    post(url, parameters, listener);
+                }
+
+                @Override
+                public void onFailed(String message) {
+                    AuthHelper.logout();
+                    listener.onFailed(message);
+                }
+            });
+        } else {
             StringRequest request = new StringRequest(Request.Method.POST, url,
                     new Response.Listener<String>() {
                         @Override
@@ -192,28 +207,8 @@ public class HttpHelper {
             request.setRetryPolicy(retryPolicy);
             request.setTag(url);
             addToRequestQueue(request);
-        } else {
-            BaseAuthService.refreshToken(new ServiceListener<BaseAuthModel>() {
-                @Override
-                public void onSuccess(BaseAuthModel data) {
-                    try {
-                        AuthHelper.saveUserAccessToken(data.userAccessToken);
-                        AuthHelper.saveUserAccessTokenExpired(data.userAccessTokenExpired);
-                        post(url, parameters, listener);
-                    } catch (Exception e) {
-                        listener.onFailed(SeedroidApplication.getInstance().getString(R.string.status_failed));
-                        Log.e(TAG, e.getMessage() + "");
-                    }
-                }
-
-                @Override
-                public void onFailed(String message) {
-                    listener.onFailed(message);
-                }
-            });
         }
     }
-
 
     /**
      * Make a POST multipart request
@@ -236,7 +231,7 @@ public class HttpHelper {
 
         String requestHttpPost = "request:" + url;
         if (parameters.keySet().size() > 0) {
-            requestHttpPost += "parameter:\n";
+            requestHttpPost += "\nparameter:";
 
             for (String key : parameters.keySet()) {
                 requestHttpPost += "\n-" + key.replace("file-", "") + ":" + parameters.get(key) + ",";
