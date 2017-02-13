@@ -2,6 +2,9 @@
 <resources>
     <dimen name="drop_shadow_default">2dp</dimen>
 
+    <dimen name="collapsing_toolbar_expanded_title_margin_end">64dp</dimen>
+    <dimen name="collapsing_toolbar_expanded_title_margin_start">48dp</dimen>
+
     <dimen name="space_extra_small">4dp</dimen>
     <dimen name="space_small">8dp</dimen>
     <dimen name="space_medium">16dp</dimen>

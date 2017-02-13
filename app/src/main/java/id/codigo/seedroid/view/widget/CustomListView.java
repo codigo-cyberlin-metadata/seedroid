@@ -5,10 +5,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -29,9 +27,7 @@ public class CustomListView<T> extends FrameLayout implements SwipeRefreshLayout
     private SwipeRefreshLayout refreshLayout;
     private EmptyView emptyView;
     private RecyclerView recyclerView;
-
-    private View viewFooter, viewFooterLoading, viewFooterReload;
-    private TextView viewFooterStatus;
+    private EmptyView footerView;
 
     private GridLayoutManager layoutManager;
     private BaseRecyclerAdapter recyclerAdapter;
@@ -60,8 +56,24 @@ public class CustomListView<T> extends FrameLayout implements SwipeRefreshLayout
         return onLoading;
     }
 
+    public int getLimit() {
+        return limit;
+    }
+
+    public int getOffset() {
+        return offset;
+    }
+
     public SwipeRefreshLayout getRefreshLayout() {
         return refreshLayout;
+    }
+
+    public EmptyView getEmptyView() {
+        return emptyView;
+    }
+
+    public GridLayoutManager getLayoutManager() {
+        return layoutManager;
     }
 
     public ArrayList<T> getItems() {
@@ -120,23 +132,20 @@ public class CustomListView<T> extends FrameLayout implements SwipeRefreshLayout
         recyclerAdapter = onInitAdapter();
         recyclerView.setAdapter(recyclerAdapter);
 
-        viewFooter = LayoutInflater.from(getContext()).inflate(R.layout.item_recycler_footer, recyclerView, false);
-        viewFooterLoading = viewFooter.findViewById(R.id.view_loading);
-        viewFooterReload = viewFooter.findViewById(R.id.view_reload);
-        viewFooterStatus = (TextView) viewFooter.findViewById(R.id.text_view_status);
+        footerView = new EmptyView(getContext());
+        footerView.setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
         if (onCustomBackground) {
-            viewFooter.setBackgroundColor(colorBackground);
-            viewFooterLoading.setBackgroundColor(colorBackground);
-            viewFooterReload.setBackgroundColor(colorBackground);
+            emptyView.setViewBackground(colorBackground);
+            footerView.setViewBackground(colorBackground);
         }
 
         if (hasLoadMore) {
-            recyclerAdapter.setFooterView(viewFooter);
+            recyclerAdapter.setFooterView(footerView);
         }
 
         emptyView.setOnClickListener(this);
-        viewFooter.setOnClickListener(this);
+        footerView.setOnClickListener(this);
     }
 
     @Override
@@ -149,8 +158,8 @@ public class CustomListView<T> extends FrameLayout implements SwipeRefreshLayout
         if (v.getId() == emptyView.getId()) {
             emptyView.onRefresh();
             onRefreshItems();
-        } else if (v.getId() == viewFooter.getId()) {
-            viewFooterReload.setVisibility(View.GONE);
+        } else if (v.getId() == footerView.getId()) {
+            footerView.onRefresh();
 
             if (items.size() == 0) {
                 offset = 0;
@@ -163,9 +172,8 @@ public class CustomListView<T> extends FrameLayout implements SwipeRefreshLayout
     public void setViewBackground(int color) {
         recyclerView.setBackgroundColor(color);
         emptyView.setViewBackground(color);
-        viewFooter.setBackgroundColor(color);
-        viewFooterLoading.setBackgroundColor(color);
-        viewFooterReload.setBackgroundColor(color);
+        emptyView.setViewBackground(colorBackground);
+        footerView.setViewBackground(colorBackground);
 
         colorBackground = color;
         onCustomBackground = true;
@@ -198,8 +206,8 @@ public class CustomListView<T> extends FrameLayout implements SwipeRefreshLayout
         offset = 0;
         onRefresh = true;
 
-        viewFooter.setVisibility(View.VISIBLE);
-        viewFooter.getLayoutParams().height = LayoutParams.WRAP_CONTENT;
+        footerView.setVisibility(View.VISIBLE);
+        footerView.getLayoutParams().height = LayoutParams.WRAP_CONTENT;
 
         onLoadItems(limit, offset);
     }
@@ -233,8 +241,8 @@ public class CustomListView<T> extends FrameLayout implements SwipeRefreshLayout
                 if (items.size() < limit) {
                     hasLoadMore = false;
 
-                    viewFooter.setVisibility(View.GONE);
-                    viewFooter.getLayoutParams().height = 0;
+                    footerView.setVisibility(View.GONE);
+                    footerView.getLayoutParams().height = 0;
 
                     recyclerAdapter.notifyItemRangeInserted(recyclerAdapter.getItemCount(), items.size() + 1);
                 } else {
@@ -246,8 +254,8 @@ public class CustomListView<T> extends FrameLayout implements SwipeRefreshLayout
                 } else {
                     hasLoadMore = false;
 
-                    viewFooter.setVisibility(View.GONE);
-                    viewFooter.getLayoutParams().height = 0;
+                    footerView.setVisibility(View.GONE);
+                    footerView.getLayoutParams().height = 0;
                 }
 
                 recyclerAdapter.notifyDataSetChanged();
@@ -256,12 +264,7 @@ public class CustomListView<T> extends FrameLayout implements SwipeRefreshLayout
             if (itemsLength == 0) {
                 emptyView.onFailedResult(message);
             } else {
-                viewFooterReload.setVisibility(View.VISIBLE);
-                if (message.equals(getContext().getString(R.string.status_no_connection))) {
-                    viewFooterStatus.setText(message);
-                } else {
-                    viewFooterStatus.setText(R.string.text_reload);
-                }
+                footerView.onFailedResult(message);
             }
 
             recyclerAdapter.notifyDataSetChanged();

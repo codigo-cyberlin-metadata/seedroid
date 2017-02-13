@@ -7,6 +7,8 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="attr/noConnectionIcon">@drawable/ic_default_status_no_connection</item>
+        <item name="attr/failedConnectionIcon">@drawable/ic_default_status_not_found</item>
     </style>
 
     <style name="AppTabLayout" parent="Widget.Design.TabLayout">

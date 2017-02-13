@@ -10,8 +10,7 @@
     <string name="status_no_connection">No internet connection</string>
 
     <!--string resource for label text-->
-    <string name="text_loading">Memuat data…</string>
-    <string name="text_reload">Coba lagi</string>
+    <string name="text_loading">Loading data…</string>
 
     <!--string resource for error text-->
     <string name="text_error_empty">Field can\'t be blank</string>

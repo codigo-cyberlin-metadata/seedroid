@@ -15,8 +15,7 @@ import com.android.volley.toolbox.Volley;
 import net.gotev.uploadservice.MultipartUploadRequest;
 import net.gotev.uploadservice.UploadStatusDelegate;
 
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -103,7 +102,12 @@ public class HttpHelper {
                         if (error instanceof NoConnectionError) {
                             listener.onFailed(SeedroidApplication.getInstance().getString(R.string.status_no_connection));
                         } else {
-                            listener.onFailed(SeedroidApplication.getInstance().getString(R.string.status_failed));
+                            listener.onFailed(error.getLocalizedMessage());
+                            try {
+                                listener.onFailed(error.getLocalizedMessage(), error.networkResponse.statusCode, new String(error.networkResponse.data, "UTF-8"));
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            }
                         }
                         Log.e(TAG, error.getMessage() + "");
                     }
@@ -188,7 +192,12 @@ public class HttpHelper {
                             if (error instanceof NoConnectionError) {
                                 listener.onFailed(SeedroidApplication.getInstance().getString(R.string.status_no_connection));
                             } else {
-                                listener.onFailed(SeedroidApplication.getInstance().getString(R.string.status_failed));
+                                listener.onFailed(error.getLocalizedMessage());
+                                try {
+                                    listener.onFailed(error.getLocalizedMessage(), error.networkResponse.statusCode, new String(error.networkResponse.data, "UTF-8"));
+                                } catch (UnsupportedEncodingException e) {
+                                    e.printStackTrace();
+                                }
                             }
                             Log.e(TAG, error.getMessage() + "");
                         }
@@ -275,15 +284,7 @@ public class HttpHelper {
 
     private <T> void handleResponse(String response, ServiceListener<T> listener) {
         try {
-            Class<T> valueType = null;
-
-            Type[] genericInterfaces = listener.getClass().getGenericInterfaces();
-            for (Type genericInterface : genericInterfaces) {
-                if (genericInterface instanceof ParameterizedType) {
-                    valueType = (Class<T>) ((ParameterizedType) genericInterface).getActualTypeArguments()[0];
-                }
-            }
-
+            Class<T> valueType = listener.getType();
             listener.onSuccess(JsonHelper.getInstance().toObject(response, valueType));
         } catch (Exception e) {
             listener.onFailed(SeedroidApplication.getInstance().getString(R.string.status_failed));
