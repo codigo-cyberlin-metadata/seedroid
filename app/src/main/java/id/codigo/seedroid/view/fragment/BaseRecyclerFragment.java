@@ -15,7 +15,7 @@ import id.codigo.seedroid.view.widget.SpacesItemDecoration;
 /**
  * Created by Lukma on 3/29/2016.
  */
-public abstract class BaseRecyclerFragment extends BaseFragment implements
+public abstract class BaseRecyclerFragment<T> extends BaseFragment implements
         AppBarLayout.OnOffsetChangedListener,
         CustomListView.CustomRecyclerListener {
     protected Integer customContentLayout = null;
@@ -25,7 +25,7 @@ public abstract class BaseRecyclerFragment extends BaseFragment implements
     protected RecyclerView.ItemDecoration itemDecoration;
 
     protected AppBarLayout appBarLayout;
-    protected CustomListView customListView;
+    protected CustomListView<T> customListView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

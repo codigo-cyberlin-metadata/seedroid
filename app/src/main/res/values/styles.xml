@@ -1,12 +1,16 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="BaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="attr/emptyBackground">@color/colorBackground</item>
+        <item name="attr/listBackground">@color/colorBackground</item>
         <item name="attr/noConnectionIcon">@drawable/ic_default_status_no_connection</item>
         <item name="attr/failedConnectionIcon">@drawable/ic_default_status_not_found</item>
     </style>

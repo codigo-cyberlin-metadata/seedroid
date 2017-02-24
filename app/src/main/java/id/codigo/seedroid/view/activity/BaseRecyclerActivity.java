@@ -10,12 +10,13 @@ import android.widget.LinearLayout;
 import id.codigo.seedroid.R;
 import id.codigo.seedroid.view.adapter.BaseRecyclerAdapter;
 import id.codigo.seedroid.view.widget.CustomListView;
+import id.codigo.seedroid.view.widget.EmptyView;
 import id.codigo.seedroid.view.widget.SpacesItemDecoration;
 
 /**
  * Created by Lukma on 3/29/2016.
  */
-public abstract class BaseRecyclerActivity extends BaseActivity implements
+public abstract class BaseRecyclerActivity<T> extends BaseActivity implements
         AppBarLayout.OnOffsetChangedListener,
         View.OnClickListener,
         CustomListView.CustomRecyclerListener {
@@ -27,8 +28,10 @@ public abstract class BaseRecyclerActivity extends BaseActivity implements
     protected RecyclerView.ItemDecoration itemDecoration;
 
     protected AppBarLayout appBarLayout;
-    private View toolbarIcon;
-    protected CustomListView customListView;
+    protected View headerView;
+    protected Toolbar toolbar;
+    protected CustomListView<T> customListView;
+    protected EmptyView emptyView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +47,7 @@ public abstract class BaseRecyclerActivity extends BaseActivity implements
             setContentView(customContentLayout);
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         if (onReverse) {
@@ -54,8 +57,18 @@ public abstract class BaseRecyclerActivity extends BaseActivity implements
         }
 
         appBarLayout = (AppBarLayout) findViewById(R.id.app_bar_layout);
-        toolbarIcon = getToolbarLogoIcon(toolbar);
         customListView = (CustomListView) findViewById(R.id.custom_list);
+        emptyView = (EmptyView) findViewById(R.id.view_empty_root);
+
+        if (hasHeader) {
+            headerView = onInitHeaderView();
+            LinearLayout headerLayout = (LinearLayout) findViewById(R.id.header_layout);
+            headerLayout.addView(headerView);
+        }
+
+        if (emptyView != null) {
+            emptyView.setOnClickListener(this);
+        }
 
         if (itemDecoration == null) {
             if (spanCount == 1) {
@@ -63,10 +76,6 @@ public abstract class BaseRecyclerActivity extends BaseActivity implements
             } else {
                 itemDecoration = new SpacesItemDecoration(spaceSize, spanCount);
             }
-        }
-
-        if (toolbarIcon != null) {
-            toolbarIcon.setOnClickListener(this);
         }
 
         customListView.init(onReverse, spanCount, itemDecoration, this);
@@ -105,14 +114,19 @@ public abstract class BaseRecyclerActivity extends BaseActivity implements
 
     @Override
     public void onClick(View view) {
-        if (toolbarIcon != null && view.getId() == toolbarIcon.getId()) {
-            onBack();
+        if (emptyView != null && view.getId() == emptyView.getId()) {
+            onLoadHeader();
         }
     }
 
-    public void setHeader(View headerView) {
-        LinearLayout headerLayout = (LinearLayout) findViewById(R.id.header_layout);
-        headerLayout.addView(headerView);
+    public void onLoadHeader() {
+    }
+
+    /**
+     * Function to fill header view
+     */
+    public View onInitHeaderView() {
+        return null;
     }
 
     public abstract BaseRecyclerAdapter onInitAdapter();

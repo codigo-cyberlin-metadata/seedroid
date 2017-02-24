@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment;
  */
 public class BaseFragment extends Fragment {
     protected boolean isCreated = false;
-    private String title;
+    private String title = getClass().getSimpleName();
 
     public String getTitle() {
         return title;

@@ -13,21 +13,22 @@ import java.util.ArrayList;
 import id.codigo.seedroid.R;
 import id.codigo.seedroid.view.adapter.BasePagerAdapter;
 import id.codigo.seedroid.view.fragment.BaseFragment;
+import id.codigo.seedroid.view.widget.EmptyView;
 
 /**
  * Created by Lukma on 3/29/2016.
  */
-public abstract class BasePagerActivity extends BaseActivity implements
-        AppBarLayout.OnOffsetChangedListener,
-        View.OnClickListener {
+public abstract class BasePagerActivity extends BaseActivity implements AppBarLayout.OnOffsetChangedListener, View.OnClickListener {
     protected Integer customContentLayout = null;
     protected boolean hasHeader = false;
 
     protected AppBarLayout appBarLayout;
-    protected View toolbarIcon;
+    protected View headerView;
+    protected Toolbar toolbar;
     protected TabLayout tabLayout;
     protected ViewPager viewPager;
     protected BasePagerAdapter pagerAdapter;
+    protected EmptyView emptyView;
 
     protected ArrayList<BaseFragment> items = new ArrayList<>();
 
@@ -45,13 +46,23 @@ public abstract class BasePagerActivity extends BaseActivity implements
             setContentView(customContentLayout);
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         appBarLayout = (AppBarLayout) findViewById(R.id.app_bar_layout);
-        toolbarIcon = getToolbarLogoIcon(toolbar);
         tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         viewPager = (ViewPager) findViewById(R.id.view_pager);
+        emptyView = (EmptyView) findViewById(R.id.view_empty_root);
+
+        if (hasHeader) {
+            headerView = onInitHeaderView();
+            LinearLayout headerLayout = (LinearLayout) findViewById(R.id.header_layout);
+            headerLayout.addView(headerView);
+        }
+
+        if (emptyView != null) {
+            emptyView.setOnClickListener(this);
+        }
 
         onInitItems();
 
@@ -60,10 +71,6 @@ public abstract class BasePagerActivity extends BaseActivity implements
         viewPager.setOffscreenPageLimit(items.size());
 
         tabLayout.setupWithViewPager(viewPager);
-
-        if (toolbarIcon != null) {
-            toolbarIcon.setOnClickListener(this);
-        }
     }
 
     @Override
@@ -90,14 +97,19 @@ public abstract class BasePagerActivity extends BaseActivity implements
 
     @Override
     public void onClick(View view) {
-        if (toolbarIcon != null && view.getId() == toolbarIcon.getId()) {
-            onBack();
+        if (emptyView != null && view.getId() == emptyView.getId()) {
+            onLoadHeader();
         }
     }
 
-    public void setHeader(View headerView) {
-        LinearLayout headerLayout = (LinearLayout) findViewById(R.id.header_layout);
-        headerLayout.addView(headerView);
+    public void onLoadHeader() {
+    }
+
+    /**
+     * Function to fill header view
+     */
+    public View onInitHeaderView() {
+        return null;
     }
 
     /**

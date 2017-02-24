@@ -223,6 +223,19 @@ public class HttpHelper {
      * Make a POST multipart request
      *
      * @param url        URL of the request to make
+     * @param headers    Additional http header of the request to make
+     * @param parameters Parameters of the request to make
+     * @param delegate   Listener of the response from request
+     */
+    public void postMultipart(String url, HashMap<String, String> headers, Map<String, String> parameters, UploadStatusDelegate delegate) {
+        httpHeader.putAll(headers);
+        postMultipart(url, parameters, delegate);
+    }
+
+    /**
+     * Make a POST multipart request
+     *
+     * @param url        URL of the request to make
      * @param parameters Parameters of the request to make
      * @param delegate   Listener of the response from request
      */
@@ -251,8 +264,8 @@ public class HttpHelper {
         try {
             MultipartUploadRequest request = new MultipartUploadRequest(SeedroidApplication.getInstance(), UUID.randomUUID().toString(), url);
 
-            if (RestConfigs.isUsingBasicAuth) {
-                request.addHeader("Authorization", RestConfigs.basicAuthValue);
+            for (String key : httpHeader.keySet()) {
+                request.addHeader(key, httpHeader.get(key));
             }
 
             request.setDelegate(delegate);
