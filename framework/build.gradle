@@ -26,6 +26,9 @@ android {
         exclude 'META-INF/NOTICE'
         exclude 'META-INF/LGPL2.1'
     }
+    dataBinding {
+        enabled = true
+    }
     dexOptions {
         javaMaxHeapSize "2g"
     }

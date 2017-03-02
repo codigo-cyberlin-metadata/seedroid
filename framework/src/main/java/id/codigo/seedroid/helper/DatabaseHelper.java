@@ -14,104 +14,73 @@ import io.realm.RealmResults;
  */
 public class DatabaseHelper<T extends RealmObject> {
     private Realm realm;
+    private Class<T> type;
 
     private DatabaseHelper() {
         Realm.init(SeedroidApplication.getInstance());
         realm = Realm.getDefaultInstance();
+
+        Type type = getClass().getGenericSuperclass();
+
+        while (!(type instanceof ParameterizedType) || ((ParameterizedType) type).getRawType() != DatabaseHelper.class) {
+            if (type instanceof ParameterizedType) {
+                type = ((Class<?>) ((ParameterizedType) type).getRawType()).getGenericSuperclass();
+            } else {
+                type = ((Class<?>) type).getGenericSuperclass();
+            }
+        }
+
+        this.type = (Class<T>) ((ParameterizedType) type).getActualTypeArguments()[0];
     }
 
-    public RealmResults<T> gets(DatabaseReadListener<T> listener) {
-        RealmQuery<T> query = realm.where(listener.getType());
+    /**
+     * Retrieve list of data from db
+     *
+     * @param listener Listener when query to db
+     */
+    public RealmResults<T> finds(DatabaseReadListener<T> listener) {
+        RealmQuery<T> query = realm.where(type);
         listener.onQuery(query);
         return query.findAll();
     }
 
-    public void insertOrUpdate(final T row, final DatabaseWriteListener<T> listener) {
-        realm.executeTransactionAsync(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                realm.copyToRealmOrUpdate(row);
-            }
-        }, new Realm.Transaction.OnSuccess() {
-            @Override
-            public void onSuccess() {
-                listener.onSuccess();
-            }
-        }, new Realm.Transaction.OnError() {
-            @Override
-            public void onError(Throwable error) {
-                listener.onFailed(error.getLocalizedMessage());
-            }
-        });
+    /**
+     * Retrieve one of data by condition from db
+     *
+     * @param findBy    Name of field to compare
+     * @param findWhere Value of field to compare
+     */
+    public T find(String findBy, final String findWhere) {
+        RealmQuery<T> query = realm.where(type);
+        query.equalTo(findBy, findWhere);
+        return query.findFirst();
     }
 
-    public void delete(final String deleteBy, final String selector, final DatabaseWriteListener<T> listener) {
-        realm.executeTransactionAsync(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                T result = realm.where(listener.getType()).equalTo(deleteBy, selector).findFirst();
-                result.deleteFromRealm();
-            }
-        }, new Realm.Transaction.OnSuccess() {
-            @Override
-            public void onSuccess() {
-                listener.onSuccess();
-            }
-        }, new Realm.Transaction.OnError() {
-            @Override
-            public void onError(Throwable error) {
-                listener.onFailed(error.getLocalizedMessage());
-            }
-        });
+    /**
+     * Insert or update data to db
+     *
+     * @param data Data to insert or update
+     */
+    public void insertOrUpdate(final T data) {
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(data);
+        realm.commitTransaction();
     }
 
-    public abstract class DatabaseWriteListener<T extends RealmObject> {
-        private Class<T> type;
-
-        public DatabaseWriteListener() {
-            Type type = getClass().getGenericSuperclass();
-
-            while (!(type instanceof ParameterizedType) || ((ParameterizedType) type).getRawType() != DatabaseWriteListener.class) {
-                if (type instanceof ParameterizedType) {
-                    type = ((Class<?>) ((ParameterizedType) type).getRawType()).getGenericSuperclass();
-                } else {
-                    type = ((Class<?>) type).getGenericSuperclass();
-                }
-            }
-
-            this.type = (Class<T>) ((ParameterizedType) type).getActualTypeArguments()[0];
-        }
-
-        public Class<T> getType() {
-            return type;
-        }
-
-        public abstract void onSuccess();
-
-        public abstract void onFailed(String message);
+    /**
+     * Delete one of data from db
+     *
+     * @param deleteBy    Name of field to compare
+     * @param deleteWhere Value of field to compare
+     */
+    public void delete(final String deleteBy, final String deleteWhere) {
+        realm.beginTransaction();
+        T result = realm.where(type).equalTo(deleteBy, deleteWhere).findFirst();
+        result.deleteFromRealm();
+        realm.commitTransaction();
     }
 
     public abstract class DatabaseReadListener<T extends RealmObject> {
-        private Class<T> type;
-
-        public DatabaseReadListener() {
-            Type type = getClass().getGenericSuperclass();
-
-            while (!(type instanceof ParameterizedType) || ((ParameterizedType) type).getRawType() != DatabaseWriteListener.class) {
-                if (type instanceof ParameterizedType) {
-                    type = ((Class<?>) ((ParameterizedType) type).getRawType()).getGenericSuperclass();
-                } else {
-                    type = ((Class<?>) type).getGenericSuperclass();
-                }
-            }
-
-            this.type = (Class<T>) ((ParameterizedType) type).getActualTypeArguments()[0];
-        }
-
-        public Class<T> getType() {
-            return type;
-        }
-
         public abstract void onQuery(RealmQuery query);
     }
 }
