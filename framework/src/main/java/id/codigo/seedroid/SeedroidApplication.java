@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
+import io.realm.Realm;
+
 /**
  * Created by Lukma on 3/29/2016.
  */
@@ -17,6 +19,9 @@ public class SeedroidApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        Realm.init(this);
+
         instance = this;
     }
 

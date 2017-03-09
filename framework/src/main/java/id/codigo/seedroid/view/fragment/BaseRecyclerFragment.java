@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 
 import id.codigo.seedroid.R;
 import id.codigo.seedroid.view.adapter.BaseRecyclerAdapter;
+import id.codigo.seedroid.view.widget.CustomListProperties;
 import id.codigo.seedroid.view.widget.CustomListView;
 import id.codigo.seedroid.view.widget.SpacesItemDecoration;
 
@@ -19,13 +20,19 @@ public abstract class BaseRecyclerFragment<T> extends BaseFragment implements
         AppBarLayout.OnOffsetChangedListener,
         CustomListView.CustomRecyclerListener {
     protected Integer customContentLayout = null;
-    protected boolean onReverse = false;
-    protected int spanCount = 1;
-    protected int spaceSize = 8;
+    private CustomListProperties properties = new CustomListProperties();
     protected RecyclerView.ItemDecoration itemDecoration;
 
     protected AppBarLayout appBarLayout;
     protected CustomListView<T> customListView;
+
+    public CustomListProperties getProperties() {
+        if (customListView == null) {
+            return properties;
+        } else {
+            return customListView.getProperties();
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,14 +48,14 @@ public abstract class BaseRecyclerFragment<T> extends BaseFragment implements
         customListView = (CustomListView) rootView.findViewById(R.id.custom_list);
 
         if (itemDecoration == null) {
-            if (spanCount == 1) {
-                itemDecoration = new SpacesItemDecoration(spaceSize);
+            if (properties.getSpanCount() == 1) {
+                itemDecoration = new SpacesItemDecoration(properties.getSpaceSize());
             } else {
-                itemDecoration = new SpacesItemDecoration(spaceSize, spanCount);
+                itemDecoration = new SpacesItemDecoration(properties.getSpaceSize(), properties.getSpanCount());
             }
         }
 
-        customListView.init(onReverse, spanCount, itemDecoration, this);
+        customListView.init(properties, itemDecoration, this);
 
         return rootView;
     }
@@ -57,7 +64,7 @@ public abstract class BaseRecyclerFragment<T> extends BaseFragment implements
     public void onResume() {
         super.onResume();
 
-        if (customListView.isHasSwipe()) {
+        if (customListView.getProperties().isHasSwipe()) {
             appBarLayout.addOnOffsetChangedListener(this);
         }
 
@@ -87,7 +94,7 @@ public abstract class BaseRecyclerFragment<T> extends BaseFragment implements
     public void onPause() {
         super.onPause();
 
-        if (customListView.isHasSwipe()) {
+        if (customListView.getProperties().isHasSwipe()) {
             appBarLayout.removeOnOffsetChangedListener(this);
         }
     }

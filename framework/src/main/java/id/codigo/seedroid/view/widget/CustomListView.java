@@ -17,10 +17,7 @@ import id.codigo.seedroid.view.adapter.BaseRecyclerAdapter;
  * Created by Lukma on 3/29/2016.
  */
 public class CustomListView<T> extends FrameLayout implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
-    private boolean hasSwipe = true, hasLoadMoreBase, hasLoadMore = true, onCustomBackground = false;
-    private int limit = 10, offset = 0;
-    private int colorBackground;
-
+    private CustomListProperties properties;
     private boolean onLoading = false, onRefresh = false;
     private int pastVisibleItems, visibleItemCount, totalItemCount;
 
@@ -48,28 +45,12 @@ public class CustomListView<T> extends FrameLayout implements SwipeRefreshLayout
         super(context, attrs, defStyleAttr);
     }
 
-    public boolean isHasSwipe() {
-        return hasSwipe;
+    public CustomListProperties getProperties() {
+        return properties;
     }
 
     public boolean isOnLoading() {
         return onLoading;
-    }
-
-    public int getLimit() {
-        return limit;
-    }
-
-    public void setLimit(int limit) {
-        this.limit = limit;
-    }
-
-    public int getOffset() {
-        return offset;
-    }
-
-    public void setOffset(int offset) {
-        this.offset = offset;
     }
 
     public SwipeRefreshLayout getRefreshLayout() {
@@ -88,11 +69,13 @@ public class CustomListView<T> extends FrameLayout implements SwipeRefreshLayout
         return items;
     }
 
-    public void init(boolean onReverse, final int spanCount, RecyclerView.ItemDecoration itemDecoration, CustomRecyclerListener listener) {
+    public void init(CustomListProperties properties, RecyclerView.ItemDecoration itemDecoration, CustomRecyclerListener listener) {
         this.listener = listener;
 
-        hasSwipe = !onReverse;
-        hasLoadMoreBase = hasLoadMore;
+        this.properties = properties;
+
+        this.properties.setHasSwipe(!this.properties.isOnReverse());
+        this.properties.setHasLoadMoreBase(properties.isHasLoadMore());
 
         inflate(getContext(), R.layout.view_custom_list, this);
 
@@ -100,7 +83,7 @@ public class CustomListView<T> extends FrameLayout implements SwipeRefreshLayout
         emptyView = (EmptyView) findViewById(R.id.view_empty);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
-        if (!hasSwipe) {
+        if (!this.properties.isHasSwipe()) {
             refreshLayout.setEnabled(false);
         } else {
             refreshLayout.setOnRefreshListener(this);
@@ -115,23 +98,23 @@ public class CustomListView<T> extends FrameLayout implements SwipeRefreshLayout
                 totalItemCount = layoutManager.getItemCount();
                 pastVisibleItems = layoutManager.findFirstVisibleItemPosition();
 
-                if (items.size() != 0 && (hasLoadMore && !onLoading) && ((visibleItemCount + pastVisibleItems) >= totalItemCount)) {
-                    offset += limit;
-                    onLoadItems(limit, offset);
+                if (items.size() != 0 && (CustomListView.this.properties.isHasLoadMore() && !onLoading) && ((visibleItemCount + pastVisibleItems) >= totalItemCount)) {
+                    CustomListView.this.properties.setOffset(CustomListView.this.properties.getOffset() + CustomListView.this.properties.getLimit());
+                    onLoadItems(CustomListView.this.properties.getLimit(), CustomListView.this.properties.getOffset());
                 }
             }
         });
 
-        layoutManager = new GridLayoutManager(getContext(), spanCount);
+        layoutManager = new GridLayoutManager(getContext(), CustomListView.this.properties.getSpanCount());
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
                 return recyclerAdapter.getItemViewType(position) == BaseRecyclerAdapter.ITEM_VIEW_TYPE_ITEM
-                        ? 1 : spanCount;
+                        ? 1 : CustomListView.this.properties.getSpanCount();
             }
         });
 
-        if (onReverse) {
+        if (this.properties.isOnReverse()) {
             layoutManager.setReverseLayout(true);
         }
 
@@ -143,12 +126,12 @@ public class CustomListView<T> extends FrameLayout implements SwipeRefreshLayout
         footerView = new EmptyView(getContext());
         footerView.setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
-        if (onCustomBackground) {
-            emptyView.setViewBackground(colorBackground);
-            footerView.setViewBackground(colorBackground);
+        if (properties.isOnCustomBackground()) {
+            emptyView.setViewBackground(properties.getColorBackground());
+            footerView.setViewBackground(properties.getColorBackground());
         }
 
-        if (hasLoadMore) {
+        if (properties.isHasLoadMore()) {
             recyclerAdapter.setFooterView(footerView);
         }
 
@@ -170,21 +153,21 @@ public class CustomListView<T> extends FrameLayout implements SwipeRefreshLayout
             footerView.onRefresh();
 
             if (items.size() == 0) {
-                offset = 0;
+                properties.setOffset(0);
             }
 
-            onLoadItems(limit, offset);
+            onLoadItems(properties.getLimit(), properties.getOffset());
         }
     }
 
     public void setViewBackground(int color) {
         recyclerView.setBackgroundColor(color);
         emptyView.setViewBackground(color);
-        emptyView.setViewBackground(colorBackground);
-        footerView.setViewBackground(colorBackground);
+        emptyView.setViewBackground(properties.getColorBackground());
+        footerView.setViewBackground(properties.getColorBackground());
 
-        colorBackground = color;
-        onCustomBackground = true;
+        properties.setColorBackground(color);
+        properties.setOnCustomBackground(true);
     }
 
     /**
@@ -210,14 +193,14 @@ public class CustomListView<T> extends FrameLayout implements SwipeRefreshLayout
      * Function to reset recycler view
      */
     public void onRefreshItems() {
-        hasLoadMore = hasLoadMoreBase;
-        offset = 0;
+        properties.setHasLoadMore(properties.isHasLoadMoreBase());
+        properties.setOffset(0);
         onRefresh = true;
 
         footerView.setVisibility(View.VISIBLE);
         footerView.getLayoutParams().height = LayoutParams.WRAP_CONTENT;
 
-        onLoadItems(limit, offset);
+        onLoadItems(properties.getLimit(), properties.getOffset());
     }
 
     /**
@@ -246,8 +229,8 @@ public class CustomListView<T> extends FrameLayout implements SwipeRefreshLayout
 
                 this.items.addAll(items);
 
-                if (items.size() < limit) {
-                    hasLoadMore = false;
+                if (items.size() < properties.getLimit()) {
+                    properties.setHasLoadMore(false);
 
                     footerView.setVisibility(View.GONE);
                     footerView.getLayoutParams().height = 0;
@@ -260,7 +243,7 @@ public class CustomListView<T> extends FrameLayout implements SwipeRefreshLayout
                 if (itemsLength == 0) {
                     emptyView.onNotFoundResult(message);
                 } else {
-                    hasLoadMore = false;
+                    properties.setHasLoadMore(false);
 
                     footerView.setVisibility(View.GONE);
                     footerView.getLayoutParams().height = 0;
