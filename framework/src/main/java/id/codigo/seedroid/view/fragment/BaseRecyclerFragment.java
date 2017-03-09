@@ -55,14 +55,15 @@ public abstract class BaseRecyclerFragment<T> extends BaseFragment implements
         }
 
         if (properties.getLayoutManager() == null) {
-            properties.setLayoutManager(new GridLayoutManager(getContext(), properties.getSpanCount()));
-            ((GridLayoutManager) properties.getLayoutManager()).setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            GridLayoutManager layoutManager = new GridLayoutManager(getContext(), properties.getSpanCount());
+            layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                 @Override
                 public int getSpanSize(int position) {
                     return customListView.getRecyclerAdapter().getItemViewType(position) == BaseRecyclerAdapter.ITEM_VIEW_TYPE_ITEM
                             ? 1 : getProperties().getSpanCount();
                 }
             });
+            properties.setLayoutManager(layoutManager);
         }
 
         customListView.init(properties, this);
