@@ -2,7 +2,7 @@ package id.codigo.seedroid.view.fragment;
 
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +21,6 @@ public abstract class BaseRecyclerFragment<T> extends BaseFragment implements
         CustomListView.CustomRecyclerListener {
     protected Integer customContentLayout = null;
     private CustomListProperties properties = new CustomListProperties();
-    protected RecyclerView.ItemDecoration itemDecoration;
 
     protected AppBarLayout appBarLayout;
     protected CustomListView<T> customListView;
@@ -47,15 +46,26 @@ public abstract class BaseRecyclerFragment<T> extends BaseFragment implements
 
         customListView = (CustomListView) rootView.findViewById(R.id.custom_list);
 
-        if (itemDecoration == null) {
+        if (properties.getItemDecoration() == null) {
             if (properties.getSpanCount() == 1) {
-                itemDecoration = new SpacesItemDecoration(properties.getSpaceSize());
+                properties.setItemDecoration(new SpacesItemDecoration(properties.getSpaceSize()));
             } else {
-                itemDecoration = new SpacesItemDecoration(properties.getSpaceSize(), properties.getSpanCount());
+                properties.setItemDecoration(new SpacesItemDecoration(properties.getSpaceSize(), properties.getSpanCount()));
             }
         }
 
-        customListView.init(properties, itemDecoration, this);
+        if (properties.getLayoutManager() == null) {
+            properties.setLayoutManager(new GridLayoutManager(getContext(), properties.getSpanCount()));
+            ((GridLayoutManager) properties.getLayoutManager()).setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    return customListView.getRecyclerAdapter().getItemViewType(position) == BaseRecyclerAdapter.ITEM_VIEW_TYPE_ITEM
+                            ? 1 : getProperties().getSpanCount();
+                }
+            });
+        }
+
+        customListView.init(properties, this);
 
         return rootView;
     }

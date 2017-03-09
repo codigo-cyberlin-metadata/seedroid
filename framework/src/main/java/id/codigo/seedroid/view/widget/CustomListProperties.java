@@ -1,5 +1,8 @@
 package id.codigo.seedroid.view.widget;
 
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+
 /**
  * Created by Gayo on 3/3/2017.
  */
@@ -9,6 +12,9 @@ public class CustomListProperties {
     private int spanCount, spaceSize;
     private int limit, offset;
     private int colorBackground;
+
+    private RecyclerView.ItemDecoration itemDecoration;
+    private LinearLayoutManager layoutManager;
 
     public CustomListProperties() {
         onReverse = false;
@@ -99,5 +105,25 @@ public class CustomListProperties {
 
     public void setColorBackground(int colorBackground) {
         this.colorBackground = colorBackground;
+    }
+
+    public RecyclerView.ItemDecoration getItemDecoration() {
+        return itemDecoration;
+    }
+
+    public void setItemDecoration(RecyclerView.ItemDecoration itemDecoration) {
+        this.itemDecoration = itemDecoration;
+    }
+
+    public LinearLayoutManager getLayoutManager() {
+        return layoutManager;
+    }
+
+    public void setLayoutManager(LinearLayoutManager layoutManager) {
+        this.layoutManager = layoutManager;
+
+        if (onReverse) {
+            this.layoutManager.setReverseLayout(true);
+        }
     }
 }

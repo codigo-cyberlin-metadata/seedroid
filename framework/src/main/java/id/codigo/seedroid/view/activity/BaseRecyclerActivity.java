@@ -2,7 +2,7 @@ package id.codigo.seedroid.view.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -24,7 +24,6 @@ public abstract class BaseRecyclerActivity<T> extends BaseActivity implements
     protected Integer customContentLayout = null;
     protected boolean hasHeader = false;
     protected CustomListProperties properties = new CustomListProperties();
-    protected RecyclerView.ItemDecoration itemDecoration;
 
     protected AppBarLayout appBarLayout;
     protected View headerView;
@@ -77,15 +76,26 @@ public abstract class BaseRecyclerActivity<T> extends BaseActivity implements
             emptyView.setOnClickListener(this);
         }
 
-        if (itemDecoration == null) {
+        if (properties.getItemDecoration() == null) {
             if (properties.getSpanCount() == 1) {
-                itemDecoration = new SpacesItemDecoration(properties.getSpaceSize());
+                properties.setItemDecoration(new SpacesItemDecoration(properties.getSpaceSize()));
             } else {
-                itemDecoration = new SpacesItemDecoration(properties.getSpaceSize(), properties.getSpanCount());
+                properties.setItemDecoration(new SpacesItemDecoration(properties.getSpaceSize(), properties.getSpanCount()));
             }
         }
 
-        customListView.init(properties, itemDecoration, this);
+        if (properties.getLayoutManager() == null) {
+            properties.setLayoutManager(new GridLayoutManager(this, properties.getSpanCount()));
+            ((GridLayoutManager) properties.getLayoutManager()).setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    return customListView.getRecyclerAdapter().getItemViewType(position) == BaseRecyclerAdapter.ITEM_VIEW_TYPE_ITEM
+                            ? 1 : getProperties().getSpanCount();
+                }
+            });
+        }
+
+        customListView.init(properties, this);
     }
 
     @Override

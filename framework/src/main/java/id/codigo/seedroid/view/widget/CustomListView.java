@@ -2,7 +2,6 @@ package id.codigo.seedroid.view.widget;
 
 import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
@@ -26,7 +25,6 @@ public class CustomListView<T> extends FrameLayout implements SwipeRefreshLayout
     private RecyclerView recyclerView;
     private EmptyView footerView;
 
-    private GridLayoutManager layoutManager;
     private BaseRecyclerAdapter recyclerAdapter;
 
     private ArrayList<T> items = new ArrayList<>();
@@ -61,15 +59,15 @@ public class CustomListView<T> extends FrameLayout implements SwipeRefreshLayout
         return emptyView;
     }
 
-    public GridLayoutManager getLayoutManager() {
-        return layoutManager;
+    public BaseRecyclerAdapter getRecyclerAdapter() {
+        return recyclerAdapter;
     }
 
     public ArrayList<T> getItems() {
         return items;
     }
 
-    public void init(CustomListProperties properties, RecyclerView.ItemDecoration itemDecoration, CustomRecyclerListener listener) {
+    public void init(CustomListProperties properties, CustomRecyclerListener listener) {
         this.listener = listener;
 
         this.properties = properties;
@@ -90,35 +88,21 @@ public class CustomListView<T> extends FrameLayout implements SwipeRefreshLayout
         }
 
         recyclerView.setHasFixedSize(true);
-        recyclerView.addItemDecoration(itemDecoration);
+        recyclerView.addItemDecoration(this.properties.getItemDecoration());
+        recyclerView.setLayoutManager(this.properties.getLayoutManager());
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                visibleItemCount = layoutManager.getChildCount();
-                totalItemCount = layoutManager.getItemCount();
-                pastVisibleItems = layoutManager.findFirstVisibleItemPosition();
+                visibleItemCount = getProperties().getLayoutManager().getChildCount();
+                totalItemCount = getProperties().getLayoutManager().getItemCount();
+                pastVisibleItems = getProperties().getLayoutManager().findFirstVisibleItemPosition();
 
-                if (items.size() != 0 && (CustomListView.this.properties.isHasLoadMore() && !onLoading) && ((visibleItemCount + pastVisibleItems) >= totalItemCount)) {
-                    CustomListView.this.properties.setOffset(CustomListView.this.properties.getOffset() + CustomListView.this.properties.getLimit());
-                    onLoadItems(CustomListView.this.properties.getLimit(), CustomListView.this.properties.getOffset());
+                if (items.size() != 0 && (getProperties().isHasLoadMore() && !onLoading) && ((visibleItemCount + pastVisibleItems) >= totalItemCount)) {
+                    getProperties().setOffset(getProperties().getOffset() + getProperties().getLimit());
+                    onLoadItems(getProperties().getLimit(), getProperties().getOffset());
                 }
             }
         });
-
-        layoutManager = new GridLayoutManager(getContext(), CustomListView.this.properties.getSpanCount());
-        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(int position) {
-                return recyclerAdapter.getItemViewType(position) == BaseRecyclerAdapter.ITEM_VIEW_TYPE_ITEM
-                        ? 1 : CustomListView.this.properties.getSpanCount();
-            }
-        });
-
-        if (this.properties.isOnReverse()) {
-            layoutManager.setReverseLayout(true);
-        }
-
-        recyclerView.setLayoutManager(layoutManager);
 
         recyclerAdapter = onInitAdapter();
         recyclerView.setAdapter(recyclerAdapter);
