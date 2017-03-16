@@ -1,5 +1,6 @@
 package id.codigo.seedroid.helper;
 
+import id.codigo.seedroid.model.db.AutoIncrementModel;
 import io.realm.Realm;
 import io.realm.RealmObject;
 import io.realm.RealmQuery;
@@ -30,6 +31,19 @@ public class DatabaseHelper<T extends RealmObject> {
     }
 
     /**
+     * Retrieve list of data from db
+     *
+     * @param limit    Parameter limit to send
+     * @param offset   Parameter offset to send
+     * @param listener Listener when query to db
+     */
+    public RealmResults<T> finds(int limit, int offset, DatabaseReadListener listener) {
+        RealmQuery<T> query = realm.where(type).between("id", offset, offset + limit + 1);
+        listener.onQuery(query);
+        return query.findAll();
+    }
+
+    /**
      * Retrieve one of data by condition from db
      *
      * @param findBy    Name of field to compare
@@ -48,7 +62,24 @@ public class DatabaseHelper<T extends RealmObject> {
      */
     public void insertOrUpdate(final T data) {
         realm.beginTransaction();
+
+        Integer maxId = 1;
+        try {
+            maxId = realm.where(type).max("id").intValue();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (((AutoIncrementModel) data).getId() != null && ((AutoIncrementModel) data).getId() > maxId) {
+            ((AutoIncrementModel) data).setId(null);
+        }
+
+        if (((AutoIncrementModel) data).getId() == null) {
+            ((AutoIncrementModel) data).setId(maxId + 1);
+        }
+
         realm.copyToRealmOrUpdate(data);
+
         realm.commitTransaction();
     }
 
