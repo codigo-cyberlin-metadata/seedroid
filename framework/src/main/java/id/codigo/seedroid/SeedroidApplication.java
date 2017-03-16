@@ -5,6 +5,7 @@ import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 /**
  * Created by Lukma on 3/29/2016.
@@ -21,6 +22,11 @@ public class SeedroidApplication extends MultiDexApplication {
         super.onCreate();
 
         Realm.init(this);
+        RealmConfiguration config = new RealmConfiguration
+                .Builder()
+                .deleteRealmIfMigrationNeeded()
+                .build();
+        Realm.setDefaultConfiguration(config);
 
         instance = this;
     }
