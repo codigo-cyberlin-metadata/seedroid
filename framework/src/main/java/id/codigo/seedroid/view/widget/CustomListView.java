@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -72,7 +73,10 @@ public class CustomListView<T> extends FrameLayout implements SwipeRefreshLayout
 
         this.properties = properties;
 
-        this.properties.setHasSwipe(!this.properties.isOnReverse());
+        if (this.properties.isHasSwipe()) {
+            this.properties.setHasSwipe(!this.properties.isOnReverse());
+        }
+
         this.properties.setHasLoadMoreBase(properties.isHasLoadMore());
 
         inflate(getContext(), R.layout.view_custom_list, this);
@@ -81,10 +85,10 @@ public class CustomListView<T> extends FrameLayout implements SwipeRefreshLayout
         emptyView = (EmptyView) findViewById(R.id.view_empty);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
-        if (!this.properties.isHasSwipe()) {
-            refreshLayout.setEnabled(false);
-        } else {
+        if (this.properties.isHasSwipe()) {
             refreshLayout.setOnRefreshListener(this);
+        } else {
+            refreshLayout.setEnabled(false);
         }
 
         recyclerView.setHasFixedSize(true);

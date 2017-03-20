@@ -1,5 +1,7 @@
 package id.codigo.seedroid.helper;
 
+import java.util.ArrayList;
+
 import id.codigo.seedroid.model.db.AutoIncrementModel;
 import io.realm.Realm;
 import io.realm.RealmObject;
@@ -84,6 +86,37 @@ public class DatabaseHelper<T extends RealmObject> {
     }
 
     /**
+     * Insert multiple data to db
+     *
+     * @param data Data to insert or update
+     */
+    public void insertOrUpdateMultiple(final ArrayList<T> data) {
+        realm.beginTransaction();
+
+        Integer maxId = 1;
+        try {
+            maxId = realm.where(type).max("id").intValue();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        int length = data.size();
+        for (int i = 0; i < length; i++) {
+            if (((AutoIncrementModel) data.get(i)).getId() != null && ((AutoIncrementModel) data.get(i)).getId() > maxId) {
+                ((AutoIncrementModel) data.get(i)).setId(null);
+            }
+
+            if (((AutoIncrementModel) data.get(i)).getId() == null) {
+                ((AutoIncrementModel) data.get(i)).setId(maxId + 1);
+            }
+        }
+
+        realm.copyToRealmOrUpdate(data);
+
+        realm.commitTransaction();
+    }
+
+    /**
      * Delete one of data from db
      *
      * @param deleteBy    Name of field to compare
@@ -93,6 +126,19 @@ public class DatabaseHelper<T extends RealmObject> {
         realm.beginTransaction();
         T result = realm.where(type).equalTo(deleteBy, deleteWhere).findFirst();
         result.deleteFromRealm();
+        realm.commitTransaction();
+    }
+
+    /**
+     * Delete multiple of data from db
+     *
+     * @param deleteBy    Name of field to compare
+     * @param deleteWhere Value of field to compare
+     */
+    public void deleteMultiple(final String deleteBy, final String deleteWhere) {
+        realm.beginTransaction();
+        RealmResults<T> result = realm.where(type).equalTo(deleteBy, deleteWhere).findAll();
+        result.deleteAllFromRealm();
         realm.commitTransaction();
     }
 
