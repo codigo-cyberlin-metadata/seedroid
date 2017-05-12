@@ -2,6 +2,7 @@ package id.codigo.seedroid.view.fragment;
 
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +17,20 @@ import id.codigo.seedroid.view.widget.SpacesItemDecoration;
 /**
  * Created by Lukma on 3/29/2016.
  */
-public abstract class BaseRecyclerFragment<T> extends BaseFragment implements
+public abstract class BaseRecyclerFragment<T> extends Fragment implements
         AppBarLayout.OnOffsetChangedListener,
         CustomListView.CustomRecyclerListener {
+    protected boolean isCreated = false;
+    private String title = getClass().getSimpleName();
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     protected Integer customContentLayout = null;
     private CustomListProperties properties = new CustomListProperties();
 

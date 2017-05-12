@@ -2,6 +2,7 @@ package id.codigo.seedroid.view.fragment;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,9 +16,20 @@ import id.codigo.seedroid.view.adapter.BasePagerAdapter;
 /**
  * Created by Lukma on 3/29/2016.
  */
-public abstract class BasePagerFragment extends BaseFragment {
+public abstract class BasePagerFragment extends Fragment {
+    protected boolean isCreated = false;
+    private String title = getClass().getSimpleName();
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     protected Integer customContentLayout = null;
-    protected ArrayList<BaseFragment> items = new ArrayList<>();
+    protected ArrayList<Fragment> items = new ArrayList<>();
 
     protected ViewPager viewPager;
     protected BasePagerAdapter pagerAdapter;
