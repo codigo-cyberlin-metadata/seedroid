@@ -12,9 +12,9 @@ import id.codigo.seedroid.view.fragment.BaseFragment;
  * Created by Lukma on 3/29/2016.
  */
 public class BasePagerAdapter extends FragmentStatePagerAdapter {
-    private ArrayList<Fragment> items;
+    private ArrayList<BaseFragment> items;
 
-    public BasePagerAdapter(FragmentManager fragmentManager, ArrayList<Fragment> items) {
+    public BasePagerAdapter(FragmentManager fragmentManager, ArrayList<BaseFragment> items) {
         super(fragmentManager);
         this.items = items;
     }
@@ -31,6 +31,6 @@ public class BasePagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return items.get(position).getTag();
+        return items.get(position).getTitle();
     }
 }

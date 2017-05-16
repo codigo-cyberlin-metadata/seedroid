@@ -1,8 +1,8 @@
 package id.codigo.seedroid.view.fragment;
 
+import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,44 +11,31 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 import id.codigo.seedroid.R;
+import id.codigo.seedroid.presenter.BasePresenter;
+import id.codigo.seedroid.view.BaseView;
 import id.codigo.seedroid.view.adapter.BasePagerAdapter;
 
 /**
  * Created by Lukma on 3/29/2016.
  */
-public abstract class BasePagerFragment extends Fragment {
-    protected boolean isCreated = false;
-    private String title = getClass().getSimpleName();
+public abstract class BasePagerFragment<V extends BaseView, P extends BasePresenter<V>> extends BaseFragment<ViewDataBinding, V, P> {
+    protected ArrayList<BaseFragment> items = new ArrayList<>();
 
-    public String getTitle() {
-        return title;
+    @Override
+    public int attachLayout() {
+        return R.layout.fragment_base_pager;
     }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    protected Integer customContentLayout = null;
-    protected ArrayList<Fragment> items = new ArrayList<>();
-
-    protected ViewPager viewPager;
-    protected BasePagerAdapter pagerAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView;
-        if (customContentLayout == null) {
-            rootView = inflater.inflate(R.layout.fragment_base_pager, container, false);
-        } else {
-            rootView = inflater.inflate(customContentLayout, container, false);
-        }
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
 
-        viewPager = (ViewPager) rootView.findViewById(R.id.view_pager);
+        ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.view_pager);
         TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.tab_layout);
 
         onInitItems();
 
-        pagerAdapter = new BasePagerAdapter(getChildFragmentManager(), items);
+        BasePagerAdapter pagerAdapter = new BasePagerAdapter(getChildFragmentManager(), items);
         viewPager.setAdapter(pagerAdapter);
         viewPager.setOffscreenPageLimit(items.size());
 

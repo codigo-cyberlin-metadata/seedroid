@@ -19,14 +19,16 @@ public abstract class BaseActivity<B extends ViewDataBinding, V extends BaseView
     private B viewBinding;
     private P mvpPresenter;
 
-    protected GtmHelper gtmHelper = ThirdPartyConfigs.isUsingGtm ? new GtmHelper() : null;
-    protected GaHelper gaHelper = ThirdPartyConfigs.isUsingGtm ? new GaHelper() : null;
+    protected GtmHelper gtmHelper;
+    protected GaHelper gaHelper;
 
     public BaseActivity() {
-        if (gtmHelper != null) {
+        if (ThirdPartyConfigs.isUsingGtm) {
+            gtmHelper = new GtmHelper();
             gtmHelper.setActivityClassName(getClass().getSimpleName());
         }
-        if (gaHelper != null) {
+        if (ThirdPartyConfigs.isUsingGa) {
+            gaHelper = new GaHelper();
             gaHelper.setActivityClassName(getClass().getSimpleName());
         }
     }
@@ -37,10 +39,10 @@ public abstract class BaseActivity<B extends ViewDataBinding, V extends BaseView
         viewBinding = DataBindingUtil.setContentView(this, attachLayout());
         getMvpPresenter().onStartUI();
 
-        if (gtmHelper != null) {
+        if (ThirdPartyConfigs.isUsingGtm) {
             gtmHelper.init(this);
         }
-        if (gaHelper != null) {
+        if (ThirdPartyConfigs.isUsingGa) {
             gaHelper.init(this);
         }
     }
@@ -49,10 +51,10 @@ public abstract class BaseActivity<B extends ViewDataBinding, V extends BaseView
     protected void onResume() {
         super.onResume();
 
-        if (gtmHelper != null) {
+        if (ThirdPartyConfigs.isUsingGtm) {
             gtmHelper.captureScreen();
         }
-        if (gaHelper != null) {
+        if (ThirdPartyConfigs.isUsingGa) {
             gaHelper.captureScreen();
         }
     }

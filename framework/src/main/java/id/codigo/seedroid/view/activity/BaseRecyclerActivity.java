@@ -1,35 +1,34 @@
 package id.codigo.seedroid.view.activity;
 
+import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import id.codigo.seedroid.R;
+import id.codigo.seedroid.presenter.BasePresenter;
+import id.codigo.seedroid.view.BaseView;
 import id.codigo.seedroid.view.adapter.BaseRecyclerAdapter;
 import id.codigo.seedroid.view.widget.CustomListProperties;
 import id.codigo.seedroid.view.widget.CustomListView;
 import id.codigo.seedroid.view.widget.EmptyView;
-import id.codigo.seedroid.view.widget.SpacesItemDecoration;
 
 /**
  * Created by Lukma on 3/29/2016.
  */
-public abstract class BaseRecyclerActivity<T> extends AppCompatActivity implements
+public abstract class BaseRecyclerActivity<M, V extends BaseView, P extends BasePresenter<V>> extends BaseActivity<ViewDataBinding, V, P> implements
         AppBarLayout.OnOffsetChangedListener,
         View.OnClickListener,
         CustomListView.CustomRecyclerListener {
-    protected Integer customContentLayout = null;
     protected boolean hasHeader = false;
     protected CustomListProperties properties = new CustomListProperties();
 
     protected AppBarLayout appBarLayout;
     protected View headerView;
     protected Toolbar toolbar;
-    protected CustomListView<T> customListView;
+    protected CustomListView<M> customListView;
     protected EmptyView emptyView;
 
     public CustomListProperties getProperties() {
@@ -41,18 +40,17 @@ public abstract class BaseRecyclerActivity<T> extends AppCompatActivity implemen
     }
 
     @Override
+    public int attachLayout() {
+        if (!hasHeader) {
+            return R.layout.activity_base_recycler;
+        } else {
+            return R.layout.activity_base_recycler_with_header;
+        }
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (customContentLayout == null) {
-            if (!hasHeader) {
-                setContentView(R.layout.activity_base_recycler);
-            } else {
-                setContentView(R.layout.activity_base_recycler_with_header);
-            }
-        } else {
-            setContentView(customContentLayout);
-        }
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -75,25 +73,6 @@ public abstract class BaseRecyclerActivity<T> extends AppCompatActivity implemen
 
         if (emptyView != null) {
             emptyView.setOnClickListener(this);
-        }
-
-        if (properties.getItemDecoration() == null) {
-            if (properties.getSpanCount() == 1) {
-                properties.setItemDecoration(new SpacesItemDecoration(properties.getSpaceSize()));
-            } else {
-                properties.setItemDecoration(new SpacesItemDecoration(properties.getSpaceSize(), properties.getSpanCount()));
-            }
-        }
-
-        if (properties.getLayoutManager() == null) {
-            properties.setLayoutManager(new GridLayoutManager(this, properties.getSpanCount()));
-            ((GridLayoutManager) properties.getLayoutManager()).setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-                @Override
-                public int getSpanSize(int position) {
-                    return customListView.getRecyclerAdapter().getItemViewType(position) == BaseRecyclerAdapter.ITEM_VIEW_TYPE_ITEM
-                            ? 1 : getProperties().getSpanCount();
-                }
-            });
         }
 
         customListView.init(properties, this);

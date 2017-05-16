@@ -2,6 +2,7 @@ package id.codigo.seedroid.view.widget;
 
 import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
@@ -77,6 +78,26 @@ public class CustomListView<T> extends FrameLayout implements SwipeRefreshLayout
         }
 
         this.properties.setHasLoadMoreBase(properties.isHasLoadMore());
+
+        if (this.properties.getItemDecoration() == null) {
+            if (this.properties.getSpanCount() == 1) {
+                this.properties.setItemDecoration(new SpacesItemDecoration(this.properties.getSpaceSize()));
+            } else {
+                this.properties.setItemDecoration(new SpacesItemDecoration(this.properties.getSpaceSize(), this.properties.getSpanCount()));
+            }
+        }
+
+        if (this.properties.getLayoutManager() == null) {
+            GridLayoutManager layoutManager = new GridLayoutManager(getContext(), this.properties.getSpanCount());
+            layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                @Override
+                public int getSpanSize(int position) {
+                    return getRecyclerAdapter().getItemViewType(position) == BaseRecyclerAdapter.ITEM_VIEW_TYPE_ITEM
+                            ? 1 : CustomListView.this.properties.getSpanCount();
+                }
+            });
+            this.properties.setLayoutManager(layoutManager);
+        }
 
         inflate(getContext(), R.layout.view_custom_list, this);
 
