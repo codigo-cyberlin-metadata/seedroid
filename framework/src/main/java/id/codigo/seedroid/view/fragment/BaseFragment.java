@@ -1,10 +1,12 @@
 package id.codigo.seedroid.view.fragment;
 
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +36,12 @@ public abstract class BaseFragment<B extends ViewDataBinding, V extends BaseView
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        Integer resourceStyle = attachStyle();
+        if (resourceStyle != null) {
+            final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), resourceStyle);
+            inflater = inflater.cloneInContext(contextThemeWrapper);
+        }
+
         viewBinding = DataBindingUtil.inflate(inflater, attachLayout(), container, false);
         return viewBinding.getRoot();
     }
@@ -62,5 +70,9 @@ public abstract class BaseFragment<B extends ViewDataBinding, V extends BaseView
     @Override
     public B getViewBinding() {
         return viewBinding;
+    }
+
+    public Integer attachStyle() {
+        return null;
     }
 }

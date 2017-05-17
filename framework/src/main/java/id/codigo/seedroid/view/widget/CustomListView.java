@@ -134,11 +134,6 @@ public class CustomListView<T> extends FrameLayout implements SwipeRefreshLayout
         footerView = new EmptyView(getContext());
         footerView.setLayoutParams(new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
-        if (properties.isOnCustomBackground()) {
-            emptyView.setViewBackground(properties.getColorBackground());
-            footerView.setViewBackground(properties.getColorBackground());
-        }
-
         if (properties.isHasLoadMore()) {
             recyclerAdapter.setFooterView(footerView);
         }
@@ -166,16 +161,6 @@ public class CustomListView<T> extends FrameLayout implements SwipeRefreshLayout
 
             onLoadItems(properties.getLimit(), properties.getOffset());
         }
-    }
-
-    public void setViewBackground(int color) {
-        recyclerView.setBackgroundColor(color);
-        emptyView.setViewBackground(color);
-        emptyView.setViewBackground(properties.getColorBackground());
-        footerView.setViewBackground(properties.getColorBackground());
-
-        properties.setColorBackground(color);
-        properties.setOnCustomBackground(true);
     }
 
     /**

@@ -8,10 +8,9 @@ import android.support.v7.widget.RecyclerView;
  */
 public class CustomListProperties {
     private boolean onReverse;
-    private boolean hasSwipe, hasLoadMoreBase, hasLoadMore, onCustomBackground;
+    private boolean hasSwipe, hasLoadMoreBase, hasLoadMore;
     private int spanCount, spaceSize;
     private int limit, offset;
-    private int colorBackground;
 
     private RecyclerView.ItemDecoration itemDecoration;
     private LinearLayoutManager layoutManager;
@@ -20,7 +19,6 @@ public class CustomListProperties {
         onReverse = false;
         hasSwipe = true;
         hasLoadMore = true;
-        onCustomBackground = false;
         spanCount = 1;
         spaceSize = 8;
         limit = 10;
@@ -59,14 +57,6 @@ public class CustomListProperties {
         this.hasLoadMore = hasLoadMore;
     }
 
-    public boolean isOnCustomBackground() {
-        return onCustomBackground;
-    }
-
-    public void setOnCustomBackground(boolean onCustomBackground) {
-        this.onCustomBackground = onCustomBackground;
-    }
-
     public int getSpanCount() {
         return spanCount;
     }
@@ -97,14 +87,6 @@ public class CustomListProperties {
 
     public void setOffset(int offset) {
         this.offset = offset;
-    }
-
-    public int getColorBackground() {
-        return colorBackground;
-    }
-
-    public void setColorBackground(int colorBackground) {
-        this.colorBackground = colorBackground;
     }
 
     public RecyclerView.ItemDecoration getItemDecoration() {
