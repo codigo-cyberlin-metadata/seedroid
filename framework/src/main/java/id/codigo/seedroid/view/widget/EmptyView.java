@@ -46,12 +46,6 @@ public class EmptyView extends FrameLayout {
         viewEmptyLoading.setVisibility(VISIBLE);
     }
 
-    public void setViewBackground(int color) {
-        viewEmpty.setBackgroundColor(color);
-        viewEmptyLoading.setBackgroundColor(color);
-        viewEmptyReload.setBackgroundColor(color);
-    }
-
     public void onRefresh() {
         viewEmpty.setVisibility(VISIBLE);
         viewEmptyReload.setVisibility(GONE);

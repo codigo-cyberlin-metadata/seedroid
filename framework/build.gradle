@@ -4,7 +4,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.google.gms:google-services:3.0.0'
-        classpath "io.realm:realm-gradle-plugin:3.1.0"
+//        classpath "io.realm:realm-gradle-plugin:3.1.0"
     }
 }
 
@@ -14,7 +14,7 @@ allprojects {
     }
 
     apply plugin: 'com.android.library'
-    apply plugin: 'realm-android'
+//    apply plugin: 'realm-android'
 
     android {
         compileSdkVersion 25

@@ -1,7 +1,5 @@
 package id.codigo.seedroid.helper;
 
-import android.util.Log;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,7 +37,7 @@ public class JsonHelper {
      * @param valueType Object type
      */
     public <T> T toObject(String content, Class<T> valueType) throws IOException {
-        Log.d(TAG, "content:" + content);
+        LogHelper.d(TAG, "content:" + content);
         return objectMapper.readValue(content, valueType);
     }
 

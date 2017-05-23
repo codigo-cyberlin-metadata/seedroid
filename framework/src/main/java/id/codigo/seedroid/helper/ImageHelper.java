@@ -2,7 +2,6 @@ package id.codigo.seedroid.helper;
 
 import android.content.Context;
 import android.databinding.BindingAdapter;
-import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -26,7 +25,7 @@ public final class ImageHelper {
     @BindingAdapter({"imageUrl"})
     public static void loadImage(ImageView view, String imageUrl) {
         try {
-            Log.d(TAG, "imageUrl :" + imageUrl);
+            LogHelper.d(TAG, "imageUrl :" + imageUrl);
 
             Glide.with(SeedroidApplication.getInstance())
                     .load(imageUrl)
@@ -45,7 +44,7 @@ public final class ImageHelper {
     @BindingAdapter({"circleImageUrl"})
     public static void loadImageCircle(ImageView view, String imageUrl) {
         try {
-            Log.d(TAG, "imageUrl :" + imageUrl);
+            LogHelper.d(TAG, "imageUrl :" + imageUrl);
 
             Context context = SeedroidApplication.getInstance();
 
@@ -69,7 +68,7 @@ public final class ImageHelper {
     @BindingAdapter({"roundedImageUrl", "roundedRadius", "roundedMargin"})
     public static void loadImageRounded(ImageView view, String imageUrl, int radius, int margin) {
         try {
-            Log.d(TAG, "imageUrl :" + imageUrl);
+            LogHelper.d(TAG, "imageUrl :" + imageUrl);
 
             Context context = SeedroidApplication.getInstance();
 
