@@ -9,6 +9,11 @@ public abstract class BasePresenter<V extends BaseView> {
     private V mvpView;
 
     /**
+     * Function that called first after create UI
+     */
+    public abstract void onStartUI();
+
+    /**
      * Getter mvpView variable
      */
     public V getMvpView() {
@@ -21,9 +26,4 @@ public abstract class BasePresenter<V extends BaseView> {
     public void setMvpView(V mvpView) {
         this.mvpView = mvpView;
     }
-
-    /**
-     * Function that called first after create UI
-     */
-    public abstract void onStartUI();
 }

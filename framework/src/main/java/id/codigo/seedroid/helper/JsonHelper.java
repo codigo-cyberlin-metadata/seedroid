@@ -37,7 +37,7 @@ public class JsonHelper {
      * @param valueType Object type
      */
     public <T> T toObject(String content, Class<T> valueType) throws IOException {
-        LogHelper.d(TAG, "content:" + content);
+        LogHelper.i(TAG, "content : " + content);
         return objectMapper.readValue(content, valueType);
     }
 
@@ -48,5 +48,12 @@ public class JsonHelper {
      */
     public <T> String toString(T value) throws IOException {
         return objectMapper.writeValueAsString(value);
+    }
+
+    /**
+     * Getter objectMapper
+     */
+    public ObjectMapper getObjectMapper() {
+        return objectMapper;
     }
 }

@@ -10,12 +10,12 @@ import id.codigo.seedroid.helper.GaHelper;
 import id.codigo.seedroid.helper.GtmHelper;
 import id.codigo.seedroid.presenter.BasePresenter;
 import id.codigo.seedroid.view.BaseView;
-import id.codigo.seedroid.view.callback.BaseCallback;
+import id.codigo.seedroid.view.delegate.RootDelegate;
 
 /**
  * Created by Lukma on 3/29/2016.
  */
-public abstract class BaseActivity<B extends ViewDataBinding, V extends BaseView, P extends BasePresenter<V>> extends AppCompatActivity implements BaseCallback<B, V, P>, BaseView {
+public abstract class BaseActivity<B extends ViewDataBinding, V extends BaseView, P extends BasePresenter<V>> extends AppCompatActivity implements RootDelegate<B, V, P>, BaseView {
     private B viewBinding;
     private P mvpPresenter;
 

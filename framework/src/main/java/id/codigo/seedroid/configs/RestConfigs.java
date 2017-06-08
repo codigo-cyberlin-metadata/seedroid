@@ -10,14 +10,14 @@ public class RestConfigs {
     // authentication mode for rest api
     public static boolean isUsingBasicAuth = false;
 
-    // rest api authentication config
+    // value of REST config
     public static int requestTimeout = 50000;
     public static int requestRetryCount = 50000;
 
-    // end point of rest api
+    // value of REST base url
     public static String rootUrl = "";
 
-    // default parameter for Codigo authentication
+    // value of REST entity
     public static Map<String, String> defaultHeader = new HashMap<>();
     public static Map<String, String> defaultFormBody = new HashMap<>();
 

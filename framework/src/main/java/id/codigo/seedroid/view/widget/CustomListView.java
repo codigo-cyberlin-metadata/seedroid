@@ -199,6 +199,15 @@ public class CustomListView<T> extends FrameLayout implements SwipeRefreshLayout
     /**
      * Function to fill recycler view after get items at child class
      *
+     * @param items Data to fill at recycler view
+     */
+    public void bindItems(ArrayList<T> items) {
+        bindItems(true, getContext().getString(R.string.status_success), items);
+    }
+
+    /**
+     * Function to fill recycler view after get items at child class
+     *
      * @param status  Status get data
      * @param message Message to show at view if status false
      * @param items   Data to fill at recycler view

@@ -13,12 +13,12 @@ import android.view.ViewGroup;
 
 import id.codigo.seedroid.presenter.BasePresenter;
 import id.codigo.seedroid.view.BaseView;
-import id.codigo.seedroid.view.callback.BaseCallback;
+import id.codigo.seedroid.view.delegate.RootDelegate;
 
 /**
  * Created by Lukma on 3/29/2016.
  */
-public abstract class BaseFragment<B extends ViewDataBinding, V extends BaseView, P extends BasePresenter<V>> extends Fragment implements BaseCallback<B, V, P>, BaseView {
+public abstract class BaseFragment<B extends ViewDataBinding, V extends BaseView, P extends BasePresenter<V>> extends Fragment implements RootDelegate<B, V, P>, BaseView {
     private B viewBinding;
     private P mvpPresenter;
 
