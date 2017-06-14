@@ -18,7 +18,7 @@ import id.codigo.seedroid.view.adapter.BaseRecyclerAdapter;
  */
 public class CustomListView<T> extends FrameLayout implements SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
     private CustomListProperties properties;
-    private boolean onLoading = false, onRefresh = false;
+    private boolean onLoading = false, onRefresh = false, hasLoadMoreBase;
     private int pastVisibleItems, visibleItemCount, totalItemCount;
 
     private SwipeRefreshLayout refreshLayout;
@@ -77,7 +77,7 @@ public class CustomListView<T> extends FrameLayout implements SwipeRefreshLayout
             this.properties.setHasSwipe(!this.properties.isOnReverse());
         }
 
-        this.properties.setHasLoadMoreBase(properties.isHasLoadMore());
+        hasLoadMoreBase = properties.isHasLoadMore();
 
         if (this.properties.getItemDecoration() == null) {
             if (this.properties.getSpanCount() == 1) {
@@ -186,7 +186,7 @@ public class CustomListView<T> extends FrameLayout implements SwipeRefreshLayout
      * Function to reset recycler view
      */
     public void onRefreshItems() {
-        properties.setHasLoadMore(properties.isHasLoadMoreBase());
+        properties.setHasLoadMore(hasLoadMoreBase);
         properties.setOffset(0);
         onRefresh = true;
 
