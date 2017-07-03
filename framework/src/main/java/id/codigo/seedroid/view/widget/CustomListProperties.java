@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
  */
 public class CustomListProperties {
     private boolean onReverse;
-    private boolean hasSwipe, hasLoadMoreBase, hasLoadMore;
+    private boolean hasSwipe, hasLoadMore;
     private int spanCount, spaceSize;
     private int limit, offset;
 
@@ -39,14 +39,6 @@ public class CustomListProperties {
 
     public void setHasSwipe(boolean hasSwipe) {
         this.hasSwipe = hasSwipe;
-    }
-
-    public boolean isHasLoadMoreBase() {
-        return hasLoadMoreBase;
-    }
-
-    public void setHasLoadMoreBase(boolean hasLoadMoreBase) {
-        this.hasLoadMoreBase = hasLoadMoreBase;
     }
 
     public boolean isHasLoadMore() {
