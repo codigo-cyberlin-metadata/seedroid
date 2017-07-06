@@ -18,32 +18,24 @@ public class VersionHelper {
     private Context context;
     private String appVersion;
     private String appId;
+    private ServiceListener<BaseVersionModel> callback;
+    private static VersionHelper instance;
 
     public VersionHelper(String appVersion, String appId){
         this.context = SeedroidApplication.getInstance();
         this.appVersion = appVersion;
         this.appId = appId;
-        getVersionApps(new ServiceListener<BaseVersionModel>() {
-            @Override
-            public void onSuccess(BaseVersionModel data) {
-                if(data.getStatus().toString().equalsIgnoreCase("200")) {
-                    if (data.getMetadata().getForceUpdate() == true) {
-                        context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(data.getMetadata().getLinkUpdate())));
-                    } else {
-                        Log.d("seedDroid","no update version!");
-                    }
-                }else{
-                    Log.d("seedDroid","unknown error!");
-                }
-            }
-
-            @Override
-            public void onFailed(String message) {
-                Log.d("seedDroid","onFailed!");
-            }
-        });
     }
-    public void getVersionApps(ServiceListener<BaseVersionModel> callback){
+    private VersionHelper() {
+        context = SeedroidApplication.getInstance();
+    }
+    public static synchronized VersionHelper getInstance() {
+        if (instance == null) {
+            instance = new VersionHelper();
+        }
+        return instance;
+    }
+    private void getVersionApps(ServiceListener<BaseVersionModel> callback){
         HttpHelper.getInstance().get(
                 "http://10.4.3.239:8080" +
                         "/appmanager/mobile/api/v1/version?"+
@@ -54,9 +46,28 @@ public class VersionHelper {
         );
 
     }
-    public VersionHelper getInstance(){
-        this.context = SeedroidApplication.getInstance();
-        return this;
+    public void get (){
+        getVersionApps(new ServiceListener<BaseVersionModel>() {
+            @Override
+            public void onSuccess(BaseVersionModel data) {
+                if(data.getStatus().toString().equalsIgnoreCase("200")) {
+                    if (data.getMetadata().getForceUpdate() == true) {
+                        Intent update = new Intent(Intent.ACTION_VIEW, Uri.parse(data.getMetadata().getLinkUpdate()));
+                        update.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(update);
+                    } else {
+                        Log.d("seedDroid","no update version!");
+                    }
+                }else{
+                    Log.d("seedDroid","unknown error!"+" || "+data.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailed(String message) {
+                Log.d("seedDroid","onFailed!"+ " || "+message);
+            }
+        });
     }
     public VersionHelper setAppVersion(String appVersion){
         this.appVersion = appVersion;
