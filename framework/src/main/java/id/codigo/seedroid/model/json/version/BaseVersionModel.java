@@ -18,6 +18,9 @@ import id.codigo.seedroid.model.json.BaseModel;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BaseVersionModel extends BaseModel{
+
+
+
     @JsonProperty("status")
     public Integer status;
     @JsonProperty("message")
@@ -65,6 +68,18 @@ public class BaseVersionModel extends BaseModel{
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
     }
+
+    public BaseVersionModel(Integer status, String message, Map<String, Object> additionalProperties, Metadata metadata) {
+        this.status = status;
+        this.message = message;
+        this.additionalProperties = additionalProperties;
+        this.metadata = metadata;
+    }
+
+    public BaseVersionModel() {
+
+    }
+
     public static class Metadata {
 
         @JsonProperty("version")

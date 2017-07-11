@@ -35,40 +35,27 @@ public class VersionHelper {
         }
         return instance;
     }
-    private void getVersionApps(ServiceListener<BaseVersionModel> callback){
+    public void getVersionApps(final ServiceListener<BaseVersionModel> callback){
         HttpHelper.getInstance().get(
                 "http://10.4.3.239:8080" +
                         "/appmanager/mobile/api/v1/version?"+
                         "app_id="+appId+
                         "&app_version="+appVersion+
                         "&app_platform=android",
-                callback
-        );
-
-    }
-    public void get (){
-        getVersionApps(new ServiceListener<BaseVersionModel>() {
-            @Override
-            public void onSuccess(BaseVersionModel data) {
-                if(data.getStatus().toString().equalsIgnoreCase("200")) {
-                    if (data.getMetadata().getForceUpdate() == true) {
-                        Intent update = new Intent(Intent.ACTION_VIEW, Uri.parse(data.getMetadata().getLinkUpdate()));
-                        update.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(update);
-                    } else {
-                        Log.d("seedDroid","no update version!");
+                new ServiceListener<BaseVersionModel>() {
+                    @Override
+                    public void onSuccess(BaseVersionModel data) {
+                        callback.onSuccess(data);
                     }
-                }else{
-                    Log.d("seedDroid","unknown error!"+" || "+data.getMessage());
-                }
-            }
 
-            @Override
-            public void onFailed(String message) {
-                Log.d("seedDroid","onFailed!"+ " || "+message);
-            }
-        });
+                    @Override
+                    public void onFailed(String message) {
+                        callback.onFailed(message);
+                    }
+                }
+        );
     }
+
     public VersionHelper setAppVersion(String appVersion){
         this.appVersion = appVersion;
         return this;
