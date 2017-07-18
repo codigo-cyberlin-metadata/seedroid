@@ -1,5 +1,7 @@
 package id.codigo.seedroid.helper;
 
+import android.content.Context;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
@@ -12,6 +14,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import net.gotev.uploadservice.MultipartUploadRequest;
+import net.gotev.uploadservice.ServerResponse;
+import net.gotev.uploadservice.UploadInfo;
 import net.gotev.uploadservice.UploadStatusDelegate;
 
 import org.json.JSONObject;
@@ -25,6 +29,7 @@ import id.codigo.seedroid.R;
 import id.codigo.seedroid.SeedroidApplication;
 import id.codigo.seedroid.configs.RestConfigs;
 import id.codigo.seedroid.service.ServiceListener;
+import id.codigo.seedroid.service.ServiceMultipartListener;
 
 /**
  * Created by Lukma on 3/29/2016.
@@ -34,6 +39,7 @@ public class HttpHelper {
 
     private static HttpHelper instance;
 
+    private Context context;
     private RequestQueue requestQueue;
     private HashMap<String, String> httpHeader = new HashMap<>();
     private RetryPolicy retryPolicy = new RetryPolicy() {
@@ -49,11 +55,12 @@ public class HttpHelper {
 
         @Override
         public void retry(VolleyError error) throws VolleyError {
-            LogHelper.e(TAG, error.getMessage() + "");
+            LogHelper.e(TAG, error.getLocalizedMessage() + "");
         }
     };
 
     private HttpHelper() {
+        context = SeedroidApplication.getInstance();
         requestQueue = getRequestQueue();
 
         if (RestConfigs.isUsingBasicAuth) {
@@ -75,46 +82,47 @@ public class HttpHelper {
     }
 
     /**
-     * Make a GET request and return a string
+     * Create Http GET request with additional headers
      *
      * @param url      URL of the request to make
      * @param headers  Additional http header of the request to make
-     * @param listener Listener of the response from request
+     * @param callback Callback of the response from request
      */
-    public <T> void get(String url, HashMap<String, String> headers, final ServiceListener<T> listener) {
+    public <T> void get(String url, HashMap<String, String> headers, ServiceListener<T> callback) {
         httpHeader.putAll(headers);
-        get(url, listener);
+        get(url, callback);
     }
 
     /**
-     * Make a GET request and return a string
+     * Create Http GET request
      *
      * @param url      URL of the request to make
-     * @param listener Listener of the response from request
+     * @param callback Callback of the response from request
      */
-    public <T> void get(String url, final ServiceListener<T> listener) {
-        LogHelper.d(TAG, "request:" + url);
+    public <T> void get(String url, final ServiceListener<T> callback) {
+        LogHelper.i(TAG, "request : " + url);
         StringRequest request = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        handleResponse(response, listener);
+                        handleResponse(response, callback);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         if (error instanceof NoConnectionError) {
-                            listener.onFailed(SeedroidApplication.getInstance().getString(R.string.status_no_connection));
+                            callback.onFailed(context.getString(R.string.status_no_connection));
+                            LogHelper.e(TAG, error.getLocalizedMessage() + "");
                         } else {
-                            listener.onFailed(error.getLocalizedMessage());
                             try {
-                                listener.onFailed(error.getLocalizedMessage(), error.networkResponse.statusCode, new String(error.networkResponse.data, "UTF-8"));
-                            } catch (UnsupportedEncodingException e) {
-                                e.printStackTrace();
+                                callback.onFailed(error.getLocalizedMessage());
+                                callback.onFailed(error.getLocalizedMessage(), error.networkResponse.statusCode, new String(error.networkResponse.data, "UTF-8"));
+                                LogHelper.e(TAG, error.getLocalizedMessage() + "");
+                            } catch (UnsupportedEncodingException ex) {
+                                LogHelper.e(TAG, ex.getLocalizedMessage() + "");
                             }
                         }
-                        LogHelper.e(TAG, error.getMessage() + "");
                     }
                 }) {
             @Override
@@ -127,63 +135,51 @@ public class HttpHelper {
     }
 
     /**
-     * Make a POST request and return a string
+     * Create Http POST request with additional headers
      *
      * @param url        URL of the request to make
      * @param headers    Additional http header of the request to make
      * @param parameters Parameters of the request to make
-     * @param listener   Listener of the response from request
+     * @param callback   Callback of the response from request
      */
-    public <T> void post(final String url, HashMap<String, String> headers, final Map<String, String> parameters, final ServiceListener<T> listener) {
+    public <T> void post(String url, HashMap<String, String> headers, Map<String, String> parameters, final ServiceListener<T> callback) {
         httpHeader.putAll(headers);
-        post(url, parameters, listener);
+        post(url, parameters, callback);
     }
 
     /**
-     * Make a POST request and return a string
+     * Create Http POST request
      *
      * @param url        URL of the request to make
      * @param parameters Parameters of the request to make
-     * @param listener   Listener of the response from request
+     * @param Callback   Callback of the response from request
      */
-    public <T> void post(final String url, final Map<String, String> parameters, final ServiceListener<T> listener) {
-        if (RestConfigs.defaultFormBody.size() > 0) {
-            for (String key : RestConfigs.defaultFormBody.keySet()) {
-                parameters.put(key, RestConfigs.defaultFormBody.get(key));
-            }
-        }
-
-        String requestHttpPost = "request:" + url;
-        if (parameters.keySet().size() > 0) {
-            requestHttpPost += "\nparameter:";
-
-            for (String key : parameters.keySet()) {
-                requestHttpPost += "\n- " + key + ":" + parameters.get(key) + ",";
-            }
-        }
-        LogHelper.d(TAG, requestHttpPost);
+    public <T> void post(String url, Map<String, String> parameters, final ServiceListener<T> Callback) {
+        final Map<String, String> httpParameter = generateHttpParameter(parameters);
+        printHttpLog(url, httpHeader, parameters);
 
         StringRequest request = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        handleResponse(response, listener);
+                        handleResponse(response, Callback);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         if (error instanceof NoConnectionError) {
-                            listener.onFailed(SeedroidApplication.getInstance().getString(R.string.status_no_connection));
+                            Callback.onFailed(context.getString(R.string.status_no_connection));
+                            LogHelper.e(TAG, error.getLocalizedMessage() + "");
                         } else {
-                            listener.onFailed(error.getLocalizedMessage());
                             try {
-                                listener.onFailed(error.getLocalizedMessage(), error.networkResponse.statusCode, new String(error.networkResponse.data, "UTF-8"));
-                            } catch (UnsupportedEncodingException e) {
-                                e.printStackTrace();
+                                Callback.onFailed(error.getLocalizedMessage());
+                                Callback.onFailed(error.getLocalizedMessage(), error.networkResponse.statusCode, new String(error.networkResponse.data, "UTF-8"));
+                                LogHelper.e(TAG, error.getLocalizedMessage() + "");
+                            } catch (UnsupportedEncodingException ex) {
+                                LogHelper.e(TAG, ex.getLocalizedMessage() + "");
                             }
                         }
-                        LogHelper.e(TAG, error.getMessage() + "");
                     }
                 }
         ) {
@@ -194,7 +190,7 @@ public class HttpHelper {
 
             @Override
             protected Map<String, String> getParams() {
-                return parameters;
+                return httpParameter;
             }
         };
         request.setRetryPolicy(retryPolicy);
@@ -203,65 +199,53 @@ public class HttpHelper {
     }
 
     /**
-     * Make a POST request and return a string
+     * Create Http POST request with additional headers
      *
      * @param url        URL of the request to make
      * @param headers    Additional http header of the request to make
      * @param parameters Parameters of the request to make
      * @param payload    Payload of the request to make
-     * @param listener   Listener of the response from request
+     * @param callback   Callback of the response from request
      */
-    public <T> void post(final String url, HashMap<String, String> headers, final Map<String, String> parameters, JSONObject payload, final ServiceListener<T> listener) {
+    public <T> void post(String url, HashMap<String, String> headers, Map<String, String> parameters, JSONObject payload, ServiceListener<T> callback) {
         httpHeader.putAll(headers);
-        post(url, parameters, payload, listener);
+        post(url, parameters, payload, callback);
     }
 
     /**
-     * Make a POST request and return a string
+     * Create Http POST request
      *
      * @param url        URL of the request to make
      * @param parameters Parameters of the request to make
      * @param payload    Payload of the request to make
-     * @param listener   Listener of the response from request
+     * @param callback   Callback of the response from request
      */
-    public <T> void post(final String url, final Map<String, String> parameters, JSONObject payload, final ServiceListener<T> listener) {
-        if (RestConfigs.defaultFormBody.size() > 0) {
-            for (String key : RestConfigs.defaultFormBody.keySet()) {
-                parameters.put(key, RestConfigs.defaultFormBody.get(key));
-            }
-        }
-
-        String requestHttpPost = "request:" + url;
-        if (parameters.keySet().size() > 0) {
-            requestHttpPost += "\nparameter:";
-
-            for (String key : parameters.keySet()) {
-                requestHttpPost += "\n- " + key + ":" + parameters.get(key) + ",";
-            }
-        }
-        LogHelper.d(TAG, requestHttpPost);
+    public <T> void post(String url, Map<String, String> parameters, JSONObject payload, final ServiceListener<T> callback) {
+        final Map<String, String> httpParameter = generateHttpParameter(parameters);
+        printHttpLog(url, httpHeader, parameters);
 
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, payload,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        handleResponse(response.toString(), listener);
+                        handleResponse(response.toString(), callback);
                     }
                 },
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         if (error instanceof NoConnectionError) {
-                            listener.onFailed(SeedroidApplication.getInstance().getString(R.string.status_no_connection));
+                            callback.onFailed(context.getString(R.string.status_no_connection));
+                            LogHelper.e(TAG, error.getLocalizedMessage() + "");
                         } else {
-                            listener.onFailed(error.getLocalizedMessage());
                             try {
-                                listener.onFailed(error.getLocalizedMessage(), error.networkResponse.statusCode, new String(error.networkResponse.data, "UTF-8"));
-                            } catch (UnsupportedEncodingException e) {
-                                e.printStackTrace();
+                                callback.onFailed(error.getLocalizedMessage());
+                                callback.onFailed(error.getLocalizedMessage(), error.networkResponse.statusCode, new String(error.networkResponse.data, "UTF-8"));
+                                LogHelper.e(TAG, error.getLocalizedMessage() + "");
+                            } catch (UnsupportedEncodingException ex) {
+                                LogHelper.e(TAG, ex.getLocalizedMessage() + "");
                             }
                         }
-                        LogHelper.e(TAG, error.getMessage() + "");
                     }
                 }
         ) {
@@ -272,7 +256,7 @@ public class HttpHelper {
 
             @Override
             protected Map<String, String> getParams() {
-                return parameters;
+                return httpParameter;
             }
         };
         request.setRetryPolicy(retryPolicy);
@@ -281,62 +265,76 @@ public class HttpHelper {
     }
 
     /**
-     * Make a POST multipart request
+     * Create Http POST multipart request with additional headers
      *
      * @param url        URL of the request to make
      * @param headers    Additional http header of the request to make
      * @param parameters Parameters of the request to make
-     * @param delegate   Listener of the response from request
+     * @param callback   Callback of the response from request
      */
-    public void postMultipart(String url, HashMap<String, String> headers, Map<String, String> parameters, UploadStatusDelegate delegate) {
+    public void postMultipart(String url, HashMap<String, String> headers, Map<String, String> parameters, ServiceMultipartListener callback) {
         httpHeader.putAll(headers);
-        postMultipart(url, parameters, delegate);
+        postMultipart(url, parameters, callback);
     }
 
     /**
-     * Make a POST multipart request
+     * Create Http POST multipart request
      *
      * @param url        URL of the request to make
      * @param parameters Parameters of the request to make
-     * @param delegate   Listener of the response from request
+     * @param callback   Callback of the response from request
      */
-    public void postMultipart(String url, Map<String, String> parameters, UploadStatusDelegate delegate) {
-        if (RestConfigs.defaultFormBody.size() > 0) {
-            for (String key : RestConfigs.defaultFormBody.keySet()) {
-                parameters.put(key, RestConfigs.defaultFormBody.get(key));
-            }
-        }
-
-        String requestHttpPost = "request:" + url;
-        if (parameters.keySet().size() > 0) {
-            requestHttpPost += "\nparameter:";
-
-            for (String key : parameters.keySet()) {
-                requestHttpPost += "\n-" + key.replace("file-", "") + ":" + parameters.get(key) + ",";
-            }
-        }
-        LogHelper.d(TAG, requestHttpPost);
-
+    public void postMultipart(String url, Map<String, String> parameters, final ServiceMultipartListener callback) {
         try {
-            MultipartUploadRequest request = new MultipartUploadRequest(SeedroidApplication.getInstance(), UUID.randomUUID().toString(), url);
+            MultipartUploadRequest request = new MultipartUploadRequest(context, UUID.randomUUID().toString(), url);
 
             for (String key : httpHeader.keySet()) {
                 request.addHeader(key, httpHeader.get(key));
             }
 
-            request.setDelegate(delegate);
+            request.setDelegate(new UploadStatusDelegate() {
+                @Override
+                public void onProgress(UploadInfo uploadInfo) {
+                    callback.onProgress(uploadInfo.getProgressPercent(), uploadInfo.getUploadedBytes(), uploadInfo.getUploadRate());
+                    LogHelper.i(TAG, "file : " + uploadInfo.getUploadId()
+                            + "\nprogress : " + uploadInfo.getProgressPercent()
+                            + "\nbyte     : " + uploadInfo.getUploadedBytes()
+                            + "\nrate     : " + uploadInfo.getUploadRate());
+                }
 
-            for (String key : parameters.keySet()) {
+                @Override
+                public void onError(UploadInfo uploadInfo, Exception exception) {
+                    callback.onFailed(exception.getLocalizedMessage());
+                    LogHelper.e(TAG, exception.getLocalizedMessage() + "");
+                }
+
+                @Override
+                public void onCompleted(UploadInfo uploadInfo, ServerResponse serverResponse) {
+                    handleResponse(serverResponse.getBodyAsString(), callback);
+                }
+
+                @Override
+                public void onCancelled(UploadInfo uploadInfo) {
+                    callback.onCanceled();
+                    LogHelper.e(TAG, context.getString(R.string.status_canceled));
+                }
+            });
+
+            Map<String, String> httpParameter = generateHttpParameter(parameters);
+
+            for (String key : httpParameter.keySet()) {
                 if (key.startsWith("file-")) {
-                    request.addFileToUpload(parameters.get(key), key.replace("file-", ""));
+                    request.addFileToUpload(httpParameter.get(key), key.replace("file-", ""));
                 } else {
-                    request.addParameter(key, parameters.get(key));
+                    request.addParameter(key, httpParameter.get(key));
                 }
             }
 
+            printHttpLog(url, httpHeader, httpParameter);
+
             request.startUpload();
-        } catch (Exception e) {
-            LogHelper.e(TAG, e.getMessage() + "");
+        } catch (Exception ex) {
+            LogHelper.e(TAG, ex.getLocalizedMessage() + "");
         }
     }
 
@@ -344,20 +342,58 @@ public class HttpHelper {
         getRequestQueue().add(request);
     }
 
-    public RequestQueue getRequestQueue() {
+    private RequestQueue getRequestQueue() {
         if (requestQueue == null) {
-            requestQueue = Volley.newRequestQueue(SeedroidApplication.getInstance());
+            requestQueue = Volley.newRequestQueue(context);
         }
         return requestQueue;
     }
 
-    private <T> void handleResponse(String response, ServiceListener<T> listener) {
+    private Map<String, String> generateHttpParameter(Map<String, String> parameters) {
+        if (RestConfigs.defaultFormBody.size() > 0) {
+            for (String key : RestConfigs.defaultFormBody.keySet()) {
+                parameters.put(key, RestConfigs.defaultFormBody.get(key));
+            }
+        }
+        return parameters;
+    }
+
+    private void printHttpLog(String url, HashMap<String, String> headers, Map<String, String> parameters) {
+        String requestHttpPost = "request : " + url;
+        if (headers.keySet().size() > 0) {
+            requestHttpPost += "\nheaders : ";
+
+            for (String key : headers.keySet()) {
+                requestHttpPost += "\n-" + key + " : " + parameters.get(key) + ",";
+            }
+        }
+        if (parameters.keySet().size() > 0) {
+            requestHttpPost += "\nparameter : ";
+
+            for (String key : parameters.keySet()) {
+                requestHttpPost += "\n- " + key + " : " + parameters.get(key) + ",";
+            }
+        }
+        LogHelper.i(TAG, requestHttpPost);
+    }
+
+    private <T> void handleResponse(String response, ServiceListener<T> callback) {
         try {
-            Class<T> valueType = listener.getType();
-            listener.onSuccess(JsonHelper.getInstance().toObject(response, valueType));
-        } catch (Exception e) {
-            listener.onFailed(SeedroidApplication.getInstance().getString(R.string.status_failed));
-            LogHelper.e(TAG, e.getMessage() + "");
+            Class<T> valueType = callback.getType();
+            callback.onSuccess(JsonHelper.getInstance().toObject(response, valueType));
+        } catch (Exception ex) {
+            callback.onFailed(ex.getLocalizedMessage());
+            LogHelper.e(TAG, ex.getLocalizedMessage() + "");
+        }
+    }
+
+    private <T> void handleResponse(String response, ServiceMultipartListener<T> callback) {
+        try {
+            Class<T> valueType = callback.getType();
+            callback.onSuccess(JsonHelper.getInstance().toObject(response, valueType));
+        } catch (Exception ex) {
+            callback.onFailed(ex.getLocalizedMessage());
+            LogHelper.e(TAG, ex.getLocalizedMessage() + "");
         }
     }
 }

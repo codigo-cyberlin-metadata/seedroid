@@ -14,8 +14,16 @@
 
     <!--string resource for error text-->
     <string name="text_error_empty">Field can\'t be blank</string>
-    <string name="text_error_invalid_email">Email address not valid</string>
+    <string name="text_error_invalid_email">Invalid email address</string>
+    <string name="text_error_invalid_username">Invalid username</string>
+    <string name="text_error_invalid_url">Invalid url</string>
     <string name="text_error_invalid_password_length">Password less than 6</string>
     <string name="text_error_invalid_password_confirmation">Password confirmation not valid</string>
+    <string name="text_error_invalid_password_not_equal">Passwords are not equal</string>
     <string name="text_error_invalid_phone">Phone number not valid</string>
+    <string name="text_error_invalid_date">Invalid date format</string>
+    <string name="text_error_invalid_regex">Invalid format</string>
+    <string name="text_error_invalid_min_length">Invalid field. The minimum number of characters %1$d</string>
+    <string name="text_error_invalid_max_length">Invalid field. The maximum number of characters %1$d</string>
+
 </resources>
