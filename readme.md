@@ -247,7 +247,61 @@ com.github.codigo-cyberlin-metadata:seedroid:v0.0.1-SNAP
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
  -->
+## Tips And Guide
+* **google-service.json**
 
+if you find issue google-service.json not found you can add inside main folder your project by copy or download from there:
+```
+[google-services.json](https://github.com/codigo-cyberlin-metadata/seedroid/blob/master/framework/google-services.json)
+
+```
+dont forget to change package name inside client array on your copy of google-service.json
+```
+  ....
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "",
+        "android_client_info": {
+          "package_name": "YOUR_PACKAGE"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "YOUR_PACKAGE",
+            "certificate_hash": "91032F56C31F349C83BDEA0BE379D1DA9BF94811"
+          }
+        },
+        {
+          "client_id": "",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": ""
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  ....
+```
+and if you use 2 build variant u can add 2 client inside array client with different package name
 ## Acknowledgments
 **This framework inspired from there:**
 

@@ -39,14 +39,14 @@ public class ValidatorBindingHelper {
     public void toValidate() {
         if (validationListener == null) throw new IllegalArgumentException("Validation listener should not be null.");
 
-        if (validate()) {
+        if (validates()) {
             validationListener.onValidationSuccess();
         } else {
             validationListener.onValidationError();
         }
     }
 
-    public boolean validate() {
+    public boolean validates() {
         List<View> viewWithValidations = getViewsWithValidation();
         return isAllViewsValid(viewWithValidations);
     }
@@ -56,7 +56,7 @@ public class ValidatorBindingHelper {
         return isAllViewsValid(viewWithValidations);
     }
 
-    public <ViewType extends View> boolean validate(List<ViewType> views) {
+    public <ViewType extends View> boolean validateList(List<ViewType> views) {
         List<View> viewWithValidations = getViewsWithValidation(views);
         return isAllViewsValid(viewWithValidations);
     }
