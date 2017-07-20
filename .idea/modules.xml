@@ -5,7 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/Seedroid.iml" filepath="$PROJECT_DIR$/Seedroid.iml" />
       <module fileurl="file://$PROJECT_DIR$/framework/framework.iml" filepath="$PROJECT_DIR$/framework/framework.iml" />
       <module fileurl="file://$PROJECT_DIR$/seedroid.iml" filepath="$PROJECT_DIR$/seedroid.iml" />
-      <module fileurl="file://$PROJECT_DIR$/validation/validation.iml" filepath="$PROJECT_DIR$/validation/validation.iml" />
     </modules>
   </component>
 </project>
