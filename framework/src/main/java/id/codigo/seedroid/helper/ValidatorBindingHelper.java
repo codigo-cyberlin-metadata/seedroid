@@ -47,10 +47,44 @@ public class ValidatorBindingHelper {
         this.validationListener = validationListener;
     }
 
-    public void toValidate() {
+    public void validatesCallback() {
         if (validationListener == null) throw new IllegalArgumentException("Validation listener should not be null.");
 
         if (validates()) {
+            if (successMessage!=null){
+                validationListener.onValidationSuccess(successMessage);
+            }else {
+                validationListener.onValidationSuccess("");
+            }
+        } else {
+            if(failMessage!=null) {
+                validationListener.onValidationError(failMessage);
+            }else{
+                validationListener.onValidationError("");
+            }
+        }
+    }
+    public void validateCallback(View v) {
+        if (validationListener == null) throw new IllegalArgumentException("Validation listener should not be null.");
+
+        if (validate(v)) {
+            if (successMessage!=null){
+                validationListener.onValidationSuccess(successMessage);
+            }else {
+                validationListener.onValidationSuccess("");
+            }
+        } else {
+            if(failMessage!=null) {
+                validationListener.onValidationError(failMessage);
+            }else{
+                validationListener.onValidationError("");
+            }
+        }
+    }
+    public <ViewType extends View> void validateListCallback(List<ViewType> v) {
+        if (validationListener == null) throw new IllegalArgumentException("Validation listener should not be null.");
+
+        if (validateList(v)) {
             if (successMessage!=null){
                 validationListener.onValidationSuccess(successMessage);
             }else {
