@@ -1,4 +1,4 @@
-package id.codigo.seedroid.helper;
+package id.codigo.validation.helper;
 
 import android.databinding.ViewDataBinding;
 import android.view.View;
@@ -9,9 +9,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import id.codigo.seedroid.R;
-import id.codigo.seedroid.validation.rules.Rule;
-import id.codigo.seedroid.validation.utils.ViewTagHelper;
+import id.codigo.validation.R;
+import id.codigo.validation.validation.rules.Rule;
+import id.codigo.validation.validation.utils.ViewTagHelper;
 
 /**
  * Created by papahnakal on 07/07/17.
