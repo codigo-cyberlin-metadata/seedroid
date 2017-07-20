@@ -27,9 +27,20 @@ public class ValidatorBindingHelper {
     private int mode = FIELD_VALIDATION_MODE;
     private final Set<View> disabledViews;
 
+    private String failMessage;
+    private String successMessage;
+
     public ValidatorBindingHelper(ViewDataBinding target) {
         this.target = target;
         this.disabledViews = new HashSet<>();
+    }
+    public ValidatorBindingHelper setFailMessage(String message){
+        this.failMessage = message;
+        return this;
+    }
+    public ValidatorBindingHelper setSuccessMessage(String message){
+        this.successMessage = message;
+        return this;
     }
 
     public void setValidationListener(ValidationListener validationListener) {
@@ -40,9 +51,17 @@ public class ValidatorBindingHelper {
         if (validationListener == null) throw new IllegalArgumentException("Validation listener should not be null.");
 
         if (validates()) {
-            validationListener.onValidationSuccess();
+            if (successMessage!=null){
+                validationListener.onValidationSuccess(successMessage);
+            }else {
+                validationListener.onValidationSuccess("");
+            }
         } else {
-            validationListener.onValidationError();
+            if(failMessage!=null) {
+                validationListener.onValidationError(failMessage);
+            }else{
+                validationListener.onValidationError("");
+            }
         }
     }
 
@@ -115,8 +134,8 @@ public class ValidatorBindingHelper {
 
     public interface ValidationListener {
 
-        void onValidationSuccess();
+        void onValidationSuccess(String message);
 
-        void onValidationError();
+        void onValidationError(String message);
     }
 }
