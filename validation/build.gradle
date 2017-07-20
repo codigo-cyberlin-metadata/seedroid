@@ -32,6 +32,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    defaultPublishConfig 'release'
+    publishNonDefault true
+    productFlavors {
+        library {
+            /* This strange empty flavour is actually needed
+               for the step 3 to be successful               */
+        }
+    }
 }
 repositories {
     jcenter()
