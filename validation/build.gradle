@@ -37,7 +37,9 @@ repositories {
     jcenter()
     mavenCentral()
 }
-
+tasks.withType(Test) {
+    jvmArgs '-Dorg.gradle.jvmargs="-Xmx2048m -XX:MaxPermSize=1024m -Xms512m -XX:+HeapDumpOnOutOfMemoryError"'
+}
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }
