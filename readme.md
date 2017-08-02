@@ -232,11 +232,18 @@ Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c6
 
 ## Versioning
 
-- **Version 0.0.1-SNAP is available (Prerelease/Develop)** 
+- **Version 0.0.8-SNAP for framework is available (framework)** 
 ```
-com.github.codigo-cyberlin-metadata:seedroid:v0.0.1-SNAP
+ compile 'com.github.codigo-cyberlin-metadata.seedroid:framework:v0.0.8-SNAP'
 ```
-
+- **Version 0.0.8-SNAP for validator is available (seedroid-validator)** 
+```
+  compile 'com.github.codigo-cyberlin-metadata.seedroid:seedroid-validator:v0.0.8-SNAP'
+```
+- **Version 0.0.8-SNAP for image picker is available (seedroid-picker)** 
+```
+  compile 'com.github.codigo-cyberlin-metadata.seedroid:seedroid-picker:v0.0.8-SNAP'
+```
 ## Authors
 
 * **codigo-cyberlin-metadata** 
