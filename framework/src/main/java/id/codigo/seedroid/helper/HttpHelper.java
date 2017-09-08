@@ -3,6 +3,7 @@ package id.codigo.seedroid.helper;
 import android.content.Context;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NoConnectionError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -121,6 +122,8 @@ public class HttpHelper {
                                 LogHelper.e(TAG, error.getLocalizedMessage() + "");
                             } catch (UnsupportedEncodingException ex) {
                                 LogHelper.e(TAG, ex.getLocalizedMessage() + "");
+                            } catch (Exception e){
+                                LogHelper.e(TAG, e.getLocalizedMessage() + "");
                             }
                         }
                     }
@@ -130,7 +133,8 @@ public class HttpHelper {
                 return httpHeader;
             }
         };
-        request.setRetryPolicy(retryPolicy);
+        //request.setRetryPolicy(retryPolicy);
+        request.setRetryPolicy(new DefaultRetryPolicy(this.retryPolicy.getCurrentTimeout() * 1000, this.retryPolicy.getCurrentRetryCount(), DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         addToRequestQueue(request);
     }
 
@@ -178,6 +182,8 @@ public class HttpHelper {
                                 LogHelper.e(TAG, error.getLocalizedMessage() + "");
                             } catch (UnsupportedEncodingException ex) {
                                 LogHelper.e(TAG, ex.getLocalizedMessage() + "");
+                            } catch (Exception e){
+                                LogHelper.e(TAG, e.getLocalizedMessage() + "");
                             }
                         }
                     }
@@ -193,7 +199,8 @@ public class HttpHelper {
                 return httpParameter;
             }
         };
-        request.setRetryPolicy(retryPolicy);
+        //request.setRetryPolicy(retryPolicy);
+        request.setRetryPolicy(new DefaultRetryPolicy(this.retryPolicy.getCurrentTimeout() * 1000, this.retryPolicy.getCurrentRetryCount(), DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         request.setTag(url);
         addToRequestQueue(request);
     }
@@ -244,6 +251,8 @@ public class HttpHelper {
                                 LogHelper.e(TAG, error.getLocalizedMessage() + "");
                             } catch (UnsupportedEncodingException ex) {
                                 LogHelper.e(TAG, ex.getLocalizedMessage() + "");
+                            } catch (Exception e){
+                                LogHelper.e(TAG, e.getLocalizedMessage() + "");
                             }
                         }
                     }
@@ -259,7 +268,8 @@ public class HttpHelper {
                 return httpParameter;
             }
         };
-        request.setRetryPolicy(retryPolicy);
+        //request.setRetryPolicy(retryPolicy);
+        request.setRetryPolicy(new DefaultRetryPolicy(this.retryPolicy.getCurrentTimeout() * 1000, this.retryPolicy.getCurrentRetryCount(), DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         request.setTag(url);
         addToRequestQueue(request);
     }
