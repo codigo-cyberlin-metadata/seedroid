@@ -1,1 +1,1 @@
-include ':framework', ':seedroid-validator', ':seedroid-picker'
+include ':framework', ':seedroid-validator', ':seedroid-picker', ':seedroid-core'
