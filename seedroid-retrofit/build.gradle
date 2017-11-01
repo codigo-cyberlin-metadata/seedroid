@@ -1,24 +1,21 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
-//group='com.github.codigo-cyberlin-metadata'
 def GroupId = 'id.codigo.seedroid'
-def ArtifactId = 'seedroid-validator'
-def Version = '0.0.1'
+def ArtifactId = 'seedroid-retrofit'
+def Version = '0.0.4'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.1"
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
-        versionName "0.0.1"
+        versionName "0.0.4"
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
     buildTypes {
@@ -27,22 +24,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    packagingOptions {
-        pickFirst 'META-INF/LICENSE'
-    }
-    dataBinding {
-        enabled = true
-    }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.android.support:design:25.3.1'
-    testCompile 'junit:junit:4.12'
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.5.0'
+    compile 'com.squareup.okhttp3:okhttp:3.9.0'
 }
 publishing {
     publications {
@@ -63,7 +52,7 @@ publishing {
                     dependencyNode.appendNode('version', it.version)
                 }
             }*/
-            artifact("$buildDir/outputs/aar/seedroid-validator-release.aar")
+            artifact("$buildDir/outputs/aar/seedroid-retrofit-release.aar")
             //from components.java
         }
     }
@@ -90,5 +79,4 @@ artifactory {
         }
     }
 }
-
 
