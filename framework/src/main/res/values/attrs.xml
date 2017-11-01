@@ -6,4 +6,17 @@
         <attr name="emptyBackground" format="reference" />
         <attr name="listBackground" format="reference" />
     </declare-styleable>
+    <declare-styleable name="TabItem">
+        <attr name="tab_icon" format="reference"/>
+        <attr name="tab_text" format="string"/>
+        <attr name="tab_text_color" format="color"/>
+        <attr name="unselected_tab_text_color" format="color"/>
+        <attr name="unselected_tab_icon" format="reference"/>
+    </declare-styleable>
+    <declare-styleable name="BottomNavigation">
+        <attr name="mode" format="integer">
+            <enum name="tablet" value="1"/>
+            <enum name="phone" value="0"/>
+        </attr>
+    </declare-styleable>
 </resources>

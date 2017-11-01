@@ -3,13 +3,17 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="distributionType" value="LOCAL" />
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="gradleHome" value="C:\Program Files\Android\Android Studio\gradle\gradle-2.14.1" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/framework" />
+            <option value="$PROJECT_DIR$/seedroid-core" />
+            <option value="$PROJECT_DIR$/seedroid-mediapicker" />
+            <option value="$PROJECT_DIR$/seedroid-picker" />
+            <option value="$PROJECT_DIR$/seedroid-retrofit" />
+            <option value="$PROJECT_DIR$/seedroid-validator" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
