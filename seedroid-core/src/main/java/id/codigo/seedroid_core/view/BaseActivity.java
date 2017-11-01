@@ -1,4 +1,4 @@
-package id.codigo.seedroid_core.activity;
+package id.codigo.seedroid_core.view;
 
 import android.os.Bundle;
 import android.databinding.DataBindingUtil;

@@ -1,4 +1,4 @@
-package id.codigo.seedroid_core.fragment;
+package id.codigo.seedroid_core.view;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;

@@ -1,10 +1,10 @@
 apply plugin: 'com.android.library'
-/*apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
+
 def GroupId = 'id.codigo.seedroid'
 def ArtifactId = 'seedroid-mediapicker'
-def Version = '1.0.0'*/
+def Version = '0.0.1'
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.1"
@@ -13,7 +13,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 26
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
 
     }
     buildTypes {
@@ -30,13 +30,13 @@ dependencies {
     compile 'com.edmodo:cropper:1.0.1'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
 }
-/*publishing {
+publishing {
     publications {
         aar(MavenPublication) {
             groupId GroupId
             version Version
             artifactId ArtifactId
-            artifact("$buildDir/outputs/aar/seedroid-validator-release.aar")
+            artifact("$buildDir/outputs/aar/seedroid-mediapicker-release.aar")
         }
     }
 }
@@ -61,4 +61,4 @@ artifactory {
             publishPom = true
         }
     }
-}*/
+}
