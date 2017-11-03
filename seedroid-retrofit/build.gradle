@@ -4,7 +4,7 @@ apply plugin: 'maven-publish'
 
 def GroupId = 'id.codigo.seedroid'
 def ArtifactId = 'seedroid-retrofit'
-def Version = '0.0.4'
+def Version = '0.0.5'
 
 android {
     compileSdkVersion 26
@@ -14,7 +14,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 26
         versionCode 1
-        versionName "0.0.4"
+        versionName "0.0.5"
 
 
     }
@@ -30,7 +30,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.2.0'
-    compile 'com.squareup.okhttp3:logging-interceptor:3.5.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.9.0'
     compile 'com.squareup.okhttp3:okhttp:3.9.0'
 }
 publishing {

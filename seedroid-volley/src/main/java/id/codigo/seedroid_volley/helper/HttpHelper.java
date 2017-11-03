@@ -26,8 +26,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import id.codigo.seedroid_core.SeedroidApplication;
 import id.codigo.seedroid_volley.R;
-import id.codigo.seedroid_volley.SeedroidVolleyApplication;
 import id.codigo.seedroid_volley.configs.RestConfigs;
 import id.codigo.seedroid_volley.service.ServiceListener;
 import id.codigo.seedroid_volley.service.ServiceMultipartListener;
@@ -61,7 +61,7 @@ public class HttpHelper {
     };
 
     private HttpHelper() {
-        context = SeedroidVolleyApplication.getInstance();
+        context = SeedroidApplication.getInstance();
         requestQueue = getRequestQueue();
 
         if (RestConfigs.isUsingBasicAuth) {

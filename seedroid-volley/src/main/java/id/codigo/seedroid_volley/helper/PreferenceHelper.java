@@ -3,7 +3,7 @@ package id.codigo.seedroid_volley.helper;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import id.codigo.seedroid_volley.SeedroidVolleyApplication;
+import id.codigo.seedroid_core.SeedroidApplication;
 
 /**
  * Created by Low on 11/1/17.
@@ -13,7 +13,7 @@ public class PreferenceHelper {
     private SharedPreferences preferences;
 
     public PreferenceHelper() {
-        preferences = PreferenceManager.getDefaultSharedPreferences(SeedroidVolleyApplication.getInstance());
+        preferences = PreferenceManager.getDefaultSharedPreferences(SeedroidApplication.getInstance());
     }
 
     public static PreferenceHelper getInstance() {

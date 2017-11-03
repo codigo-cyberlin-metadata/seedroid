@@ -1,17 +1,17 @@
-package id.codigo.seedroid_volley;
+package id.codigo.seedroid_core;
 
 import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
 /**
- * Created by Low on 11/1/17.
+ * Created by papahnakal on 03/11/17.
  */
 
-public class SeedroidVolleyApplication extends MultiDexApplication {
-    private static SeedroidVolleyApplication instance;
+public class SeedroidApplication extends MultiDexApplication {
+    private static SeedroidApplication instance;
 
-    public static synchronized SeedroidVolleyApplication getInstance() {
+    public static synchronized SeedroidApplication getInstance() {
         return instance;
     }
 

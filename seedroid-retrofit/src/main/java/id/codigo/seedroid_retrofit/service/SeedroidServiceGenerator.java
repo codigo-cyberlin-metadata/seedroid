@@ -1,4 +1,4 @@
-package id.codigo.seedroid_retrofit;
+package id.codigo.seedroid_retrofit.service;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

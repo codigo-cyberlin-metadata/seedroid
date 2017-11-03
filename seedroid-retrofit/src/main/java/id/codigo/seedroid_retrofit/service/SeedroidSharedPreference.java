@@ -1,4 +1,4 @@
-package id.codigo.seedroid_retrofit;
+package id.codigo.seedroid_retrofit.service;
 
 import android.content.Context;
 import android.content.SharedPreferences;

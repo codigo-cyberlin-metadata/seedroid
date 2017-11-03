@@ -1,4 +1,4 @@
-package id.codigo.seedroid_retrofit;
+package id.codigo.seedroid_retrofit.service;
 
 /**
  * Created by papahnakal on 31/10/17.
