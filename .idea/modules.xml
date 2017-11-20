@@ -8,6 +8,7 @@
       <module fileurl="file://$PROJECT_DIR$/seedroid-mediapicker/seedroid-mediapicker.iml" filepath="$PROJECT_DIR$/seedroid-mediapicker/seedroid-mediapicker.iml" />
       <module fileurl="file://$PROJECT_DIR$/seedroid-picker/seedroid-picker.iml" filepath="$PROJECT_DIR$/seedroid-picker/seedroid-picker.iml" />
       <module fileurl="file://$PROJECT_DIR$/seedroid-retrofit/seedroid-retrofit.iml" filepath="$PROJECT_DIR$/seedroid-retrofit/seedroid-retrofit.iml" />
+      <module fileurl="file://$PROJECT_DIR$/seedroid-ui/seedroid-ui.iml" filepath="$PROJECT_DIR$/seedroid-ui/seedroid-ui.iml" />
       <module fileurl="file://$PROJECT_DIR$/seedroid-validator/seedroid-validator.iml" filepath="$PROJECT_DIR$/seedroid-validator/seedroid-validator.iml" />
       <module fileurl="file://$PROJECT_DIR$/seedroid-volley/seedroid-volley.iml" filepath="$PROJECT_DIR$/seedroid-volley/seedroid-volley.iml" />
     </modules>
