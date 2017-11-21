@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/SEEDROID.iml" filepath="$PROJECT_DIR$/.idea/SEEDROID.iml" />
       <module fileurl="file://$PROJECT_DIR$/framework/framework.iml" filepath="$PROJECT_DIR$/framework/framework.iml" />
-      <module fileurl="file://$PROJECT_DIR$/seedroid.iml" filepath="$PROJECT_DIR$/seedroid.iml" />
       <module fileurl="file://$PROJECT_DIR$/seedroid-core/seedroid-core.iml" filepath="$PROJECT_DIR$/seedroid-core/seedroid-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/seedroid-mediapicker/seedroid-mediapicker.iml" filepath="$PROJECT_DIR$/seedroid-mediapicker/seedroid-mediapicker.iml" />
       <module fileurl="file://$PROJECT_DIR$/seedroid-picker/seedroid-picker.iml" filepath="$PROJECT_DIR$/seedroid-picker/seedroid-picker.iml" />
