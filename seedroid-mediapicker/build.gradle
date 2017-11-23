@@ -6,12 +6,12 @@ def GroupId = 'id.codigo.seedroid'
 def ArtifactId = 'seedroid-mediapicker'
 def Version = '0.0.1'
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    compileSdkVersion compileSdkVERSION
+    buildToolsVersion buildToolVERSION
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 26
+        minSdkVersion minSdkVERSION
+        targetSdkVersion targetSdkVERSION
         versionCode 1
         versionName "0.0.1"
 
@@ -26,7 +26,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:26.+'
+    compile "com.android.support:appcompat-v7:${supportVERSION}"
     compile 'com.edmodo:cropper:1.0.1'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
 }

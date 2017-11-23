@@ -1,1 +1,1 @@
-include ':framework', ':seedroid-validator', ':seedroid-picker', ':seedroid-core', ':seedroid-mediapicker', ':seedroid-retrofit', ':seedroid-volley', ':seedroid-ui'
+include ':framework', ':seedroid-validator', ':seedroid-picker', ':seedroid-core', ':seedroid-mediapicker', ':seedroid-retrofit', ':seedroid-volley', ':seedroid-uikit'

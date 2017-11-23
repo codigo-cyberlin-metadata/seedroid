@@ -7,15 +7,15 @@ def ArtifactId = 'seedroid-volley'
 def Version = '0.0.2'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion compileSdkVERSION
+    buildToolsVersion buildToolVERSION
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 25
+        minSdkVersion minSdkVERSION
+        targetSdkVersion targetSdkVERSION
         multiDexEnabled true
         versionCode 1
-        versionName "0.0.2"
+        versionName Version
 
 
     }

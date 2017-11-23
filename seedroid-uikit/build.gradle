@@ -3,37 +3,33 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'maven-publish'
 
 def GroupId = 'id.codigo.seedroid'
-def ArtifactId = 'seedroid-ui'
+def ArtifactId = 'seedroid-uikit'
 def Version = '0.0.1'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    compileSdkVersion compileSdkVERSION
+    buildToolsVersion buildToolVERSION
+
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 26
+        minSdkVersion minSdkVERSION
+        targetSdkVersion targetSdkVERSION
         versionCode 1
-        versionName "0.0.1"
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        versionName Version
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile 'com.android.support:appcompat-v7:26.+'
-    testCompile 'junit:junit:4.12'
+    compile "com.android.support:appcompat-v7:${supportVERSION}"
 }
 publishing {
     publications {
@@ -54,7 +50,7 @@ publishing {
                     dependencyNode.appendNode('version', it.version)
                 }
             }*/
-            artifact("$buildDir/outputs/aar/seedroid-core-release.aar")
+            artifact("$buildDir/outputs/aar/seedroid-uikit-release.aar")
             //from components.java
         }
     }

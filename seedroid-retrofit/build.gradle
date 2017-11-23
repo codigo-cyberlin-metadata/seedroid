@@ -7,14 +7,14 @@ def ArtifactId = 'seedroid-retrofit'
 def Version = '0.0.5'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    compileSdkVersion compileSdkVERSION
+    buildToolsVersion buildToolVERSION
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 26
+        minSdkVersion minSdkVERSION
+        targetSdkVersion targetSdkVERSION
         versionCode 1
-        versionName "0.0.5"
+        versionName Version
 
 
     }
