@@ -1,0 +1,186 @@
+[
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/select_dialog_singlechoice_material.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/aa761fee515c86a71bb8d7ce15ac911f/res/layout/select_dialog_singlechoice_material.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/notification_action_tombstone.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/support-compat-26.1.0.aar/0fd00079ff39f90335f02057338b0ef7/res/layout/notification_action_tombstone.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/abc_alert_dialog_material.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/aa761fee515c86a71bb8d7ce15ac911f/res/layout/abc_alert_dialog_material.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/abc_list_menu_item_icon.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/aa761fee515c86a71bb8d7ce15ac911f/res/layout/abc_list_menu_item_icon.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/notification_template_media.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.1.0.aar/4b13babaa38eb2b8b198ad2d152929ca/res/layout/notification_template_media.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/notification_action.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/support-compat-26.1.0.aar/0fd00079ff39f90335f02057338b0ef7/res/layout/notification_action.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/notification_template_part_time.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/support-compat-26.1.0.aar/0fd00079ff39f90335f02057338b0ef7/res/layout/notification_template_part_time.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/abc_search_dropdown_item_icons_2line.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/aa761fee515c86a71bb8d7ce15ac911f/res/layout/abc_search_dropdown_item_icons_2line.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/abc_dialog_title_material.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/aa761fee515c86a71bb8d7ce15ac911f/res/layout/abc_dialog_title_material.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/notification_template_big_media_narrow_custom.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.1.0.aar/4b13babaa38eb2b8b198ad2d152929ca/res/layout/notification_template_big_media_narrow_custom.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/abc_action_bar_view_list_nav_layout.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/aa761fee515c86a71bb8d7ce15ac911f/res/layout/abc_action_bar_view_list_nav_layout.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/abc_alert_dialog_button_bar_material.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/aa761fee515c86a71bb8d7ce15ac911f/res/layout/abc_alert_dialog_button_bar_material.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/select_dialog_item_material.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/aa761fee515c86a71bb8d7ce15ac911f/res/layout/select_dialog_item_material.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/abc_list_menu_item_layout.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/aa761fee515c86a71bb8d7ce15ac911f/res/layout/abc_list_menu_item_layout.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/abc_list_menu_item_checkbox.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/aa761fee515c86a71bb8d7ce15ac911f/res/layout/abc_list_menu_item_checkbox.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/notification_template_icon_group.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/support-compat-26.1.0.aar/0fd00079ff39f90335f02057338b0ef7/res/layout/notification_template_icon_group.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/abc_screen_content_include.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/aa761fee515c86a71bb8d7ce15ac911f/res/layout/abc_screen_content_include.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/abc_popup_menu_item_layout.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/aa761fee515c86a71bb8d7ce15ac911f/res/layout/abc_popup_menu_item_layout.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/notification_template_big_media_narrow.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.1.0.aar/4b13babaa38eb2b8b198ad2d152929ca/res/layout/notification_template_big_media_narrow.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/abc_action_menu_layout.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/aa761fee515c86a71bb8d7ce15ac911f/res/layout/abc_action_menu_layout.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/abc_alert_dialog_title_material.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/aa761fee515c86a71bb8d7ce15ac911f/res/layout/abc_alert_dialog_title_material.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/notification_media_action.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.1.0.aar/4b13babaa38eb2b8b198ad2d152929ca/res/layout/notification_media_action.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/abc_activity_chooser_view_list_item.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/aa761fee515c86a71bb8d7ce15ac911f/res/layout/abc_activity_chooser_view_list_item.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/notification_template_lines_media.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.1.0.aar/4b13babaa38eb2b8b198ad2d152929ca/res/layout/notification_template_lines_media.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/abc_screen_simple.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/aa761fee515c86a71bb8d7ce15ac911f/res/layout/abc_screen_simple.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/notification_media_cancel_action.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.1.0.aar/4b13babaa38eb2b8b198ad2d152929ca/res/layout/notification_media_cancel_action.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/abc_action_bar_up_container.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/aa761fee515c86a71bb8d7ce15ac911f/res/layout/abc_action_bar_up_container.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/abc_action_bar_title_item.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/aa761fee515c86a71bb8d7ce15ac911f/res/layout/abc_action_bar_title_item.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/notification_template_part_chronometer.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/support-compat-26.1.0.aar/0fd00079ff39f90335f02057338b0ef7/res/layout/notification_template_part_chronometer.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/notification_template_big_media_custom.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.1.0.aar/4b13babaa38eb2b8b198ad2d152929ca/res/layout/notification_template_big_media_custom.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/abc_popup_menu_header_item_layout.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/aa761fee515c86a71bb8d7ce15ac911f/res/layout/abc_popup_menu_header_item_layout.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/abc_expanded_menu_layout.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/aa761fee515c86a71bb8d7ce15ac911f/res/layout/abc_expanded_menu_layout.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/abc_list_menu_item_radio.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/aa761fee515c86a71bb8d7ce15ac911f/res/layout/abc_list_menu_item_radio.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/abc_action_mode_close_item_material.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/aa761fee515c86a71bb8d7ce15ac911f/res/layout/abc_action_mode_close_item_material.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/notification_template_media_custom.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.1.0.aar/4b13babaa38eb2b8b198ad2d152929ca/res/layout/notification_template_media_custom.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/abc_select_dialog_material.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/aa761fee515c86a71bb8d7ce15ac911f/res/layout/abc_select_dialog_material.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/abc_activity_chooser_view.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/aa761fee515c86a71bb8d7ce15ac911f/res/layout/abc_activity_chooser_view.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/abc_search_view.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/aa761fee515c86a71bb8d7ce15ac911f/res/layout/abc_search_view.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/abc_screen_simple_overlay_action_mode.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/aa761fee515c86a71bb8d7ce15ac911f/res/layout/abc_screen_simple_overlay_action_mode.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/support_simple_spinner_dropdown_item.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/aa761fee515c86a71bb8d7ce15ac911f/res/layout/support_simple_spinner_dropdown_item.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/abc_action_mode_bar.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/aa761fee515c86a71bb8d7ce15ac911f/res/layout/abc_action_mode_bar.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/notification_template_big_media.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.1.0.aar/4b13babaa38eb2b8b198ad2d152929ca/res/layout/notification_template_big_media.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/abc_screen_toolbar.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/aa761fee515c86a71bb8d7ce15ac911f/res/layout/abc_screen_toolbar.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/tooltip.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/aa761fee515c86a71bb8d7ce15ac911f/res/layout/tooltip.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/select_dialog_multichoice_material.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/aa761fee515c86a71bb8d7ce15ac911f/res/layout/select_dialog_multichoice_material.xml"
+    },
+    {
+        "merged": "/home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/build/intermediates/res/merged/release/layout/abc_action_menu_item_layout.xml",
+        "source": "/home/papahnakal/.gradle/caches/transforms-1/files-1.1/appcompat-v7-26.1.0.aar/aa761fee515c86a71bb8d7ce15ac911f/res/layout/abc_action_menu_item_layout.xml"
+    }
+]
