@@ -26,7 +26,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import id.codigo.seedroid_core.SeedroidApplication;
 import id.codigo.seedroid_volley.R;
 import id.codigo.seedroid_volley.configs.RestConfigs;
 import id.codigo.seedroid_volley.service.ServiceListener;
@@ -60,8 +59,8 @@ public class HttpHelper {
         }
     };
 
-    private HttpHelper() {
-        context = SeedroidApplication.getInstance();
+    private HttpHelper(Context ctx) {
+        context = ctx;
         requestQueue = getRequestQueue();
 
         if (RestConfigs.isUsingBasicAuth) {
@@ -75,9 +74,9 @@ public class HttpHelper {
         }
     }
 
-    public static synchronized HttpHelper getInstance() {
+    public static synchronized HttpHelper getInstance(Context ctx) {
         if (instance == null) {
-            instance = new HttpHelper();
+            instance = new HttpHelper(ctx);
         }
         return instance;
     }

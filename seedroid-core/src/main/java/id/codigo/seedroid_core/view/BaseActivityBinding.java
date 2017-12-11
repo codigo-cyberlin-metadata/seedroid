@@ -1,25 +1,31 @@
 package id.codigo.seedroid_core.view;
 
 import android.os.Bundle;
+import android.databinding.DataBindingUtil;
+import android.databinding.ViewDataBinding;
 import android.support.v7.app.AppCompatActivity;
-import id.codigo.seedroid_core.delegate.RootDelegate;
+
+import id.codigo.seedroid_core.delegate.RootDelegateBinding;
 import id.codigo.seedroid_core.presenter.BasePresenter;
 
 /**
- * Created by papahnakal on 11/12/17.
+ * Created by papahnakal on 25/10/17.
  */
 
-public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V>> extends AppCompatActivity implements RootDelegate<V, P>, BaseView {
+public abstract class BaseActivityBinding<B extends ViewDataBinding, V extends BaseView, P extends BasePresenter<V>> extends AppCompatActivity implements RootDelegateBinding<B, V, P>, BaseView {
+    private B viewBinding;
     private P mvpPresenter;
 
-    public BaseActivity() {
+    public BaseActivityBinding() {
 
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        viewBinding = DataBindingUtil.setContentView(this, attachLayout());
         getMvpPresenter().onStartUI();
+
     }
 
     @Override
@@ -61,5 +67,10 @@ public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V
         }
 
         return this.mvpPresenter;
+    }
+
+    @Override
+    public B getViewBinding() {
+        return this.viewBinding;
     }
 }

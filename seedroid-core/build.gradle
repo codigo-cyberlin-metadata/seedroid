@@ -4,7 +4,7 @@ apply plugin: 'maven-publish'
 
 def GroupId = 'id.codigo.seedroid'
 def ArtifactId = 'seedroid-core'
-def Version = '0.0.2'
+def Version = '0.0.3'
 
 android {
     compileSdkVersion compileSdkVERSION
@@ -32,10 +32,6 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile "com.android.support:appcompat-v7:${supportVERSION}"
-    //compile 'com.fasterxml.jackson.core:jackson-annotations:2.9.0.pr2'
-    //compile 'com.fasterxml.jackson.core:jackson-databind:2.9.0.pr2'
-    //compile 'com.android.volley:volley:1.0.0'
-    //compile 'net.gotev:uploadservice:3.0.3'
 }
 publishing {
     publications {
@@ -44,18 +40,6 @@ publishing {
             version Version
             artifactId ArtifactId
             // Tell maven to prepare the generated "*.aar" file for publishing
-
-            /*pom.withXml {
-                def dependenciesNode = asNode().appendNode('dependencies')
-
-                //Iterate over the compile dependencies (we don't want the test ones), adding a <dependency> node for each
-                configurations.compile.allDependencies.each {
-                    def dependencyNode = dependenciesNode.appendNode('dependency')
-                    dependencyNode.appendNode('groupId', it.group)
-                    dependencyNode.appendNode('artifactId', it.name)
-                    dependencyNode.appendNode('version', it.version)
-                }
-            }*/
             artifact("$buildDir/outputs/aar/seedroid-core-release.aar")
             //from components.java
         }

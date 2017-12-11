@@ -4,7 +4,7 @@ apply plugin: 'maven-publish'
 
 def GroupId = 'id.codigo.seedroid'
 def ArtifactId = 'seedroid-volley'
-def Version = '0.0.2'
+def Version = '0.0.3'
 
 android {
     compileSdkVersion compileSdkVERSION
@@ -33,7 +33,6 @@ dependencies {
     compile 'net.gotev:uploadservice:3.0.3'
     compile 'com.fasterxml.jackson.core:jackson-annotations:2.9.0.pr2'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.9.0.pr2'
-    compile project (':seedroid-core')
 }
 publishing {
     publications {

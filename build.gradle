@@ -28,7 +28,7 @@ allprojects {
         minSdkVERSION = 16
         compileSdkVERSION = 26
         buildToolVERSION = "27.0.1" //based on new android SDK version
-        supportVERSION = "27.0.1" //ex : for com.android.support : appCompat version when update
+        supportVERSION = "26.1.0" //ex : for com.android.support : appCompat version when update
     }
 }
 

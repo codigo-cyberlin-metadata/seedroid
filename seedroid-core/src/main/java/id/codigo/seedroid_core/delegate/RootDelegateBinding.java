@@ -6,10 +6,10 @@ import id.codigo.seedroid_core.presenter.BasePresenter;
 import id.codigo.seedroid_core.view.BaseView;
 
 /**
- * Created by papahnakal on 11/12/17.
+ * Created by papahnakal on 25/10/17.
  */
 
-public interface RootDelegate <V extends BaseView, P extends BasePresenter> {
+public interface RootDelegateBinding<B extends ViewDataBinding, V extends BaseView, P extends BasePresenter> {
     /**
      * Function that return id of layout resource
      */
@@ -29,4 +29,5 @@ public interface RootDelegate <V extends BaseView, P extends BasePresenter> {
     /**
      * Getter ViewDataBinding variable
      */
+    B getViewBinding();
 }
