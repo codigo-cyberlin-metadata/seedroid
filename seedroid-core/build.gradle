@@ -4,7 +4,7 @@ apply plugin: 'maven-publish'
 
 def GroupId = 'id.codigo.seedroid'
 def ArtifactId = 'seedroid-core'
-def Version = '0.0.3'
+def Version = '0.0.6'
 
 android {
     compileSdkVersion compileSdkVERSION

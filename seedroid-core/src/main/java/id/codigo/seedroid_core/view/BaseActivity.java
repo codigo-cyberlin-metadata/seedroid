@@ -3,13 +3,13 @@ package id.codigo.seedroid_core.view;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import id.codigo.seedroid_core.delegate.RootDelegate;
-import id.codigo.seedroid_core.presenter.BasePresenter;
+import id.codigo.seedroid_core.presenter.BasePresenterBinding;
 
 /**
  * Created by papahnakal on 11/12/17.
  */
 
-public abstract class BaseActivity<V extends BaseView, P extends BasePresenter<V>> extends AppCompatActivity implements RootDelegate<V, P>, BaseView {
+public abstract class BaseActivity<V extends BaseView, P extends BasePresenterBinding<V>> extends AppCompatActivity implements RootDelegate<V, P>, BaseView {
     private P mvpPresenter;
 
     public BaseActivity() {

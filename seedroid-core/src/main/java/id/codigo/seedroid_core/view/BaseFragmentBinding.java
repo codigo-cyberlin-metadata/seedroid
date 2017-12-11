@@ -12,13 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import id.codigo.seedroid_core.delegate.RootDelegateBinding;
-import id.codigo.seedroid_core.presenter.BasePresenter;
+import id.codigo.seedroid_core.presenter.BasePresenterBinding;
 
 /**
  * Created by papahnakal on 25/10/17.
  */
 
-public abstract class BaseFragmentBinding<B extends ViewDataBinding, V extends BaseView, P extends BasePresenter<V>> extends Fragment implements RootDelegateBinding<B, V, P>, BaseView {
+public abstract class BaseFragmentBinding<B extends ViewDataBinding, V extends BaseView, P extends BasePresenterBinding<V>> extends Fragment implements RootDelegateBinding<B, V, P>, BaseView {
     private B viewBinding;
     private P mvpPresenter;
 

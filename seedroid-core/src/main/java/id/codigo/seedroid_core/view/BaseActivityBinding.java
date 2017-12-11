@@ -6,13 +6,13 @@ import android.databinding.ViewDataBinding;
 import android.support.v7.app.AppCompatActivity;
 
 import id.codigo.seedroid_core.delegate.RootDelegateBinding;
-import id.codigo.seedroid_core.presenter.BasePresenter;
+import id.codigo.seedroid_core.presenter.BasePresenterBinding;
 
 /**
  * Created by papahnakal on 25/10/17.
  */
 
-public abstract class BaseActivityBinding<B extends ViewDataBinding, V extends BaseView, P extends BasePresenter<V>> extends AppCompatActivity implements RootDelegateBinding<B, V, P>, BaseView {
+public abstract class BaseActivityBinding<B extends ViewDataBinding, V extends BaseView, P extends BasePresenterBinding<V>> extends AppCompatActivity implements RootDelegateBinding<B, V, P>, BaseView {
     private B viewBinding;
     private P mvpPresenter;
 
