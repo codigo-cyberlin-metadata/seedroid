@@ -1,9 +1,9 @@
 package id.codigo.seedroid_volley.helper;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import id.codigo.seedroid_volley.SeedroidVolleyApplication;
 
 /**
  * Created by Low on 11/1/17.
@@ -12,13 +12,13 @@ public class PreferenceHelper {
     private static PreferenceHelper instance;
     private SharedPreferences preferences;
 
-    public PreferenceHelper() {
-        preferences = PreferenceManager.getDefaultSharedPreferences(SeedroidVolleyApplication.getInstance());
+    public PreferenceHelper(Context ctx) {
+        preferences = PreferenceManager.getDefaultSharedPreferences(ctx);
     }
 
-    public static PreferenceHelper getInstance() {
+    public static PreferenceHelper getInstance(Context ctx) {
         if (instance == null) {
-            instance = new PreferenceHelper();
+            instance = new PreferenceHelper(ctx);
         }
         return instance;
     }

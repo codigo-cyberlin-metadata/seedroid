@@ -1,5 +1,7 @@
 package id.codigo.seedroid_volley.helper;
 
+import android.content.Context;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -20,22 +22,22 @@ public class AuthHelper {
     /**
      * Check status user logging
      */
-    public static boolean isAuthenticated() {
-        return PreferenceHelper.getInstance().getSessionBoolean(KEY_IS_AUTHENTICATED);
+    public static boolean isAuthenticated(Context ctx) {
+        return PreferenceHelper.getInstance(ctx).getSessionBoolean(KEY_IS_AUTHENTICATED);
     }
 
     /**
      * Set user is logging
      */
-    public static void login() {
-        PreferenceHelper.getInstance().saveSession(KEY_IS_AUTHENTICATED, true);
+    public static void login(Context ctx) {
+        PreferenceHelper.getInstance(ctx).saveSession(KEY_IS_AUTHENTICATED, true);
     }
 
     /**
      * Set user is not logging
      */
-    public static void logout() {
-        PreferenceHelper.getInstance().clear();
+    public static void logout(Context ctx) {
+        PreferenceHelper.getInstance(ctx).clear();
     }
 
     /**
@@ -43,8 +45,8 @@ public class AuthHelper {
      *
      * @param value URL of the request to make
      */
-    public static void saveUserId(String value) {
-        PreferenceHelper.getInstance().saveSession(KEY_USER_ID, value);
+    public static void saveUserId(Context ctx,String value) {
+        PreferenceHelper.getInstance(ctx).saveSession(KEY_USER_ID, value);
     }
 
     /**
@@ -52,8 +54,8 @@ public class AuthHelper {
      *
      * @param value URL of the request to make
      */
-    public static void saveUserAccessToken(String value) {
-        PreferenceHelper.getInstance().saveSession(KEY_USER_ACCESS_TOKEN, value);
+    public static void saveUserAccessToken(Context ctx,String value) {
+        PreferenceHelper.getInstance(ctx).saveSession(KEY_USER_ACCESS_TOKEN, value);
     }
 
     /**
@@ -61,8 +63,8 @@ public class AuthHelper {
      *
      * @param value URL of the request to make
      */
-    public static void saveSignInVia(String value) {
-        PreferenceHelper.getInstance().saveSession(KEY_USER_SIGN_IN_VIA, value);
+    public static void saveSignInVia(Context ctx,String value) {
+        PreferenceHelper.getInstance(ctx).saveSession(KEY_USER_SIGN_IN_VIA, value);
     }
 
     /**
@@ -70,8 +72,8 @@ public class AuthHelper {
      *
      * @param value URL of the request to make
      */
-    public static void savePassword(String value) {
-        PreferenceHelper.getInstance().saveSession(KEY_USER_PASSWORD, value);
+    public static void savePassword(Context ctx,String value) {
+        PreferenceHelper.getInstance(ctx).saveSession(KEY_USER_PASSWORD, value);
     }
 
     /**
@@ -79,11 +81,11 @@ public class AuthHelper {
      *
      * @param value URL of the request to make
      */
-    public static void saveUserAccessTokenExpired(String value) {
+    public static void saveUserAccessTokenExpired(Context ctx,String value) {
         try {
             long expiredDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US).parse(value).getTime();
 
-            PreferenceHelper.getInstance().saveSession(KEY_USER_ACCESS_TOKEN_EXPIRED, expiredDate);
+            PreferenceHelper.getInstance(ctx).saveSession(KEY_USER_ACCESS_TOKEN_EXPIRED, expiredDate);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -94,10 +96,10 @@ public class AuthHelper {
      *
      * @param value URL of the request to make
      */
-    public static <T> void saveUserBasicInfo(T value) {
+    public static <T> void saveUserBasicInfo(Context ctx,T value) {
         try {
             String jsonString = JsonHelper.getInstance().toString(value);
-            PreferenceHelper.getInstance().saveSession(KEY_USER_BASIC_INFO, jsonString);
+            PreferenceHelper.getInstance(ctx).saveSession(KEY_USER_BASIC_INFO, jsonString);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -106,23 +108,23 @@ public class AuthHelper {
     /**
      * Get user id from shared preference
      */
-    public static String getUserId() {
-        return PreferenceHelper.getInstance().getSessionString(KEY_USER_ID);
+    public static String getUserId(Context ctx) {
+        return PreferenceHelper.getInstance(ctx).getSessionString(KEY_USER_ID);
     }
 
     /**
      * Get user access token from shared preference
      */
-    public static String getUserAccessToken() {
-        return PreferenceHelper.getInstance().getSessionString(KEY_USER_ACCESS_TOKEN);
+    public static String getUserAccessToken(Context ctx) {
+        return PreferenceHelper.getInstance(ctx).getSessionString(KEY_USER_ACCESS_TOKEN);
     }
 
     /**
      * Check is user access token is expired
      */
-    public static boolean isUserAccessTokenExpired() {
+    public static boolean isUserAccessTokenExpired(Context ctx) {
         Date currentDate = new Date();
-        Date expireDate = new Date(PreferenceHelper.getInstance().getSessionLong(KEY_USER_ACCESS_TOKEN_EXPIRED));
+        Date expireDate = new Date(PreferenceHelper.getInstance(ctx).getSessionLong(KEY_USER_ACCESS_TOKEN_EXPIRED));
 
         return currentDate.after(expireDate);
     }
@@ -130,23 +132,23 @@ public class AuthHelper {
     /**
      * Get user sign in via from shared preference
      */
-    public static String getSignInVia() {
-        return PreferenceHelper.getInstance().getSessionString(KEY_USER_SIGN_IN_VIA);
+    public static String getSignInVia(Context ctx) {
+        return PreferenceHelper.getInstance(ctx).getSessionString(KEY_USER_SIGN_IN_VIA);
     }
 
     /**
      * Get user password from shared preference
      */
-    public static String getPassword() {
-        return PreferenceHelper.getInstance().getSessionString(KEY_USER_PASSWORD);
+    public static String getPassword(Context ctx) {
+        return PreferenceHelper.getInstance(ctx).getSessionString(KEY_USER_PASSWORD);
     }
 
     /**
      * Get user basic info from shared preference
      */
-    public static <T> T getUserBasicInfo(Class<T> valueType) {
+    public static <T> T getUserBasicInfo(Context ctx, Class<T> valueType) {
         try {
-            String jsonString = PreferenceHelper.getInstance().getSessionString(KEY_USER_BASIC_INFO);
+            String jsonString = PreferenceHelper.getInstance(ctx).getSessionString(KEY_USER_BASIC_INFO);
             return JsonHelper.getInstance().toObject(jsonString, valueType);
         } catch (IOException e) {
             return null;

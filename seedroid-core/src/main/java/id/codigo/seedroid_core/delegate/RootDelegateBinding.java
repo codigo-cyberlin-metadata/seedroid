@@ -1,13 +1,19 @@
 package id.codigo.seedroid_core.delegate;
 
-import id.codigo.seedroid_core.presenter.BasePresenter;
+import android.databinding.ViewDataBinding;
+
+import id.codigo.seedroid_core.presenter.BasePresenterBinding;
 import id.codigo.seedroid_core.view.BaseView;
 
 /**
- * Created by papahnakal on 11/12/17.
+ * Created by papahnakal on 25/10/17.
  */
 
-public interface RootDelegate <V extends BaseView, P extends BasePresenter> {
+public interface RootDelegateBinding<B extends ViewDataBinding, V extends BaseView, P extends BasePresenterBinding> {
+    /**
+     * Function that return id of layout resource
+     */
+    int attachLayout();
     /**
      * Function that return new class of mvpPresenter
      */
@@ -23,4 +29,5 @@ public interface RootDelegate <V extends BaseView, P extends BasePresenter> {
     /**
      * Getter ViewDataBinding variable
      */
+    B getViewBinding();
 }

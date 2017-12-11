@@ -6,7 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="attr/background">@color/colorBackground</item>
         <item name="attr/emptyBackground">@color/colorBackground</item>
         <item name="attr/listBackground">@color/colorBackground</item>
         <item name="attr/noConnectionIcon">@drawable/ic_default_status_no_connection</item>
@@ -14,11 +14,11 @@
     </style>
 
     <style name="BaseDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="android:background">@color/colorBackground</item>
-        <item name="attr/emptyBackground">@color/colorBackground</item>
-        <item name="attr/listBackground">@color/colorBackground</item>
-        <item name="attr/noConnectionIcon">@drawable/ic_default_status_no_connection</item>
-        <item name="attr/failedConnectionIcon">@drawable/ic_default_status_not_found</item>
+        <item name="background">@color/colorBackground</item>
+        <item name="emptyBackground">@color/colorBackground</item>
+        <item name="listBackground">@color/colorBackground</item>
+        <item name="noConnectionIcon">@drawable/ic_default_status_no_connection</item>
+        <item name="failedConnectionIcon">@drawable/ic_default_status_not_found</item>
     </style>
 
     <style name="AppTabLayout" parent="Widget.Design.TabLayout">
@@ -30,7 +30,7 @@
     <style name="AppTabText" parent="TextAppearance.Design.Tab"></style>
 
     <style name="TransparentText" parent="@android:style/TextAppearance">
-        <item name="android:textColor">#00666666</item>
+        <!--<item name="textColor">#00666666</item>-->
     </style>
 
 </resources>

@@ -13,6 +13,7 @@
             <option value="$PROJECT_DIR$/seedroid-mediapicker" />
             <option value="$PROJECT_DIR$/seedroid-picker" />
             <option value="$PROJECT_DIR$/seedroid-retrofit" />
+            <option value="$PROJECT_DIR$/seedroid-uikit" />
             <option value="$PROJECT_DIR$/seedroid-validator" />
             <option value="$PROJECT_DIR$/seedroid-volley" />
           </set>
