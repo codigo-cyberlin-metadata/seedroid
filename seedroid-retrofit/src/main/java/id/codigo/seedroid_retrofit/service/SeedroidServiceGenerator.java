@@ -24,8 +24,83 @@ public class SeedroidServiceGenerator {
     //private static Builder clientBuilder = new Builder();
     private static Retrofit retrofit;
 
+    /**
+     * make call service with auth based on content-type and key header if needed
+     * keyHeader : Authorization, token, x-access-token, x Authorization,
+     * contenttype : application/json or application/x-www-form-urlencoded
+     */
+    public static <S> S create(final String contentType, String HOST, Class<S> serviceClass) {
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl(HOST)
+                .addConverterFactory(GsonConverterFactory.create(gson));
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        httpClient = new OkHttpClient.Builder()
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public Response intercept(Chain chain) throws IOException {
+                        Request original = chain.request();
+                        Request.Builder requestBuilder = original.newBuilder();
+                        if (contentType.equalsIgnoreCase("")){
+                            requestBuilder.header("Content-Type", contentType);
+                        }
+                        requestBuilder.method(original.method(), original.body());
+                        Request request = requestBuilder.build();
+
+                        return chain.proceed(request);
+                    }
+                })
+                .readTimeout(60, TimeUnit.SECONDS)
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .build();
+
+        retrofit = builder.client(httpClient).build();
+        return retrofit.create(serviceClass);
+    }
+
+    /**
+     * make call service with auth based on content-type and key header if needed
+     * keyHeader : Authorization, token, x-access-token, x Authorization,
+     * contenttype : application/json or application/x-www-form-urlencoded
+     */
+    public static <S> S create(final String keyAuth, final String contentType, String HOST, Class<S> serviceClass, final SeedroidSessionManager sessionManager) {
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+        Retrofit.Builder builder = new Retrofit.Builder()
+                .baseUrl(HOST)
+                .addConverterFactory(GsonConverterFactory.create(gson));
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        httpClient = new OkHttpClient.Builder()
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public Response intercept(Chain chain) throws IOException {
+                        Request original = chain.request();
+                        Request.Builder requestBuilder = original.newBuilder();
+                        if (!keyAuth.equalsIgnoreCase("")) {
+                            requestBuilder.header(keyAuth, sessionManager.getAutorization());
+                        }
+                        if (!contentType.equalsIgnoreCase("")){
+                            requestBuilder.header("Content-Type", contentType);
+                        }
+                        requestBuilder.method(original.method(), original.body());
+                        Request request = requestBuilder.build();
+
+                        return chain.proceed(request);
+                    }
+                })
+                .readTimeout(60, TimeUnit.SECONDS)
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .build();
+
+        retrofit = builder.client(httpClient).build();
+        return retrofit.create(serviceClass);
+    }
+
 /**
- * Created service without header and authorization
+ * make call service without authorization
  */
     public static <S> S createService(String HOST,Class<S> serviceClass) {
         Gson gson = new GsonBuilder()
@@ -43,6 +118,7 @@ public class SeedroidServiceGenerator {
         retrofit = builder.client(httpClient).build();
         return retrofit.create(serviceClass);
     }
+
 /**
  * Created service with header form json
  * Content-type : application/json
