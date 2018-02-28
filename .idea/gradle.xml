@@ -8,6 +8,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/automation" />
             <option value="$PROJECT_DIR$/framework" />
             <option value="$PROJECT_DIR$/seedroid-core" />
             <option value="$PROJECT_DIR$/seedroid-makelove" />
