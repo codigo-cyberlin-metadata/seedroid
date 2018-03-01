@@ -3,46 +3,23 @@ package id.codigo.automation;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
-import java.util.List;
-
-import id.codigo.automation.model.MyEntity;
-
-import static id.codigo.automation.AlwaysListTypeAdapterFactory.getAlwaysListTypeAdapterFactory;
+import id.codigo.seedroid_uikit.widget.SeedroidButton;
+import id.codigo.seedroid_uikit.widget.SeedroidRelativeLayout;
+import id.codigo.seedroid_uikit.widget.SeedroidTextView;
 
 public class MainActivity extends AppCompatActivity {
-
+    private SeedroidTextView seedroidTextView;
+    private SeedroidButton seedroidButton;
+    private SeedroidRelativeLayout seedroidRelativeLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        test("");
-        test("{\"id\":1,\"name\":\"name\"}");
-        test("[{\"id\":1,\"name\":\"name\"},{\"id\":1,\"name\":\"name\"}]");
-        test("[]");
+        initView();
     }
-    private static final Type responseItemListType = new TypeToken<List<MyEntity>>() {
-    }.getType();
-
-    private static final Gson gson = new GsonBuilder()
-            .registerTypeAdapterFactory(getAlwaysListTypeAdapterFactory())
-            .create();
-
-    public static void main(final String... args) {
-
-    }
-
-    private static void test(final String incomingJson) {
-        final List<MyEntity> list = gson.fromJson(incomingJson, responseItemListType);
-        System.out.print("LIST=");
-        System.out.println(list);
-        System.out.print("JSON=");
-        gson.toJson(list, responseItemListType, System.out); // no need to create an intermediate string, let it just stream
-        System.out.println();
-        System.out.println("-----------------------------------");
+    private void initView(){
+        seedroidRelativeLayout = findViewById(R.id.rel_login);
+        seedroidTextView = (SeedroidTextView) findViewById(R.id.text_hello);
+        seedroidButton = (SeedroidButton)findViewById(R.id.button_signin);
     }
 }

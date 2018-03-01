@@ -30,6 +30,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile "com.android.support:appcompat-v7:${supportVERSION}"
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.0'
 }
 publishing {
     publications {

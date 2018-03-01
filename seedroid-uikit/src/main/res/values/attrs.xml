@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#000000</color>
-    <declare-styleable name="SeedroidTextView"><attr format="string" name="type_face">
+    <declare-styleable name="SeedroidTextView">
+        <attr name="type_face" format="string">
             <enum name="type_face_small" value="0"/>
             <enum name="type_face_semibold" value="1"/>
             <enum name="type_face_bold" value="2"/>
-        </attr></declare-styleable>
-    <string name="app_name">seedroid-uikit</string>
+        </attr>
+    </declare-styleable>
 </resources>
