@@ -8,7 +8,6 @@ def Version = '0.0.1'
 
 android {
     compileSdkVersion compileSdkVERSION
-    buildToolsVersion buildToolVERSION
 
 
     defaultConfig {
@@ -25,6 +24,7 @@ android {
         }
     }
 
+    buildToolsVersion '27.0.3'
 }
 
 dependencies {
@@ -40,7 +40,7 @@ publishing {
             artifactId ArtifactId
             // Tell maven to prepare the generated "*.aar" file for publishing
 
-            /*pom.withXml {
+            pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
 
                 //Iterate over the compile dependencies (we don't want the test ones), adding a <dependency> node for each
@@ -50,7 +50,7 @@ publishing {
                     dependencyNode.appendNode('artifactId', it.name)
                     dependencyNode.appendNode('version', it.version)
                 }
-            }*/
+            }
             artifact("$buildDir/outputs/aar/seedroid-uikit-release.aar")
             //from components.java
         }

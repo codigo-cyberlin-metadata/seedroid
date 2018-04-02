@@ -10,7 +10,6 @@ def Version = '0.0.1'
 
 android {
     compileSdkVersion compileSdkVERSION
-    buildToolsVersion buildToolVERSION
 
     defaultConfig {
         minSdkVersion minSdkVERSION
@@ -31,6 +30,7 @@ android {
     dataBinding {
         enabled = true
     }
+    buildToolsVersion '27.0.3'
 }
 
 dependencies {
