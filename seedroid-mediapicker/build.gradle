@@ -30,7 +30,7 @@ dependencies {
     compile 'com.edmodo:cropper:1.0.1'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
 }
-publishing {
+/*publishing {
     publications {
         aar(MavenPublication) {
             groupId GroupId
@@ -61,4 +61,4 @@ artifactory {
             publishPom = true
         }
     }
-}
+}*/

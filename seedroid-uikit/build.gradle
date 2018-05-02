@@ -31,6 +31,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile "com.android.support:appcompat-v7:${supportVERSION}"
 }
+/*
 publishing {
     publications {
         aar(MavenPublication) {
@@ -39,7 +40,8 @@ publishing {
             artifactId ArtifactId
             // Tell maven to prepare the generated "*.aar" file for publishing
 
-            /*pom.withXml {
+            */
+/*pom.withXml {
                 def dependenciesNode = asNode().appendNode('dependencies')
 
                 //Iterate over the compile dependencies (we don't want the test ones), adding a <dependency> node for each
@@ -49,7 +51,8 @@ publishing {
                     dependencyNode.appendNode('artifactId', it.name)
                     dependencyNode.appendNode('version', it.version)
                 }
-            }*/
+            }*//*
+
             artifact("$buildDir/outputs/aar/seedroid-uikit-release.aar")
             //from components.java
         }
@@ -77,3 +80,4 @@ artifactory {
         }
     }
 }
+*/

@@ -1,37 +1,37 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/src/main/AndroidManifest.xml:1:1-2:44
-INJECTED from /home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/src/main/AndroidManifest.xml:1:1-2:44
-INJECTED from /home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/src/main/AndroidManifest.xml:1:1-2:44
-INJECTED from /home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/src/main/AndroidManifest.xml:1:1-2:44
-INJECTED from /home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/src/main/AndroidManifest.xml:1:1-2:44
-INJECTED from /home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/src/main/AndroidManifest.xml:1:1-2:44
-INJECTED from /home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/src/main/AndroidManifest.xml:1:1-2:44
+ADDED from /Users/papahnakal/AndroidStudioProjects/seedroid/seedroid-uikit/src/main/AndroidManifest.xml:1:1-2:44
+INJECTED from /Users/papahnakal/AndroidStudioProjects/seedroid/seedroid-uikit/src/main/AndroidManifest.xml:1:1-2:44
+INJECTED from /Users/papahnakal/AndroidStudioProjects/seedroid/seedroid-uikit/src/main/AndroidManifest.xml:1:1-2:44
+INJECTED from /Users/papahnakal/AndroidStudioProjects/seedroid/seedroid-uikit/src/main/AndroidManifest.xml:1:1-2:44
+INJECTED from /Users/papahnakal/AndroidStudioProjects/seedroid/seedroid-uikit/src/main/AndroidManifest.xml:1:1-2:44
+INJECTED from /Users/papahnakal/AndroidStudioProjects/seedroid/seedroid-uikit/src/main/AndroidManifest.xml:1:1-2:44
+INJECTED from /Users/papahnakal/AndroidStudioProjects/seedroid/seedroid-uikit/src/main/AndroidManifest.xml:1:1-2:44
 	package
-		ADDED from /home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/src/main/AndroidManifest.xml:2:5-41
-		INJECTED from /home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/src/main/AndroidManifest.xml
-		INJECTED from /home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/src/main/AndroidManifest.xml
+		ADDED from /Users/papahnakal/AndroidStudioProjects/seedroid/seedroid-uikit/src/main/AndroidManifest.xml:2:5-41
+		INJECTED from /Users/papahnakal/AndroidStudioProjects/seedroid/seedroid-uikit/src/main/AndroidManifest.xml
+		INJECTED from /Users/papahnakal/AndroidStudioProjects/seedroid/seedroid-uikit/src/main/AndroidManifest.xml
 	android:versionName
-		INJECTED from /home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/src/main/AndroidManifest.xml
-		ADDED from /home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/src/main/AndroidManifest.xml:1:1-2:44
-		INJECTED from /home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/src/main/AndroidManifest.xml
+		INJECTED from /Users/papahnakal/AndroidStudioProjects/seedroid/seedroid-uikit/src/main/AndroidManifest.xml
+		ADDED from /Users/papahnakal/AndroidStudioProjects/seedroid/seedroid-uikit/src/main/AndroidManifest.xml:1:1-2:44
+		INJECTED from /Users/papahnakal/AndroidStudioProjects/seedroid/seedroid-uikit/src/main/AndroidManifest.xml
 	android:versionCode
-		INJECTED from /home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/src/main/AndroidManifest.xml
-		ADDED from /home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/src/main/AndroidManifest.xml:1:1-2:44
-		INJECTED from /home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/src/main/AndroidManifest.xml
+		INJECTED from /Users/papahnakal/AndroidStudioProjects/seedroid/seedroid-uikit/src/main/AndroidManifest.xml
+		ADDED from /Users/papahnakal/AndroidStudioProjects/seedroid/seedroid-uikit/src/main/AndroidManifest.xml:1:1-2:44
+		INJECTED from /Users/papahnakal/AndroidStudioProjects/seedroid/seedroid-uikit/src/main/AndroidManifest.xml
 	xmlns:android
-		ADDED from /home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/src/main/AndroidManifest.xml:1:11-69
+		ADDED from /Users/papahnakal/AndroidStudioProjects/seedroid/seedroid-uikit/src/main/AndroidManifest.xml:1:11-69
 uses-sdk
-INJECTED from /home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/src/main/AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from /home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/src/main/AndroidManifest.xml
-INJECTED from /home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/src/main/AndroidManifest.xml
-INJECTED from /home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/src/main/AndroidManifest.xml
-INJECTED from /home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/src/main/AndroidManifest.xml
+INJECTED from /Users/papahnakal/AndroidStudioProjects/seedroid/seedroid-uikit/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/papahnakal/AndroidStudioProjects/seedroid/seedroid-uikit/src/main/AndroidManifest.xml
+INJECTED from /Users/papahnakal/AndroidStudioProjects/seedroid/seedroid-uikit/src/main/AndroidManifest.xml
+INJECTED from /Users/papahnakal/AndroidStudioProjects/seedroid/seedroid-uikit/src/main/AndroidManifest.xml
+INJECTED from /Users/papahnakal/AndroidStudioProjects/seedroid/seedroid-uikit/src/main/AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from /home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/src/main/AndroidManifest.xml
-		ADDED from /home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/src/main/AndroidManifest.xml
-		INJECTED from /home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/src/main/AndroidManifest.xml
+		INJECTED from /Users/papahnakal/AndroidStudioProjects/seedroid/seedroid-uikit/src/main/AndroidManifest.xml
+		ADDED from /Users/papahnakal/AndroidStudioProjects/seedroid/seedroid-uikit/src/main/AndroidManifest.xml
+		INJECTED from /Users/papahnakal/AndroidStudioProjects/seedroid/seedroid-uikit/src/main/AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from /home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/src/main/AndroidManifest.xml
-		ADDED from /home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/src/main/AndroidManifest.xml
-		INJECTED from /home/papahnakal/StudioProjects/SEEDROID/seedroid-uikit/src/main/AndroidManifest.xml
+		INJECTED from /Users/papahnakal/AndroidStudioProjects/seedroid/seedroid-uikit/src/main/AndroidManifest.xml
+		ADDED from /Users/papahnakal/AndroidStudioProjects/seedroid/seedroid-uikit/src/main/AndroidManifest.xml
+		INJECTED from /Users/papahnakal/AndroidStudioProjects/seedroid/seedroid-uikit/src/main/AndroidManifest.xml

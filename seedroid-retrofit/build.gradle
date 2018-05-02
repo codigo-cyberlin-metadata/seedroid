@@ -4,7 +4,7 @@ apply plugin: 'maven-publish'
 
 def GroupId = 'id.codigo.seedroid'
 def ArtifactId = 'seedroid-retrofit'
-def Version = '0.0.13'
+def Version = '0.0.16'
 
 android {
     compileSdkVersion compileSdkVERSION
@@ -55,14 +55,14 @@ publishing {
     }
 }
 artifactory {
-    contextUrl = 'http://jfrog.cips.stg.codigo.id/artifactory'
+    contextUrl = 'http://sdk.cips.id/artifactory'
     publish {
         repository {
             // The Artifactory repository key to publish to
             repoKey = 'libs-release-local'
 
             username = "admin"
-            password = "APAoG25jnnv8nB31KDLvWxAPGmU"
+            password = "AP4GziPAqwxvVPikvyQT866m5cj"
         }
         defaults {
             // Tell the Artifactory Plugin which artifacts should be published to Artifactory.
