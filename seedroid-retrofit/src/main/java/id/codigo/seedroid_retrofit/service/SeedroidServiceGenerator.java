@@ -28,6 +28,7 @@ public class SeedroidServiceGenerator {
     public static <S> S create(String HOST, Class<S> serviceClass) {
         Gson gson = new GsonBuilder()
                 .setLenient()
+                //.registerTypeAdapterFactory(new ItemTypeAdapterFactory())
                 .create();
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl(HOST)
@@ -45,6 +46,7 @@ public class SeedroidServiceGenerator {
     public static <S> S create(final List<Header> headers, String HOST, Class<S> serviceClass) {
         Gson gson = new GsonBuilder()
                 .setLenient()
+                //.registerTypeAdapterFactory(new ItemTypeAdapterFactory())
                 .create();
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl(HOST)

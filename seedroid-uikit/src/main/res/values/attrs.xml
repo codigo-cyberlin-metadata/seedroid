@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SeedroidTextView">
+        <attr name="type_face" format="string">
+            <enum name="type_face_small" value="0"/>
+            <enum name="type_face_semibold" value="1"/>
+            <enum name="type_face_bold" value="2"/>
+        </attr>
+    </declare-styleable>
+</resources>

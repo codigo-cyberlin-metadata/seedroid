@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<id.codigo.seedroid_uikit.widget.SeedroidRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rel_login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+    <id.codigo.seedroid_uikit.widget.SeedroidTextView
+        android:id="@+id/text_hello"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="Hello World!"/>
+    <id.codigo.seedroid_uikit.widget.SeedroidButton
+        android:id="@+id/button_signin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_hello"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="sign in"/>
+</id.codigo.seedroid_uikit.widget.SeedroidRelativeLayout>
