@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.Cache;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -25,7 +26,7 @@ public class SeedroidServiceGenerator {
     //private static Builder clientBuilder = new Builder();
     private static Retrofit retrofit;
 
-    public static <S> S create(String HOST, Class<S> serviceClass) {
+    public static <S> S create(String HOST, Cache cache,Class<S> serviceClass) {
         Gson gson = new GsonBuilder()
                 .setLenient()
                 //.registerTypeAdapterFactory(new ItemTypeAdapterFactory())
@@ -38,12 +39,12 @@ public class SeedroidServiceGenerator {
                 .addInterceptor(logging)
                 .readTimeout(60, TimeUnit.SECONDS)
                 .connectTimeout(60, TimeUnit.SECONDS)
-                .build();
+                .cache(cache).build();
         retrofit = builder.client(httpClient).build();
         return retrofit.create(serviceClass);
     }
 
-    public static <S> S create(final List<Header> headers, String HOST, Class<S> serviceClass) {
+    public static <S> S create(final List<Header> headers, String HOST,Cache cache, Class<S> serviceClass) {
         Gson gson = new GsonBuilder()
                 .setLenient()
                 //.registerTypeAdapterFactory(new ItemTypeAdapterFactory())
@@ -70,6 +71,7 @@ public class SeedroidServiceGenerator {
                 })
                 .readTimeout(60, TimeUnit.SECONDS)
                 .connectTimeout(60, TimeUnit.SECONDS)
+                .cache(cache)
                 .build();
 
         retrofit = builder.client(httpClient).build();
